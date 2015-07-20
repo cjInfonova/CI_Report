@@ -91,33 +91,33 @@ public class DataAccessLayer {
                     ".tg  {border-collapse:collapse;border-spacing:0;border-color:#aabcfe;}\n" +
                     ".tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aabcfe;background-color:#e8edff;}\n" +
                     ".tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aabcfe;background-color:#b9c9fe;}\n" +
-                    ".tg .tg-uebf{font-weight:bold;font-size:24px;background-color:#3b60c9;text-align:center}\n" +
-                    ".tg .tg-8rb9{font-weight:bold;font-size:20px;background-color:#75c151;text-align:center}\n" +
-                    ".tg .tg-pczq{background-color:#D2E4FC;font-size:16px}\n" +
-                    ".tg .tg-0e45{font-size:11px}\n" +
+                    ".tg .tg-uebf{font-weight:bold;font-size:26px;background-color:#4875cc;text-align:center}\n" +
+                    ".tg .tg-8rb9{font-weight:bold;font-size:20px;background-color:#7fca88;text-align:center}\n" +
+                    ".tg .tg-pczq{background-color:#bfd2f7;font-size:16px}\n" +
+                    ".tg .tg-0e45{font-weight:bold;font-size:13px}\n" +
 
 
                     ".tg2  {border-collapse:collapse;border-spacing:0;border-color:#aaa;}\n" +
                     ".tg2 td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aaa;background-color:#fff;}\n" +
                     ".tg2 th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aaa;background-color:#f38630;}\n" +
-                    ".tg2 .tg-c3sw2{font-weight:bold;font-size:22px;background-color:#f56b00}\n" +
+                    ".tg2 .tg-c3sw2{font-weight:bold;font-size:26px;background-color:#f56b00}\n" +
                     ".tg2 .tg-jws92{font-weight:bold;font-size:18px;background-color:#f56b00}\n" +
                     ".tg2 .tg-o80d2{background-color:#FCFBE3;font-size:16px}\n" +
-                    ".tg2 .tg-0e452{font-size:11px}"+
+                    ".tg2 .tg-0e452{font-weight:bold;font-size:13px}"+
 
                     ".tg3  {border-collapse:collapse;border-spacing:0;border-color:#bbb;}\n" +
                     ".tg3 td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#bbb;background-color:#E0FFEB;}\n" +
                     ".tg3 th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#bbb;background-color:#9DE0AD;}\n" +
-                    ".tg3 .tg-c487{font-weight:bold;font-size:22px;background-color:#0aba0b}\n" +
+                    ".tg3 .tg-c487{font-weight:bold;font-size:26px;background-color:#0aba0b}\n" +
                     ".tg3 .tg-iqb1{background-color:#C2FFD6;font-size:16px}\n" +
-                    ".tg3 .tg-0e453{font-size:11px}"+
+                    ".tg3 .tg-0e453{font-weight:bold;font-size:13px}"+
 
                     ".tg4  {border-collapse:collapse;border-spacing:0;border-color:#ccc;}\n" +
                     ".tg4 td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;background-color:#fff;}\n" +
                     ".tg4 th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;background-color:#f0f0f0;}\n" +
-                    ".tg4 .tg-h098{font-weight:bold;font-size:22px;background-color:#c0c0c0}\n" +
+                    ".tg4 .tg-h098{font-weight:bold;font-size:26px;background-color:#c0c0c0}\n" +
                     ".tg4 .tg-47f3{background-color:#efefef;font-size:16px}\n" +
-                    ".tg4 .tg-0e454{font-size:11px}"+
+                    ".tg4 .tg-0e454{font-weight:bold;font-size:13px}"+
 
                     "</style>");
             bwr.newLine();

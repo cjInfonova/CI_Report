@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="608f2817-75c5-40b3-aa13-6772a1279598" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/infonova/jenkins/DataAccessLayer.java" afterPath="$PROJECT_DIR$/src/main/java/com/infonova/jenkins/DataAccessLayer.java" />
-    </list>
+    <list default="true" id="608f2817-75c5-40b3-aa13-6772a1279598" name="Default" comment="" />
     <ignored path="Jenkins_Report.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -49,8 +47,8 @@
       <file leaf-file-name="DataAccessLayer.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/infonova/jenkins/DataAccessLayer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5543478">
-              <caret line="81" column="13" selection-start-line="81" selection-start-column="13" selection-end-line="81" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.9492754">
+              <caret line="334" column="36" selection-start-line="334" selection-start-column="36" selection-end-line="334" selection-end-column="36" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1911#1923#0" expanded="true" />
@@ -683,12 +681,12 @@
       <workItem from="1437057863696" duration="814000" />
       <workItem from="1437113375951" duration="6736000" />
       <workItem from="1437120601230" duration="4123000" />
-      <workItem from="1437375655969" duration="9737000" />
+      <workItem from="1437375655969" duration="14010000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="68977000" />
+    <option name="totallyTimeSpent" value="73250000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1057,8 +1055,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/infonova/jenkins/DataAccessLayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5543478">
-          <caret line="81" column="13" selection-start-line="81" selection-start-column="13" selection-end-line="81" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.9492754">
+          <caret line="334" column="36" selection-start-line="334" selection-start-column="36" selection-end-line="334" selection-end-column="36" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1911#1923#0" expanded="true" />
