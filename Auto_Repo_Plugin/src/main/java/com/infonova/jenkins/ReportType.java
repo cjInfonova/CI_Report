@@ -1,7 +1,6 @@
 package com.infonova.jenkins;
 
 import org.apache.maven.plugins.annotations.Mojo;
-import org.json.JSONObject;
 
 /**
  * Created by christian.jahrbacher on 15.07.2015.
@@ -13,12 +12,14 @@ public class ReportType {
     private String result;
     private int failCount;
     private int totalCount;
+    private String lastStableDate;
 
-    public ReportType(String name, String result, int failed, int total) {
+    public ReportType(String name, String result, int failed, int total, String lastStable) {
         reportName = name;
         this.result = result;
         failCount = failed;
         totalCount = total;
+        this.lastStableDate = lastStable;
     }
 
     public int getTotalCount() {
@@ -37,8 +38,13 @@ public class ReportType {
         return failCount;
     }
 
+    public String getLastStableDate() {
+        return lastStableDate;
+    }
+
     @Override
     public String toString() {
-        return String.format("%-45s %-10s %s", reportName, result, failCount > 0 ? (failCount + " NOK") : "OK");
+        return String.format("%-45s %-10s %-10s %-12s", reportName, result,
+            failCount > 0 ? (failCount + " NOK") : "OK", lastStableDate);
     }
 }

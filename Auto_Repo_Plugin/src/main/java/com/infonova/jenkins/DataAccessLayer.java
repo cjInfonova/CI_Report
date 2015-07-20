@@ -1,6 +1,5 @@
 package com.infonova.jenkins;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
@@ -8,13 +7,10 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.AuthCache;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.conn.EofSensorInputStream;
 import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.*;
-import org.apache.http.util.EntityUtils;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,10 +22,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Dictionary;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -40,9 +37,12 @@ public class DataAccessLayer {
 
     private List<String> jobList;
     private List<ReportType> repoTypeList;
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
     public final String JOB_NAME = "A1OpenNet";
     public final String STANDARD_URL = "https://ci.infonova.at/job/" + JOB_NAME + "/job/";
-    public final String URL_EXTENTION = "/lastBuild/api/json";
+    public final String JSON_EXTENTION = "/api/json";
+    private final String LAST_STATE = "/lastBuild";
+    private final String STABLE_STATE = "/lastStableBuild";
     private final String USERNAME = "dominic.gross";
     private final String PASSWORD = "Dg230615!";
     private static Logger log = Logger.getLogger("MyLogger");
@@ -66,14 +66,14 @@ public class DataAccessLayer {
         jobList.add("A1ON-jtf-regressiontests-trunk12c");
         // jobList.add("A1ON-jtf-smoketests-trunk12c");
         // RC2
-//
-//         * CLOSED
-//         * jobList.add("A1ON-java-build-rc2");
-//         * jobList.add("A1ON-jtf-db-guidelines-rc2");
-//         * jobList.add("A1ON-jtf-db-regressiontests-rc2");
-//         * jobList.add("A1ON-jtf-regressiontests-rc2");
-//         * jobList.add("A1ON-jtf-smoketests-rc2");
-//
+        //
+        // * CLOSED
+        // * jobList.add("A1ON-java-build-rc2");
+        // * jobList.add("A1ON-jtf-db-guidelines-rc2");
+        // * jobList.add("A1ON-jtf-db-regressiontests-rc2");
+        // * jobList.add("A1ON-jtf-regressiontests-rc2");
+        // * jobList.add("A1ON-jtf-smoketests-rc2");
+        //
         // RC
         jobList.add("A1ON-java-build-rc");
         jobList.add("A1ON-jtf-db-guidelines-rc");
@@ -92,7 +92,7 @@ public class DataAccessLayer {
     }
 
     public void showReports() {
-        System.out.printf("%-45s %-10s Ergebnis\n", "Step", "Result");
+        System.out.printf("%-45s %-10s %-10s %-15s\n", "Step", "Result", "Ergebnis", "LastStableDate");
         for (ReportType rt : repoTypeList) {
             System.out.println(rt.toString());
         }
@@ -102,15 +102,27 @@ public class DataAccessLayer {
         repoTypeList = new ArrayList<ReportType>();
         for (String job : jobList) {
             try {
-                JSONObject jo = startConnectionToJenkins(job);
-
+                JSONObject jo = startConnectionToJenkins(job, LAST_STATE);
                 String[] tempDataArray = getDataFromJson(jo);
-                repoTypeList.add(new ReportType(job, tempDataArray[0], DatatypeConverter.parseInt(tempDataArray[1]),
-                    DatatypeConverter.parseInt(tempDataArray[2])));
+                if (tempDataArray[0].equals("SUCCESS")) {
+                    repoTypeList.add(new ReportType(job, tempDataArray[0],
+                        DatatypeConverter.parseInt(tempDataArray[1]), DatatypeConverter.parseInt(tempDataArray[2]),
+                        tempDataArray[3]));
+                } else {
+                    JSONObject lastStableJS = startConnectionToJenkins(job, STABLE_STATE);
+                    String lastStableDate = simpleDateFormat.format(getDateFromJSon(lastStableJS));
+                    // String lastStableDate = lastStableJS.getString("id");
+                    repoTypeList.add(new ReportType(job, tempDataArray[0],
+                        DatatypeConverter.parseInt(tempDataArray[1]), DatatypeConverter.parseInt(tempDataArray[2]),
+                        lastStableDate));
+                }
+
             } catch (JSONException jsexe) {
 
                 log.info("The requested resource is not available. Jobname: " + job);
                 jsexe.printStackTrace();
+            } catch (ParseException pexe) {
+                log.info("Something went wrong while parsing ...");
             } catch (IOException exe) {
                 log.info("An unexpected error has occurred");
                 exe.printStackTrace();
@@ -119,18 +131,19 @@ public class DataAccessLayer {
         log.info("Reports konnten geladen werden: " + repoTypeList.size() + "/" + jobList.size());
     }
 
-    private String[] getDataFromJson(JSONObject jo) throws JSONException {
-        String[] strArray;
-        if (!jo.getBoolean("building")) {
-            strArray = new String[] { jo.getString("result"), "0", "0" };
-        } else {
-            strArray = new String[] { "RUNNING", "0", "0" };
+    private String[] getDataFromJson(JSONObject jo) throws JSONException, ParseException {
+        String[] strArray = new String[] { "", "0", "0", "0" };;
+        if (jo.getBoolean("building")) {
+            strArray = new String[] { "RUNNING", "0", "0", "0" };
             return strArray;
         }
+        strArray = new String[] { jo.getString("result"), "0", "0", simpleDateFormat.format(getDateFromJSon(jo)) };
+        // strArray = new String[] { jo.getString("result"), "0", "0", jo.getString("id") };
 
         JSONArray jArray = jo.getJSONArray("actions");
         for (int i = 0; i < jArray.length(); i++) {
-            if( jArray.get(i).getClass()==JSONObject.class && jArray.getJSONObject(i) != null && jArray.getJSONObject(i).length() != 0 ) {
+            if (jArray.get(i).getClass() == JSONObject.class && jArray.getJSONObject(i) != null
+                && jArray.getJSONObject(i).length() != 0) {
 
                 if (jArray.getJSONObject(i).has("failCount")) {
 
@@ -155,13 +168,31 @@ public class DataAccessLayer {
         return strArray;
     }
 
-    private JSONObject startConnectionToJenkins(String job) throws IOException, JSONException {
+    private Date getDateFromJSon(JSONObject jo) throws JSONException, ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.parse(jo.getString("id"));
+    }
+
+    private JSONObject startConnectionToJenkins(String job, String state) throws IOException, JSONException {
         // authentification for Jenkins
-        InputStream inputStream = scrape(STANDARD_URL + job + URL_EXTENTION, USERNAME, PASSWORD);
-        // log.info(STANDARD_URL+job+URL_EXTENTION);
+        InputStream inputStream = scrape(STANDARD_URL + job + state + JSON_EXTENTION, USERNAME, PASSWORD);
+        // log.info(STANDARD_URL+job+JSON_EXTENTION);
+        JSONObject jo = new JSONObject();
+        try {
+            jo = inputToJSon(inputStream);
+        } catch (JSONException jsexe) {
+            log.info("An unexpected error has occurred!");
+            // jsexe.printStackTrace();
+        } finally {
+            inputStream.close();
+        }
+        return jo;
+    }
+
+    private JSONObject inputToJSon(InputStream inSt) throws JSONException {
         String fullJSon = "";
         try {
-            InputStreamReader isr = new InputStreamReader(inputStream);
+            InputStreamReader isr = new InputStreamReader(inSt);
             BufferedReader br = new BufferedReader(isr);
             String line = "";
             while ((line = br.readLine()) != null) {
@@ -171,9 +202,8 @@ public class DataAccessLayer {
         } catch (IOException exe) {
             log.info("An unexpected error has occurred!");
             exe.printStackTrace();
-        } finally {
-            inputStream.close();
         }
+
         return new JSONObject(fullJSon);
     }
 
