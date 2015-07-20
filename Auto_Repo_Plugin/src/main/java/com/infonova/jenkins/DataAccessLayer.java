@@ -43,8 +43,8 @@ public class DataAccessLayer {
     public final String JOB_NAME = "A1OpenNet";
     public final String STANDARD_URL = "https://ci.infonova.at/job/" + JOB_NAME + "/job/";
     public final String URL_EXTENTION = "/lastBuild/api/json";
-    private final String USERNAME = "christian.jahrbacher";
-    private final String PASSWORD = "Cj170615!";
+    private final String USERNAME = "dominic.gross";
+    private final String PASSWORD = "Dg230615!";
     private static Logger log = Logger.getLogger("MyLogger");
 
     public DataAccessLayer() {
@@ -57,22 +57,23 @@ public class DataAccessLayer {
         jobList = new ArrayList<String>();
         // Trunk12c
         jobList.add("A1ON-java-build-trunk");
-        jobList.add("A1ON-jtf-db-guidelines-trunk12c");
+        jobList.add("A1ON-jtf-livetests-trunk12c");
+
         jobList.add("A1ON-jtf-db-infrastructure-trunk12c");
         jobList.add("A1ON-jtf-db-regressiontests-trunk12c");
-        jobList.add("A1ON-jtf-livetests-trunk12c");
+        jobList.add("A1ON-jtf-db-guidelines-trunk12c");
         jobList.add("A1ON-jtf-project-tests-trunk12c");
         jobList.add("A1ON-jtf-regressiontests-trunk12c");
         // jobList.add("A1ON-jtf-smoketests-trunk12c");
         // RC2
-        /*
-         * CLOSED
-         * jobList.add("A1ON-java-build-rc2");
-         * jobList.add("A1ON-jtf-db-guidelines-rc2");
-         * jobList.add("A1ON-jtf-db-regressiontests-rc2");
-         * jobList.add("A1ON-jtf-regressiontests-rc2");
-         * jobList.add("A1ON-jtf-smoketests-rc2");
-         */
+//
+//         * CLOSED
+//         * jobList.add("A1ON-java-build-rc2");
+//         * jobList.add("A1ON-jtf-db-guidelines-rc2");
+//         * jobList.add("A1ON-jtf-db-regressiontests-rc2");
+//         * jobList.add("A1ON-jtf-regressiontests-rc2");
+//         * jobList.add("A1ON-jtf-smoketests-rc2");
+//
         // RC
         jobList.add("A1ON-java-build-rc");
         jobList.add("A1ON-jtf-db-guidelines-rc");
@@ -102,12 +103,14 @@ public class DataAccessLayer {
         for (String job : jobList) {
             try {
                 JSONObject jo = startConnectionToJenkins(job);
+
                 String[] tempDataArray = getDataFromJson(jo);
                 repoTypeList.add(new ReportType(job, tempDataArray[0], DatatypeConverter.parseInt(tempDataArray[1]),
                     DatatypeConverter.parseInt(tempDataArray[2])));
             } catch (JSONException jsexe) {
+
                 log.info("The requested resource is not available. Jobname: " + job);
-                // jsexe.printStackTrace();
+                jsexe.printStackTrace();
             } catch (IOException exe) {
                 log.info("An unexpected error has occurred");
                 exe.printStackTrace();
@@ -127,8 +130,10 @@ public class DataAccessLayer {
 
         JSONArray jArray = jo.getJSONArray("actions");
         for (int i = 0; i < jArray.length(); i++) {
-            if (jArray.getJSONObject(i) != null & jArray.getJSONObject(i).length() != 0) {
+            if( jArray.get(i).getClass()==JSONObject.class && jArray.getJSONObject(i) != null && jArray.getJSONObject(i).length() != 0 ) {
+
                 if (jArray.getJSONObject(i).has("failCount")) {
+
                     try {
                         // log.info("--------------------------------------------------------------------");
                         if (strArray[1].equals("0")) {
@@ -139,8 +144,10 @@ public class DataAccessLayer {
                         }
                         // log.info("--------------------------------------------------------------------");
                     } catch (JSONException ex) {
+                        System.out.println("Hier war der Fehler");
                         log.info("----------------------JSONException geworfen------------------------");
                         ex.printStackTrace();
+
                     }
                 }
             }
