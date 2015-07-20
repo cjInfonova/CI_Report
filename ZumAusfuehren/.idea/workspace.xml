@@ -28,12 +28,17 @@
         <entry file="file://$PROJECT_DIR$/data.html">
           <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
+<<<<<<< HEAD
             <state vertical-scroll-proportion="0.7476852">
               <caret line="19" column="12" selection-start-line="19" selection-start-column="12" selection-end-line="19" selection-end-column="12" />
 =======
             <state vertical-scroll-proportion="0.0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
 >>>>>>> origin/master
+=======
+            <state vertical-scroll-proportion="-1.351282">
+              <caret line="2" column="59" selection-start-line="2" selection-start-column="59" selection-end-line="2" selection-end-column="59" />
+>>>>>>> 846dce24a7301befd32132dfeda6ef736ccda0c4
               <folding />
             </state>
           </provider>
@@ -50,6 +55,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/data.html" />
       </list>
     </option>
   </component>
@@ -574,17 +580,25 @@
       <workItem from="1437375719884" duration="2386000" />
 =======
       <workItem from="1437370706793" duration="1387000" />
+<<<<<<< HEAD
       <workItem from="1437376326324" duration="7906000" />
 >>>>>>> origin/master
+=======
+      <workItem from="1437376326324" duration="10286000" />
+>>>>>>> 846dce24a7301befd32132dfeda6ef736ccda0c4
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
 <<<<<<< HEAD
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="42821000" />
 =======
     <option name="totallyTimeSpent" value="48368000" />
 >>>>>>> origin/master
+=======
+    <option name="totallyTimeSpent" value="50748000" />
+>>>>>>> 846dce24a7301befd32132dfeda6ef736ccda0c4
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -597,10 +611,14 @@
   </component>
   <component name="ToolWindowManager">
 <<<<<<< HEAD
+<<<<<<< HEAD
     <frame x="1358" y="-264" width="1296" height="1040" extended-state="6" />
     <editor active="false" />
 =======
     <frame x="-8" y="-8" width="1296" height="1010" extended-state="7" />
+=======
+    <frame x="-8" y="-8" width="1296" height="1010" extended-state="6" />
+>>>>>>> 846dce24a7301befd32132dfeda6ef736ccda0c4
     <editor active="true" />
 >>>>>>> origin/master
     <layout>
@@ -757,8 +775,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/data.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state vertical-scroll-proportion="-1.351282">
+          <caret line="2" column="59" selection-start-line="2" selection-start-column="59" selection-end-line="2" selection-end-column="59" />
           <folding />
         </state>
       </provider>
