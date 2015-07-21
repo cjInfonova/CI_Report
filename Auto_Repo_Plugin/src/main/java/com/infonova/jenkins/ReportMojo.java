@@ -14,7 +14,8 @@ public class ReportMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException, MojoFailureException {
         DataAccessLayer dal = new DataAccessLayer();
         dal.setupJobList();
-        dal.getAllJsonsFromJenkins();
+        dal.getAllReportsFromJenkins();
+        //dal.showReports();
         dal.generateHTML();
     }
 

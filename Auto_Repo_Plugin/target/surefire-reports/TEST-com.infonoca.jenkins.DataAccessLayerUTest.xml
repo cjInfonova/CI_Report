@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite failures="0" time="0.636" errors="0" skipped="0" tests="1" name="com.infonoca.jenkins.ReportMojoUTest">
+<testsuite failures="0" time="1.862" errors="0" skipped="0" tests="1" name="com.infonoca.jenkins.DataAccessLayerUTest">
   <properties>
     <property name="idea.version" value="14.1.4"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
@@ -62,5 +62,5 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase time="0.635" classname="com.infonoca.jenkins.ReportMojoUTest" name="execute"/>
+  <testcase time="1.765" classname="com.infonoca.jenkins.DataAccessLayerUTest" name="connectToJenkinsWithWrongUsersettings"/>
 </testsuite>

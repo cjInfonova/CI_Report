@@ -30,10 +30,6 @@ public class ReportType {
         return reportName;
     }
 
-
-
-
-
     public int getFailCount() {
         return failCount;
     }
@@ -49,6 +45,6 @@ public class ReportType {
     }
 
     public String getResult() {
-        return String.format("%s", result.equals("SUCCESS") ? "OK" : result.equals("FAILURE") || result.equals("ABORTED") ? result : failCount + " NOK");
+        return String.format("%s", result.equals("SUCCESS") ? "OK" : failCount > 0 ? failCount + " NOK" : result); //result.equals("FAILURE") || result.equals("ABORTED") || result.equals("RUNNING") ? result );
     }
 }

@@ -1,7 +1,6 @@
 package com.infonova.jenkins;
 
 import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.AuthCache;
@@ -11,7 +10,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.*;
-import org.apache.maven.plugins.annotations.Mojo;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,22 +35,13 @@ public class DataAccessLayer {
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
     public final String JOB_NAME = "A1OpenNet";
     public final String STANDARD_URL = "https://ci.infonova.at/job/" + JOB_NAME + "/job/";
+    public final String JENKINS_URL = "https://ci.infonova.at";
     public final String JSON_EXTENTION = "/api/json";
     private final String LAST_STATE = "/lastBuild";
     private final String STABLE_STATE = "/lastStableBuild";
     private final String USERNAME = "dominic.gross";
     private final String PASSWORD = "Dg230615!";
     private static Logger log = Logger.getLogger("MyLogger");
-
-
-
-
-    public DataAccessLayer() {
-        setupJobList();
-        getAllJsonsFromJenkins();
-        showReports();
-        generateHTML();
-    }
 
     public void generateHTML() {
         BufferedWriter bwr = null;
@@ -78,7 +67,6 @@ public class DataAccessLayer {
                 }
             }
             File f = new File("data.html");
-            System.out.println(f.canWrite());
             FileWriter fr = new FileWriter(f);
             bwr = new BufferedWriter(fr);
 
@@ -238,22 +226,33 @@ public class DataAccessLayer {
         }
     }
 
-    public void getAllJsonsFromJenkins() {
+    public void getAllReportsFromJenkins() {
         repoTypeList = new ArrayList<ReportType>();
+
+        URI uri = URI.create(JENKINS_URL);
+        HttpHost host = new HttpHost(uri.getHost(), uri.getPort(), uri.getScheme());
+        CredentialsProvider credsProvider = new BasicCredentialsProvider();
+        credsProvider.setCredentials(new AuthScope(uri.getHost(), uri.getPort()), new UsernamePasswordCredentials(
+                USERNAME, PASSWORD));
+        AuthCache authCache = new BasicAuthCache();
+        BasicScheme basicAuth = new BasicScheme();
+        authCache.put(host, basicAuth);
+        CloseableHttpClient httpClient = HttpClients.custom().setDefaultCredentialsProvider(credsProvider).build();
+
         for (String job : jobList) {
             try {
-                JSONObject jo = startConnectionToJenkins(job, LAST_STATE);
+                JSONObject jo = startConnectionToJenkins(job, LAST_STATE, host, authCache, httpClient);
                 String[] tempDataArray = getDataFromJson(jo);
                 if (tempDataArray[0].equals("SUCCESS")) {
                     repoTypeList.add(new ReportType(job, tempDataArray[0],
-                        DatatypeConverter.parseInt(tempDataArray[1]), DatatypeConverter.parseInt(tempDataArray[2]),
-                        tempDataArray[3]));
+                            DatatypeConverter.parseInt(tempDataArray[1]), DatatypeConverter.parseInt(tempDataArray[2]),
+                            tempDataArray[3]));
                 } else {
-                    JSONObject lastStableJS = startConnectionToJenkins(job, STABLE_STATE);
+                    JSONObject lastStableJS = startConnectionToJenkins(job, STABLE_STATE, host, authCache, httpClient);
                     String lastStableDate = simpleDateFormat.format(getDateFromJSon(lastStableJS));
                     repoTypeList.add(new ReportType(job, tempDataArray[0],
-                        DatatypeConverter.parseInt(tempDataArray[1]), DatatypeConverter.parseInt(tempDataArray[2]),
-                        lastStableDate));
+                            DatatypeConverter.parseInt(tempDataArray[1]), DatatypeConverter.parseInt(tempDataArray[2]),
+                            lastStableDate));
                 }
 
             } catch (JSONException jsexe) {
@@ -281,7 +280,7 @@ public class DataAccessLayer {
         JSONArray jArray = jo.getJSONArray("actions");
         for (int i = 0; i < jArray.length(); i++) {
             if (jArray.get(i).getClass() == JSONObject.class && jArray.getJSONObject(i) != null
-                && jArray.getJSONObject(i).length() != 0) {
+                    && jArray.getJSONObject(i).length() != 0) {
 
                 if (jArray.getJSONObject(i).has("failCount")) {
 
@@ -306,11 +305,11 @@ public class DataAccessLayer {
         return sdf.parse(jo.getString("id"));
     }
 
-    private JSONObject startConnectionToJenkins(String job, String state) throws IOException, JSONException {
-        InputStream inputStream = scrape(STANDARD_URL + job + state + JSON_EXTENTION, USERNAME, PASSWORD);
+    private JSONObject startConnectionToJenkins(String job, String state, HttpHost host, AuthCache authCache, CloseableHttpClient httpClient) throws IOException, JSONException {
+        InputStream inputStream = getJsonFromUrl(STANDARD_URL + job + state + JSON_EXTENTION, host, authCache, httpClient);
         JSONObject jo = new JSONObject();
         try {
-            jo = inputToJSon(inputStream);
+            jo = inputStreamToJSon(inputStream);
         } catch (JSONException jsexe) {
             log.info("An unexpected error has occurred!");
             jsexe.printStackTrace();
@@ -320,7 +319,7 @@ public class DataAccessLayer {
         return jo;
     }
 
-    private JSONObject inputToJSon(InputStream inSt) throws JSONException {
+    private JSONObject inputStreamToJSon(InputStream inSt) throws JSONException {
         String fullJSon = "";
         try {
             InputStreamReader isr = new InputStreamReader(inSt);
@@ -337,28 +336,14 @@ public class DataAccessLayer {
         return new JSONObject(fullJSon);
     }
 
-
-
-    private InputStream scrape(String urlString, String username, String password)
+    private InputStream getJsonFromUrl(String urlString, HttpHost host, AuthCache authCache, CloseableHttpClient httpClient)
             throws ClientProtocolException, IOException {
+
         URI uri = URI.create(urlString);
-        HttpHost host = new HttpHost(uri.getHost(), uri.getPort(), uri.getScheme());
-        CredentialsProvider credsProvider = new BasicCredentialsProvider();
-        credsProvider.setCredentials(new AuthScope(uri.getHost(), uri.getPort()), new UsernamePasswordCredentials(
-            username, password));
-        // Create AuthCache instance
-        AuthCache authCache = new BasicAuthCache();
-        // Generate BASIC scheme object and add it to the local auth cache
-        BasicScheme basicAuth = new BasicScheme();
-        authCache.put(host, basicAuth);
-        CloseableHttpClient httpClient = HttpClients.custom().setDefaultCredentialsProvider(credsProvider).build();
         HttpGet httpGet = new HttpGet(uri);
-        // Add AuthCache to the execution context
         HttpClientContext localContext = HttpClientContext.create();
         localContext.setAuthCache(authCache);
 
-        HttpResponse response = httpClient.execute(host, httpGet, localContext);
-
-        return response.getEntity().getContent();
+        return httpClient.execute(host, httpGet, localContext).getEntity().getContent();
     }
 }
