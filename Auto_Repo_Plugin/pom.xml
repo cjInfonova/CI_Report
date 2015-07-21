@@ -49,6 +49,30 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.infonova</groupId>
+            <artifactId>easymock-support</artifactId>
+            <version>1.5.java5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>3.1.0.RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.bearingpoint.ta.workflow</groupId>
+            <artifactId>workflow-commons</artifactId>
+            <version>Trunk-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.bearingpoint.ta.workflow</groupId>
+            <artifactId>workflow-commons</artifactId>
+            <version>Trunk-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

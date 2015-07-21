@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.bearingpoint:webmodules:Trunk-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/bearingpoint/webmodules/Trunk-SNAPSHOT/webmodules-Trunk-20150720.210503-2210.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/bearingpoint/webmodules/Trunk-SNAPSHOT/webmodules-Trunk-20150720.210503-2210-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/bearingpoint/webmodules/Trunk-SNAPSHOT/webmodules-Trunk-20150720.210503-2210-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

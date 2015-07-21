@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.infonova:easymock-support:1.5.java5">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/infonova/easymock-support/1.5.java5/easymock-support-1.5.java5.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/infonova/easymock-support/1.5.java5/easymock-support-1.5.java5-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/infonova/easymock-support/1.5.java5/easymock-support-1.5.java5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
