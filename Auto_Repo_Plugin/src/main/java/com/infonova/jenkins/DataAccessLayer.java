@@ -44,7 +44,156 @@ public class DataAccessLayer {
     private final String PASSWORD = "Dg230615!";
     private static Logger log = Logger.getLogger("MyLogger");
 
+<<<<<<< HEAD
     public void setupJobList() {
+=======
+    public DataAccessLayer() {
+        setupJobList();
+        getAllJsonsFromJenkins();
+        showReports();
+        generateHTML();
+    }
+
+    private void generateHTML() {
+        BufferedWriter bwr = null;
+        try {
+            List<ReportType> uat4 = new ArrayList<ReportType>();
+            List<ReportType> trunk = new ArrayList<ReportType>();
+            List<ReportType> rc = new ArrayList<ReportType>();
+            List<ReportType> bf = new ArrayList<ReportType>();
+            for (ReportType r : repoTypeList) {
+                String[] split = r.getReportName().split("-");
+
+                if (split[split.length - 1].equals("trunk") || split[split.length - 1].equals("trunk12c")) {
+                    trunk.add(r);
+                }
+                if (split[split.length - 1].equals("rc")) {
+                    rc.add(r);
+                }
+                if (split[split.length - 1].equals("UAT4")) {
+                    uat4.add(r);
+                }
+                if (split[split.length - 1].equals("bf")) {
+                    bf.add(r);
+                }
+            }
+            File f = new File("data.html");
+            System.out.println(f.canWrite());
+            FileWriter fr = new FileWriter(f);
+            bwr = new BufferedWriter(fr);
+
+            bwr.write("<DOCTYPE html>");
+            bwr.newLine();
+            bwr.write("<style type=\"text/css\">\n"
+                + ".tg  {width:100%;border-collapse:collapse;border-spacing:0;border-color:#aabcfe;}\n"
+                + ".tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aabcfe;background-color:#e8edff;}\n"
+                + ".tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aabcfe;background-color:#b9c9fe;}\n"
+                + ".tg .tg-h1{font-weight:bold;font-size:36px;background-color:#4875cc;text-align:center}\n"
+                + ".tg .tg-th1{background-color:#bfd2f7;font-size:18px}\n"
+                + ".tg .tg-td1{font-weight:bold;font-size:14px}\n"
+                +
+
+                ".tg2  {width:100%;border-collapse:collapse;border-spacing:0;border-color:#aaa;}\n"
+                + ".tg2 td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aaa;background-color:#fff;}\n"
+                + ".tg2 th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aaa;background-color:#f38630;}\n"
+                + ".tg2 .tg-h2{font-weight:bold;font-size:36px;background-color:#f56b00}\n"
+                + ".tg2 .tg-th2{background-color:#FCFBE3;font-size:18px}\n"
+                + ".tg2 .tg-td2{font-weight:bold;font-size:14px}"
+                +
+
+                ".tg3  {width:100%;border-collapse:collapse;border-spacing:0;border-color:#bbb;}\n"
+                + ".tg3 td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#bbb;background-color:#E0FFEB;}\n"
+                + ".tg3 th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#bbb;background-color:#9DE0AD;}\n"
+                + ".tg3 .tg-h3{font-weight:bold;font-size:36px;background-color:#0aba0b}\n"
+                + ".tg3 .tg-th3{background-color:#C2FFD6;font-size:18px}\n"
+                + ".tg3 .tg-td3{font-weight:bold;font-size:14px}"
+                +
+
+                ".tg4  {width:100%;border-collapse:collapse;border-spacing:0;border-color:#ccc;}\n"
+                + ".tg4 td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;background-color:#fff;}\n"
+                + ".tg4 th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;background-color:#f0f0f0;}\n"
+                + ".tg4 .tg-h4{font-weight:bold;font-size:36px;background-color:#c0c0c0}\n"
+                + ".tg4 .tg-th4{background-color:#efefef;font-size:18px}\n"
+                + ".tg4 .tg-td4{font-weight:bold;font-size:14px}" +
+
+                "</style>");
+            bwr.newLine();
+
+
+            bwr.write("<table class=tg><tr><th class=tg-h1 colspan=" + 3
+                + ">TRUNK</th></tr>");
+            bwr.newLine();
+            bwr.write("<tr><td class=tg-th1>Step</td><td class=tg-th1>Ergebnis</td><td class=tg-th1>Zuletzt grün</td></tr>");
+            bwr.newLine();
+            for (ReportType r : trunk) {
+                bwr.write("<tr><td class=tg-td1><a href=https://ci.infonova.at/job/A1OpenNet/job/" + r.getReportName()
+                    + ">" + r.getReportName() + "</a></td></a><td class=tg-td1>" + r.getResult()
+                    + "</td><td class=tg-td1>"+r.getLastStableDate()+"</td></tr>");
+                bwr.newLine();
+
+            }
+            bwr.write("</table></br><p>.</p>");
+            bwr.newLine();
+
+            bwr.write("<table class=tg2><tr><th class=tg-h2 colspan=" + 3
+                + ">RC</th></tr>");
+            bwr.newLine();
+            bwr.write("<tr><td class=tg-th2>Step</td><td class=tg-th2>Ergebnis</td><td class=tg-th2>Zuletzt grün</td></tr>");
+            bwr.newLine();
+            for (ReportType r : rc) {
+                bwr.write("<tr><td class=tg-td2><a href=https://ci.infonova.at/job/A1OpenNet/job/"
+                    + r.getReportName() + ">" + r.getReportName() + "</a></td></a><td class=tg-td2>" + r.getResult()
+                    + "</td><td class=tg-td2>"+r.getLastStableDate()+"</td></tr>");
+                bwr.newLine();
+
+            }
+            bwr.write("</table></br><p>.</p>");
+            bwr.newLine();
+
+            bwr.write("<table class=tg3><tr><th class=tg-h3 colspan=" + 3 + ">BF</th></tr>");
+            bwr.newLine();
+            bwr.write("<tr><td class=tg-th3>Step</td><td class=tg-th3>Ergebnis</td><td class=tg-th3>Zuletzt grün</td></tr>");
+            bwr.newLine();
+            for (ReportType r : bf) {
+                bwr.write("<tr><td class=tg-td3><a href=https://ci.infonova.at/job/A1OpenNet/job/"
+                    + r.getReportName() + ">" + r.getReportName() + "</a></td></a><td class=tg-td3>" + r.getResult()
+                    + "</td><td class=tg-td3>"+r.getLastStableDate()+"</td></tr>");
+                bwr.newLine();
+
+            }
+            bwr.write("</table></br><p>.</p>");
+            bwr.newLine();
+
+            bwr.write("<table class=tg4><tr><th class=tg-h4 colspan=" + 3 + ">UAT4</th></tr>");
+            bwr.newLine();
+            bwr.write("<tr><td class=tg-th4>Step</td><td class=tg-th4>Ergebnis</td><td class=tg-th4>Zuletzt grün</td></tr>");
+            bwr.newLine();
+            for (ReportType r : uat4) {
+                bwr.write("<tr><td class=tg-td4><a href=https://ci.infonova.at/job/A1OpenNet/job/"
+                    + r.getReportName() + ">" + r.getReportName() + "</a></td></a><td class=tg-td4>" + r.getResult()
+                    + "</td><td class=tg-td4>"+r.getLastStableDate()+"</td></tr>");
+                bwr.newLine();
+
+            }
+            bwr.write("</table></br><p>.</p>");
+            bwr.newLine();
+
+            bwr.write("</html>");
+            bwr.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                bwr.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    private void setupJobList() {
+>>>>>>> origin/master
         jobList = new ArrayList<String>();
         // Trunk12c
         jobList.add("A1ON-java-build-trunk");
