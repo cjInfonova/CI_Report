@@ -5,7 +5,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 /**
  * Created by christian.jahrbacher on 15.07.2015.
  */
-@Mojo(name = "report_reporttype")
+// @Mojo(name = "report_reporttype")
 public class ReportType {
 
     private String reportName;
@@ -30,10 +30,6 @@ public class ReportType {
         return reportName;
     }
 
-    public String getResult() {
-        return result;
-    }
-
     public int getFailCount() {
         return failCount;
     }
@@ -46,5 +42,9 @@ public class ReportType {
     public String toString() {
         return String.format("%-45s %-10s %-10s %-12s", reportName, result,
             failCount > 0 ? (failCount + " NOK") : "OK", lastStableDate);
+    }
+
+    public String getResult() {
+        return String.format("%s", result.equals("SUCCESS") ? "OK" : result.equals("FAILURE") || result.equals("ABORTED") ? result : failCount + " NOK");
     }
 }

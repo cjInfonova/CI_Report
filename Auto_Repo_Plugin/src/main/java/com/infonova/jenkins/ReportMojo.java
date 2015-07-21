@@ -12,9 +12,10 @@ import org.apache.maven.plugins.annotations.Mojo;
 public class ReportMojo extends AbstractMojo {
 
     public void execute() throws MojoExecutionException, MojoFailureException {
-        getLog().info("Setup Configuration");
         DataAccessLayer dal = new DataAccessLayer();
-        // dal.getAllJsonsFromJenkins();
+        dal.setupJobList();
+        dal.getAllJsonsFromJenkins();
+        dal.generateHTML();
     }
 
 }
