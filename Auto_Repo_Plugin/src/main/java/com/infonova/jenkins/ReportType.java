@@ -31,7 +31,7 @@ public class ReportType {
     }
 
     public String getResult() {
-        return result;
+        return String.format("%s", failCount > 0 ? (failCount + " NOK") : "OK");
     }
 
     public int getFailCount() {

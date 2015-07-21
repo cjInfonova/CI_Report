@@ -85,7 +85,7 @@ public class DataAccessLayer {
                 + ".tg  {border-collapse:collapse;border-spacing:0;border-color:#aabcfe;}\n"
                 + ".tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aabcfe;background-color:#e8edff;}\n"
                 + ".tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aabcfe;background-color:#b9c9fe;}\n"
-                + ".tg .tg-uebf{font-weight:bold;font-size:26px;background-color:#4875cc;text-align:center}\n"
+                + ".tg .tg-uebf{font-weight:bold;font-size:28px;background-color:#4875cc;text-align:center}\n"
                 + ".tg .tg-8rb9{font-weight:bold;font-size:20px;background-color:#7fca88;text-align:center}\n"
                 + ".tg .tg-pczq{background-color:#bfd2f7;font-size:16px}\n"
                 + ".tg .tg-0e45{font-weight:bold;font-size:13px}\n"
@@ -94,7 +94,7 @@ public class DataAccessLayer {
                 ".tg2  {border-collapse:collapse;border-spacing:0;border-color:#aaa;}\n"
                 + ".tg2 td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aaa;background-color:#fff;}\n"
                 + ".tg2 th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aaa;background-color:#f38630;}\n"
-                + ".tg2 .tg-c3sw2{font-weight:bold;font-size:26px;background-color:#f56b00}\n"
+                + ".tg2 .tg-c3sw2{font-weight:bold;font-size:28px;background-color:#f56b00}\n"
                 + ".tg2 .tg-jws92{font-weight:bold;font-size:18px;background-color:#f56b00}\n"
                 + ".tg2 .tg-o80d2{background-color:#FCFBE3;font-size:16px}\n"
                 + ".tg2 .tg-0e452{font-weight:bold;font-size:13px}"
@@ -103,7 +103,7 @@ public class DataAccessLayer {
                 ".tg3  {border-collapse:collapse;border-spacing:0;border-color:#bbb;}\n"
                 + ".tg3 td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#bbb;background-color:#E0FFEB;}\n"
                 + ".tg3 th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#bbb;background-color:#9DE0AD;}\n"
-                + ".tg3 .tg-c487{font-weight:bold;font-size:26px;background-color:#0aba0b}\n"
+                + ".tg3 .tg-c487{font-weight:bold;font-size:28px;background-color:#0aba0b}\n"
                 + ".tg3 .tg-iqb1{background-color:#C2FFD6;font-size:16px}\n"
                 + ".tg3 .tg-0e453{font-weight:bold;font-size:13px}"
                 +
@@ -111,44 +111,44 @@ public class DataAccessLayer {
                 ".tg4  {border-collapse:collapse;border-spacing:0;border-color:#ccc;}\n"
                 + ".tg4 td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;background-color:#fff;}\n"
                 + ".tg4 th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;background-color:#f0f0f0;}\n"
-                + ".tg4 .tg-h098{font-weight:bold;font-size:26px;background-color:#c0c0c0}\n"
+                + ".tg4 .tg-h098{font-weight:bold;font-size:28px;background-color:#c0c0c0}\n"
                 + ".tg4 .tg-47f3{background-color:#efefef;font-size:16px}\n"
                 + ".tg4 .tg-0e454{font-weight:bold;font-size:13px}" +
 
                 "</style>");
             bwr.newLine();
 
-            // Tabelle trunk
-            bwr.write("<table class=tg><tr><th class=tg-uebf colspan=" + 2
-                + ">TRUNK</th><th class=tg-8rb9>08.07.2015</th></tr>");
+
+            bwr.write("<table class=tg><tr><th class=tg-uebf colspan=" + 3
+                + ">TRUNK</th></tr>");
             bwr.newLine();
             bwr.write("<tr><td class=tg-pczq>Step</td><td class=tg-pczq>Ergebnis</td><td class=tg-pczq>Zuletzt grün</td></tr>");
             bwr.newLine();
             for (ReportType r : trunk) {
                 bwr.write("<tr><td class=tg-0e45><a href=https://ci.infonova.at/job/A1OpenNet/job/" + r.getReportName()
                     + ">" + r.getReportName() + "</a></td></a><td class=tg-0e45>" + r.getResult()
-                    + "</td><td class=tg-0e45>-</td></tr>");
+                    + "</td><td class=tg-0e45>"+r.getLastStableDate()+"</td></tr>");
                 bwr.newLine();
 
             }
             bwr.write("</table></br>");
             bwr.newLine();
-            // RC
-            bwr.write("<table class=tg2><tr><th class=tg-c3sw2 colspan=" + 2
-                + ">RC</th><th class=tg-jws92></th></tr><tr>");
+
+            bwr.write("<table class=tg2><tr><th class=tg-c3sw2 colspan=" + 3
+                + ">RC</th></tr><tr>");
             bwr.newLine();
             bwr.write("<tr><td class=tg-o80d2>Step</td><td class=tg-o80d2>Ergebnis</td><td class=tg-o80d2>Zuletzt grün</td></tr>");
             bwr.newLine();
             for (ReportType r : rc) {
                 bwr.write("<tr><td class=tg-0e452><a href=https://ci.infonova.at/job/A1OpenNet/job/"
                     + r.getReportName() + ">" + r.getReportName() + "</a></td></a><td class=tg-0e452>" + r.getResult()
-                    + "</td><td class=tg-0e452>-</td></tr>");
+                    + "</td><td class=tg-0e452>"+r.getLastStableDate()+"</td></tr>");
                 bwr.newLine();
 
             }
             bwr.write("</table></br>");
             bwr.newLine();
-            // BF
+
             bwr.write("<table class=tg3><tr><th class=tg-c487 colspan=" + 3 + ">BF</th></tr><tr>");
             bwr.newLine();
             bwr.write("<tr><td class=tg-iqb1>Step</td><td class=tg-iqb1>Ergebnis</td><td class=tg-iqb1>Zuletzt grün</td></tr>");
@@ -156,13 +156,13 @@ public class DataAccessLayer {
             for (ReportType r : bf) {
                 bwr.write("<tr><td class=tg-0e453><a href=https://ci.infonova.at/job/A1OpenNet/job/"
                     + r.getReportName() + ">" + r.getReportName() + "</a></td></a><td class=tg-0e453>" + r.getResult()
-                    + "</td><td class=tg-0e453>-</td></tr>");
+                    + "</td><td class=tg-0e453>"+r.getLastStableDate()+"</td></tr>");
                 bwr.newLine();
 
             }
             bwr.write("</table></br>");
             bwr.newLine();
-            // UAT4
+
             bwr.write("<table class=tg4><tr><th class=tg-h098 colspan=" + 3 + ">UAT4</th></tr><tr>");
             bwr.newLine();
             bwr.write("<tr><td class=tg-47f3>Step</td><td class=tg-47f3>Ergebnis</td><td class=tg-47f3>Zuletzt grün</td></tr>");
@@ -170,7 +170,7 @@ public class DataAccessLayer {
             for (ReportType r : uat4) {
                 bwr.write("<tr><td class=tg-0e454><a href=https://ci.infonova.at/job/A1OpenNet/job/"
                     + r.getReportName() + ">" + r.getReportName() + "</a></td></a><td class=tg-0e454>" + r.getResult()
-                    + "</td><td class=tg-0e454>-</td></tr>");
+                    + "</td><td class=tg-0e454>"+r.getLastStableDate()+"</td></tr>");
                 bwr.newLine();
 
             }
