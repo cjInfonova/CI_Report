@@ -30,13 +30,10 @@ public class ReportType {
         return reportName;
     }
 
-<<<<<<< HEAD
-=======
-    public String getResult() {
-        return String.format("%s", failCount > 0 ? (failCount + " NOK") : "OK");
-    }
 
->>>>>>> origin/master
+
+
+
     public int getFailCount() {
         return failCount;
     }
