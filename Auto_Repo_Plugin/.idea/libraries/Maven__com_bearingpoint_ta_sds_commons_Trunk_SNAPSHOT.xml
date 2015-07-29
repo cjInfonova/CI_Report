@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Maven: com.bearingpoint.ta:sds-commons:Trunk-SNAPSHOT">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/com/bearingpoint/ta/sds-commons/Trunk-SNAPSHOT/sds-commons-Trunk-20150720.210531-2216.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/bearingpoint/ta/sds-commons/Trunk-SNAPSHOT/sds-commons-Trunk-20150728.210530-2228.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$MAVEN_REPOSITORY$/com/bearingpoint/ta/sds-commons/Trunk-SNAPSHOT/sds-commons-Trunk-20150720.210531-2216-javadoc.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/bearingpoint/ta/sds-commons/Trunk-SNAPSHOT/sds-commons-Trunk-20150728.210530-2228-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$MAVEN_REPOSITORY$/com/bearingpoint/ta/sds-commons/Trunk-SNAPSHOT/sds-commons-Trunk-20150720.210531-2216-sources.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/bearingpoint/ta/sds-commons/Trunk-SNAPSHOT/sds-commons-Trunk-20150728.210530-2228-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

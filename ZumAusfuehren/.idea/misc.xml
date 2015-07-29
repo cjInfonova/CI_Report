@@ -7,6 +7,9 @@
     <option name="pathToConfigFileJava" value="$PROJECT_DIR$/../../../infonova-code-formatter-v1.5.xml" />
     <option name="selectedJavaProfile" value="Infonova v1.5" />
   </component>
+  <component name="EntryPointsManager">
+    <entry_points version="2.0" />
+  </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>

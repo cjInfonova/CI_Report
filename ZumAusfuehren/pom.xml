@@ -14,7 +14,76 @@
                 <groupId>com.infonova.jenkins</groupId>
                 <artifactId>jenkins-report</artifactId>
                 <version>1.0-SNAPSHOT</version>
-
+                <!--<configuration>
+                    <goal>
+                        <standardUrl>https://ci.infonova.at</standardUrl>
+                        <jobname>A1OpenNet</jobname>
+                        <dateformat implementation="java.text.SimpleDateFormat">dd.MM.yyyy</dateformat>
+                        <usersettings implementation="com.infonova.jenkins.Usersettings">
+                            <username>christian.jahrbacher</username>
+                            <password>Cj170615!</password>
+                        </usersettings>
+                        <jenkinsSystemList>
+                            <jenkinsSystem implementation="com.infonova.jenkins.JenkinsSystem">
+                                <systemName>Trunk</systemName>
+                                <colorHead>#efe694</colorHead>
+                                <colorHeadline>#efe694</colorHeadline>
+                                <colorBody>#efe694</colorBody>
+                                <jobs>
+                                    <jobName>A1ON-java-build-trunk</jobName>
+                                    <jobName>A1ON-jtf-livetests-trunk12c</jobName>
+                                    <jobName>A1ON-jtf-db-infrastructure-trunk12c</jobName>
+                                    <jobName>A1ON-jtf-db-regressiontests-trunk12c</jobName>
+                                    <jobName>A1ON-jtf-db-guidelines-trunk12c</jobName>
+                                    <jobName>A1ON-jtf-project-tests-trunk12c</jobName>
+                                    <jobName>A1ON-jtf-regressiontests-trunk12c</jobName>
+                                </jobs>
+                            </jenkinsSystem>
+                            <jenkinsSystem implementation="com.infonova.jenkins.JenkinsSystem">
+                                <systemName>RC2</systemName>
+                                <color>#ccff00</color>
+                                <jobs>
+                                    <jobName>A1ON-java-build-rc2</jobName>
+                                    <jobName>A1ON-jtf-db-guidelines-rc2</jobName>
+                                    <jobName>A1ON-jtf-db-regressiontests-rc2</jobName>
+                                    <jobName>A1ON-jtf-regressiontests-rc2</jobName>
+                                    <jobName>A1ON-jtf-smoketests-rc2</jobName>
+                                </jobs>
+                            </jenkinsSystem>
+                            <jenkinsSystem implementation="com.infonova.jenkins.JenkinsSystem">
+                                <systemName>RC</systemName>
+                                <color>#32e2ff</color>
+                                <jobs>
+                                    <jobName>A1ON-java-build-rc</jobName>
+                                    <jobName>A1ON-jtf-db-guidelines-rc</jobName>
+                                    <jobName>A1ON-jtf-regressiontests-rc</jobName>
+                                    <jobName>A1ON-jtf-smoketests-rc</jobName>
+                                </jobs>
+                            </jenkinsSystem>
+                            <jenkinsSystem implementation="com.infonova.jenkins.JenkinsSystem">
+                                <systemName>BF</systemName>
+                                <color>#be042c</color>
+                                <jobs>
+                                    <jobName>A1ON-java-build-bf</jobName>
+                                    <jobName>A1ON-jtf-db-guidelines-bf</jobName>
+                                    <jobName>A1ON-jtf-regressiontests-bf</jobName>
+                                    <jobName>A1ON-jtf-db-regressiontests-bf</jobName>
+                                    <jobName>A1ON-jtf-smoketests-bf"</jobName>
+                                </jobs>
+                            </jenkinsSystem>
+                            <jenkinsSystem implementation="com.infonova.jenkins.JenkinsSystem">
+                                <systemName>UAT4</systemName>
+                                <color>#559e65</color>
+                                <jobs>
+                                    <jobName>A1ON-jtf-db-infrastructure-UAT4</jobName>
+                                    <jobName>A1ON-jtf-db-regressiontests-UAT4</jobName>
+                                    <jobName>A1ON-jtf-regressiontests-UAT4</jobName>
+                                    <jobName>A1ON-jtf-smoketests-UAT4</jobName>
+                                </jobs>
+                            </jenkinsSystem>
+                        </jenkinsSystemList>
+                    </goal>
+                </configuration>-->
             </plugin>
         </plugins>
     </build>

@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Maven: com.bearingpoint.ta:opennet-core:Trunk-SNAPSHOT">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/com/bearingpoint/ta/opennet-core/Trunk-SNAPSHOT/opennet-core-Trunk-20150720.210659-2562.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/bearingpoint/ta/opennet-core/Trunk-SNAPSHOT/opennet-core-Trunk-20150728.210703-2575.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$MAVEN_REPOSITORY$/com/bearingpoint/ta/opennet-core/Trunk-SNAPSHOT/opennet-core-Trunk-20150720.210659-2562-javadoc.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/bearingpoint/ta/opennet-core/Trunk-SNAPSHOT/opennet-core-Trunk-20150728.210703-2575-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$MAVEN_REPOSITORY$/com/bearingpoint/ta/opennet-core/Trunk-SNAPSHOT/opennet-core-Trunk-20150720.210659-2562-sources.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/bearingpoint/ta/opennet-core/Trunk-SNAPSHOT/opennet-core-Trunk-20150728.210703-2575-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

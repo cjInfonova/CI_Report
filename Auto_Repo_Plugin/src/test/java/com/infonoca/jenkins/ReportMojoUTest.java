@@ -11,7 +11,7 @@ import org.junit.Test;
 public class ReportMojoUTest {
 
     private static final DataAccessLayer dal = new DataAccessLayer();
-    @Test
+    /*@Test
     public void execute() {
         dal.setupJobList();
 
@@ -21,6 +21,6 @@ public class ReportMojoUTest {
 
         dal.generateHTML();
 
-    }
+    }*/
 
 }

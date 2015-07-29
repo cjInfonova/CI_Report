@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Maven: com.bearingpoint.ta.workflow:workflow-commons:Trunk-SNAPSHOT">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/com/bearingpoint/ta/workflow/workflow-commons/Trunk-SNAPSHOT/workflow-commons-Trunk-20150720.210934-2554.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/bearingpoint/ta/workflow/workflow-commons/Trunk-SNAPSHOT/workflow-commons-Trunk-20150728.210947-2568.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$MAVEN_REPOSITORY$/com/bearingpoint/ta/workflow/workflow-commons/Trunk-SNAPSHOT/workflow-commons-Trunk-20150720.210934-2554-javadoc.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/bearingpoint/ta/workflow/workflow-commons/Trunk-SNAPSHOT/workflow-commons-Trunk-20150728.210947-2568-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$MAVEN_REPOSITORY$/com/bearingpoint/ta/workflow/workflow-commons/Trunk-SNAPSHOT/workflow-commons-Trunk-20150720.210934-2554-sources.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/bearingpoint/ta/workflow/workflow-commons/Trunk-SNAPSHOT/workflow-commons-Trunk-20150728.210947-2568-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
