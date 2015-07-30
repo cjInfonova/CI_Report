@@ -12,7 +12,8 @@ public class Job {
     private int totalCount;
     private String lastStableDate;
 
-    public Job(){}
+    public Job() {
+    }
 
     public Job(String name, String result, int failed, int total, String lastStable) {
         jobName = name;
@@ -61,12 +62,13 @@ public class Job {
     @Override
     public String toString() {
         return String.format("%-45s %-10s %-10s %-12s", jobName, result, failCount > 0 ? (failCount + " NOK") : "OK",
-                lastStableDate);
+            lastStableDate);
     }
 
     public String getResult() {
-        return String.format("%s",
-                result.equals("SUCCESS") ? "OK" : result.equals("FAILURE") || result.equals("ABORTED") || result.equals("RUNNING") ? result : failCount
-                        + " NOK");
+        return String.format(
+            "%s",
+            result.equals("SUCCESS") ? "OK" : result.equals("FAILURE") || result.equals("ABORTED")
+                || result.equals("RUNNING") ? result : failCount + " NOK");
     }
 }
