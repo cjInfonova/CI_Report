@@ -49,4 +49,8 @@ public class Failure {
     public String getClassname() {
         return className;
     }
+
+    public int getAge() {
+        return age;
+    }
 }
