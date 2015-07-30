@@ -5,6 +5,9 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 
+import java.text.SimpleDateFormat;
+import java.util.List;
+
 /**
  * Created by christian.jahrbacher on 14.07.2015.
  */
@@ -15,20 +18,22 @@ public class ReportMojo extends AbstractMojo {
     private String username = "christian.jahrbacher";
     //@Parameter(defaultValue = "Cj170615!")
     private String password = "Cj170615!";
-    //@Parameter(defaultValue = "https://ci.infonova.at")
-    private String standardUrl = "https://ci.infonova.at";
+    // @Parameter (defaultValue = "https://ci.infonova.at")
+    public String JENKINS_URL = "https://ci.infonova.at";
+    // @Parameter
+    public String jobname = "A1OpenNet";
+    // @Parameter
+    private List<JenkinsSystem> jenkinsSystemList;
+    // @Parameter(defaultValue = "dd.MM.yyyy")
+    private SimpleDateFormat dateformat = new SimpleDateFormat("dd.MM.yyyy");
+
 
     public void execute() throws MojoExecutionException, MojoFailureException {
         Usersettings us = new Usersettings(username, password);
-        JenkinsAccess jenkinsAccess = new JenkinsAccess(standardUrl, us.getUsername(), us.getPassword());
+        JenkinsAccess jenkinsAccess = new JenkinsAccess(JENKINS_URL, us.getUsername(), us.getPassword());
 
-        DataAccessLayer dal = new DataAccessLayer(jenkinsAccess);
-        dal.setupJobList();
-        dal.prepareEverything(jenkinsAccess);
-        dal.readErrors();
-        //dal.showAllFails();
-        dal.generateHTML();
-        //dal.showReports();
+        DataAccessLayer dal = new DataAccessLayer(jenkinsAccess, JENKINS_URL, jobname, dateformat);
+        dal.startBuildingReport();
     }
 
 }

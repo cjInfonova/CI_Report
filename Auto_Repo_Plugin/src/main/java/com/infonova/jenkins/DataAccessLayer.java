@@ -1,23 +1,10 @@
 package com.infonova.jenkins;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.AuthCache;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.impl.auth.BasicScheme;
-import org.apache.http.impl.client.*;
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.*;
-import java.net.URI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,30 +15,14 @@ import java.util.logging.Logger;
 /**
  * Created by christian.jahrbacher on 15.07.2015.
  */
-public class DataAccessLayer {
+public class DataAccessLayer implements UrlParameters{
 
-    // @Parameter
     private List<JenkinsSystem> jenkinsSystemList;
-
-    // @Parameter(defaultValue = "dd.MM.yyyy")
-    private SimpleDateFormat dateformat = new SimpleDateFormat("dd.MM.yyyy");
-
-    // @Parameter
-    public String jobname = "A1OpenNet";
-
-    // @Parameter // standardUrl
-    public String JENKINS_URL = "https://ci.infonova.at";
-
-    // @Parameter(defaultValue = "https://ci.infonova.at")
-    public final String standardUrl = JENKINS_URL + "/job/" + jobname + "/job/";
-
+    private SimpleDateFormat dateformat;
+    private String standardUrl;
     private List<String> jobList;
     private List<Job> jobClassList;
     private List<Failure> failList;
-    public final String JSON_EXTENTION = "/api/json";
-    private final String LAST_STATE = "/lastBuild";
-    private final String STABLE_STATE = "/lastStableBuild";
-    private final String TEST_STATE = "/testReport";
     private static Logger log = Logger.getLogger("MyLogger");
     private final static String sonar = "https://grzisesonar1.infonova.at/drilldown/issues/100648?period=2";
     private final static String codecove = "https://grzisesonar1.infonova.at/dashboard/index/100648?did=1&period=2";
@@ -59,8 +30,17 @@ public class DataAccessLayer {
     private JenkinsAccess jenkinsAccess;
     private int starthoch = 0;
 
-    public DataAccessLayer(JenkinsAccess jenAcc) {
+    public DataAccessLayer(JenkinsAccess jenAcc, String jenkinsUrl, String jobname, SimpleDateFormat sdf) {
         jenkinsAccess = jenAcc;
+        standardUrl = jenkinsUrl + "/job/" + jobname + "/job/";
+        dateformat = sdf;
+    }
+
+    public void startBuildingReport(){
+        setupJobList();
+        prepareEverything();
+        failList = new FailureBuilder(jenkinsAccess, jobList, standardUrl).readErrors();
+        generateHTML();
     }
 
     public void generateHTML() {
@@ -224,7 +204,7 @@ public class DataAccessLayer {
         bwr.newLine();
     }
 
-    public void setupJobList() {
+    private void setupJobList() {
 
         jobList = new ArrayList<String>();
         // Trunk12c
@@ -276,16 +256,16 @@ public class DataAccessLayer {
         }
     }
 
-    public void prepareEverything(JenkinsAccess jenAccess) {
+    private void prepareEverything() {
         jobClassList = new ArrayList<Job>();
         try {
             for (String jobString : jobList) {
                 try {
                     String url = standardUrl + jobString;
-                    JsonNode jsNode = jenAccess.getJsonNodeFromUrl(url + LAST_STATE + JSON_EXTENTION);
+                    JsonNode jsNode = jenkinsAccess.getJsonNodeFromUrl(url + LAST_STATE + JSON_EXTENTION);
                     Job job = convertJsonNodeIntoJob(jsNode);
                     if (!job.getResult().equals("SUCCESS")) {
-                        jsNode = jenAccess.getJsonNodeFromUrl(url + STABLE_STATE + JSON_EXTENTION);
+                        jsNode = jenkinsAccess.getJsonNodeFromUrl(url + STABLE_STATE + JSON_EXTENTION);
                         job.setLastStableDate(dateformat.format(getLastStableDateFromJsonNode(jsNode)));
                     }
                     job.setJobName(jobString);
@@ -339,84 +319,5 @@ public class DataAccessLayer {
             log.info("Can't parse date: " + jsNode.get("id").asText());
         }
         return date;
-    }
-
-    public void readErrors() {
-        failList = new ArrayList<Failure>();
-        for (String fail : jobList) {
-            try {
-                String url = standardUrl + fail + "/" + LAST_STATE + TEST_STATE + JSON_EXTENTION;
-                JsonNode jsNode = jenkinsAccess.getJsonNodeFromUrl(url);
-                getDataFromJsonFailures(jsNode, fail);
-
-                for (Failure f : failList) {
-                    if (f.getFailure().equals("NoFailure")) {
-                        failList.remove(f);
-                    }
-                }
-            } catch (JSONException jsexe) {
-                log.info("The requested resource is not available. Jobname: " + fail);
-                jsexe.printStackTrace();
-            } catch (IOException exe) {
-                log.info("An unexpected error has occurred");
-                exe.printStackTrace();
-            } catch (JenkinsException jex){
-                log.info(jex.getMessage());
-            }
-        }
-
-    }
-
-    private void getDataFromJsonFailures(JsonNode jsNode, String job)
-            throws IOException, JenkinsException {
-        if (jsNode.has("childReports")) {
-            String url = "";
-            for (JsonNode node : jsNode.get("childReports")) {
-                if (node.has("child")) {
-                    url = node.get("child").get("url").asText();
-                    String[] urlParts = url.split("/");
-                    url = standardUrl+urlParts[urlParts.length - 3] + "/" + urlParts[urlParts.length - 2] + LAST_STATE + TEST_STATE
-                        + JSON_EXTENTION;
-                    JsonNode jn = jenkinsAccess.getJsonNodeFromUrl(url);
-                    if (jn.has("suites")) {
-                        for (JsonNode jsn : jn.get("suites")) {
-                            if (jsn.has("cases")) {
-                                getStrArray(jsn.get("cases"), job);
-                            }
-                        }
-                    }
-                }
-            }
-        } else {
-            for (JsonNode node : jsNode.get("suites")) {
-                if (node.has("cases")) {
-                    getStrArray(node.get("cases"), job);
-                }
-            }
-        }
-    }
-
-    public void getStrArray(JsonNode jsNode, String job) {
-        for(JsonNode node : jsNode) {
-            if (node.has("status")) {
-                if (node.get("status").asText().equals("FAILED") || node.get("status").asText().equals("REGRESSION")) {
-                    String[] classname = node.get("className").asText().split("\\.");
-                    if ((node.get("errorDetails") == null) || (node.get("errorDetails").asText().equals("null"))) {
-                        if (!failList.contains(new Failure(0, classname[classname.length - 1], "", "", "", job))) {
-                            failList.add(new Failure(DatatypeConverter.parseInt(node.get("age").asText()),
-                                    classname[classname.length - 1], "", node.get("errorStackTrace").asText()
-                                    .replaceAll("\\n", " "), node.get("status").asText(), job));
-                        }
-                    } else {
-                        if (!failList.contains(new Failure(0, classname[classname.length - 1], "", "", "", job))) {
-                            failList.add(new Failure(DatatypeConverter.parseInt(node.get("age").asText()),
-                                    classname[classname.length - 1],
-                                    node.get("errorDetails").asText().replaceAll("\\n", " "), "", node.get("status")
-                                    .asText(), job));
-                        }
-                    }
-                }
-            }
-        }
     }
 }
