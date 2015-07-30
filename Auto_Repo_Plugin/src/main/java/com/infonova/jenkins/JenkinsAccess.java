@@ -33,7 +33,7 @@ public class JenkinsAccess {
         URI uri = URI.create(url);
         CredentialsProvider credsProvider = new BasicCredentialsProvider();
         credsProvider.setCredentials(new AuthScope(uri.getHost(), uri.getPort()), new UsernamePasswordCredentials(user,
-                password));
+            password));
         authCache = new BasicAuthCache();
         BasicScheme basicAuth = new BasicScheme();
         host = new HttpHost(uri.getHost(), uri.getPort(), uri.getScheme());
@@ -49,16 +49,16 @@ public class JenkinsAccess {
         HttpResponse response = httpClient.execute(host, httpGet, localContext);
 
         if (response.getStatusLine().getStatusCode() >= 200 && response.getStatusLine().getStatusCode() < 300
-                && response.getFirstHeader("Content-Type").getValue().contains("json")) {
+            && response.getFirstHeader("Content-Type").getValue().contains("json")) {
             return new ObjectMapper().readTree(response.getEntity().getContent());// response.getEntity().getContent();
         } else if (response.getStatusLine().getStatusCode() == 401) {
             throw new JenkinsException(response.getStatusLine().getStatusCode()
-                    + ": Username and/or Password is incorrect!");
+                + ": Username and/or Password is incorrect!");
         } else if (response.getStatusLine().getStatusCode() == 404) {
             throw new JenkinsException(response.getStatusLine().getStatusCode() + ": Source not found!");
         } else {
             throw new JenkinsException(response.getStatusLine().getStatusCode() + ": "
-                    + response.getStatusLine().getReasonPhrase());
+                + response.getStatusLine().getReasonPhrase());
         }
     }
 }
