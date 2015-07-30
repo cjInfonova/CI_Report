@@ -30,8 +30,9 @@ public class ReportMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException, MojoFailureException {
         Usersettings us = new Usersettings(username, password);
         JenkinsAccess jenkinsAccess = new JenkinsAccess(JENKINS_URL, us.getUsername(), us.getPassword());
+        JobBuilder jobBuilder = new JobBuilder(jenkinsAccess, JENKINS_URL+"/job/"+jobname+"/job/", dateformat);
         HTML_Generator htmlgen = new HTML_Generator();
-        DataAccessLayer dal = new DataAccessLayer(jenkinsAccess, JENKINS_URL, jobname, dateformat, htmlgen);
+        DataAccessLayer dal = new DataAccessLayer(jenkinsAccess, JENKINS_URL, jobname, dateformat, jobBuilder, htmlgen);
         dal.startBuildingReport();
     }
 

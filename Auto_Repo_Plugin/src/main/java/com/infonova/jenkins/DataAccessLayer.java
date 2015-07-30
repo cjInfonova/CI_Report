@@ -1,9 +1,7 @@
 package com.infonova.jenkins;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.json.JSONException;
 
-import javax.xml.bind.DatatypeConverter;
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,7 +13,7 @@ import java.util.logging.Logger;
 /**
  * Created by christian.jahrbacher on 15.07.2015.
  */
-public class DataAccessLayer implements UrlParameters {
+public class DataAccessLayer implements IUrlParameters {
 
     private List<JenkinsSystem> jenkinsSystemList;
     private SimpleDateFormat dateformat;
@@ -26,23 +24,26 @@ public class DataAccessLayer implements UrlParameters {
     private static Logger log = Logger.getLogger("MyLogger");
     private final static String sonar = "https://grzisesonar1.infonova.at/drilldown/issues/100648?period=2";
     private final static String codecove = "https://grzisesonar1.infonova.at/dashboard/index/100648?did=1&period=2";
-    private final static String excelpath = "\\\\filesrv.techu.local\\public\\LOB\\CC_INFONOVA_SOFTWARE_ENGINEERING\\OpenNet_CI\\Failed_Tests.xlsx";
     private JenkinsAccess jenkinsAccess;
     private HTML_Generator htmlgen;
+    private JobBuilder jobBuilder;
 
     public DataAccessLayer(JenkinsAccess jenAcc, String jenkinsUrl, String jobname, SimpleDateFormat sdf,
-            HTML_Generator htmlgen) {
+            JobBuilder jobBuilder, HTML_Generator htmlgen) {
         jenkinsAccess = jenAcc;
         standardUrl = jenkinsUrl + "/job/" + jobname + "/job/";
         dateformat = sdf;
         this.htmlgen = htmlgen;
+        this.jobBuilder = jobBuilder;
     }
 
     public void startBuildingReport() {
         setupJobList();
-        prepareEverything();
-        failList = new FailureBuilder(jenkinsAccess, jobList, standardUrl).readErrors();
-        generateHTML();
+        jobClassList = jobBuilder.prepareEverything(jobList);
+        if(jobClassList!=null){
+            failList = new FailureBuilder(jenkinsAccess, jobList, standardUrl).readErrors();
+            generateHTML();
+        }
     }
 
     public void generateHTML() {
@@ -138,70 +139,5 @@ public class DataAccessLayer implements UrlParameters {
                 System.out.println(f.toString());
             }
         }
-    }
-
-    private void prepareEverything() {
-        jobClassList = new ArrayList<Job>();
-        try {
-            for (String jobString : jobList) {
-                try {
-                    String url = standardUrl + jobString;
-                    JsonNode jsNode = jenkinsAccess.getJsonNodeFromUrl(url + LAST_STATE + JSON_EXTENTION);
-                    Job job = convertJsonNodeIntoJob(jsNode);
-                    if (!job.getResult().equals("SUCCESS")) {
-                        jsNode = jenkinsAccess.getJsonNodeFromUrl(url + STABLE_STATE + JSON_EXTENTION);
-                        job.setLastStableDate(dateformat.format(getLastStableDateFromJsonNode(jsNode)));
-                    }
-                    job.setJobName(jobString);
-                    jobClassList.add(job);
-                } catch (JenkinsException jex) {
-                    if (jex.getMessage().contains("Source not found")) {
-                        log.info(jex.getMessage() + ": " + jobString);
-                    } else {
-                        throw jex;
-                    }
-                } catch (IOException exe) {
-                    log.info("An unexpected error has occurred");
-                    exe.printStackTrace();
-                    exe.printStackTrace();
-                } catch (Throwable exe) {
-                    log.info(exe.getMessage());
-                    exe.printStackTrace();
-                }
-            }
-            log.info("Reports konnten geladen werden: " + jobClassList.size() + "/" + jobList.size());
-        } catch (JenkinsException ulexe) {
-            log.info(ulexe.getMessage());
-        }
-    }
-
-    private Job convertJsonNodeIntoJob(JsonNode jsNode) {
-        Job job = new Job();
-        if (jsNode.get("building").asBoolean()) {
-            job = new Job("-", "RUNNING", 0, 0, "-");
-            return job;
-        }
-        job.setResult(jsNode.get("result").asText());
-        job.setLastStableDate(dateformat.format(getLastStableDateFromJsonNode(jsNode)));
-        if (jsNode.get("actions").isArray()) {
-            for (JsonNode jn : jsNode.get("actions")) {
-                if (!jn.isArray() && jn.has("failCount")) {
-                    job.setFailCount(jn.get("failCount").asInt());
-                    job.setTotalCount(jn.get("totalCount").asInt());
-                }
-            }
-        }
-        return job;
-    }
-
-    private Date getLastStableDateFromJsonNode(JsonNode jsNode) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
-        try {
-            date = sdf.parse(jsNode.get("id").asText());
-        } catch (ParseException pex) {
-            log.info("Can't parse date: " + jsNode.get("id").asText());
-        }
-        return date;
     }
 }

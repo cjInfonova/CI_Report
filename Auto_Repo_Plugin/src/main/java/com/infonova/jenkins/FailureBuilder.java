@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 /**
  * Created by christian.jahrbacher on 30.07.2015.
  */
-public class FailureBuilder implements UrlParameters {
+public class FailureBuilder implements IUrlParameters {
 
     private JenkinsAccess jenkinsAccess;
     private String standardUrl;
