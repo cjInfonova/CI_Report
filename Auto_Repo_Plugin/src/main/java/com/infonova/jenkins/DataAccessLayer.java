@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 /**
  * Created by christian.jahrbacher on 15.07.2015.
  */
-public class DataAccessLayer implements UrlParameters {
+public class DataAccessLayer implements UrlParameters{
 
     private List<JenkinsSystem> jenkinsSystemList;
     private SimpleDateFormat dateformat;
@@ -30,15 +30,14 @@ public class DataAccessLayer implements UrlParameters {
     private JenkinsAccess jenkinsAccess;
     private HTML_Generator htmlgen;
 
-    public DataAccessLayer(JenkinsAccess jenAcc, String jenkinsUrl, String jobname, SimpleDateFormat sdf,
-            HTML_Generator htmlgen) {
+    public DataAccessLayer(JenkinsAccess jenAcc, String jenkinsUrl, String jobname, SimpleDateFormat sdf,HTML_Generator htmlgen) {
         jenkinsAccess = jenAcc;
         standardUrl = jenkinsUrl + "/job/" + jobname + "/job/";
         dateformat = sdf;
         this.htmlgen = htmlgen;
     }
 
-    public void startBuildingReport() {
+    public void startBuildingReport(){
         setupJobList();
         prepareEverything();
         failList = new FailureBuilder(jenkinsAccess, jobList, standardUrl).readErrors();
@@ -48,6 +47,7 @@ public class DataAccessLayer implements UrlParameters {
     public void generateHTML() {
         BufferedWriter bwr = null;
         try {
+
             List<Job> uat4 = initList("UAT4");
             List<Job> trunk = initList("trunk", "trunk12c");
             List<Job> rc = initList("rc");
@@ -67,6 +67,8 @@ public class DataAccessLayer implements UrlParameters {
             htmlgen.buildTable(uat4, bwr, "UAT4", failList);
 
             htmlgen.staticPostCode(bwr);
+
+
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -76,22 +78,32 @@ public class DataAccessLayer implements UrlParameters {
                 e.printStackTrace();
             }
         }
+
     }
+
+
 
     private List<Job> initList(String... name) {
         List<Job> list = new ArrayList<Job>();
         for (Job r : jobClassList) {
             String[] split = r.getJobName().split("-");
+
             for (String s : name) {
                 if (split[split.length - 1].equals(s)) {
                     list.add(r);
                 }
             }
         }
+
         return list;
     }
 
+
+
+
+
     private void setupJobList() {
+
         jobList = new ArrayList<String>();
         // Trunk12c
         jobList.add("A1ON-java-build-trunk");
@@ -101,12 +113,14 @@ public class DataAccessLayer implements UrlParameters {
         jobList.add("A1ON-jtf-db-guidelines-trunk12c");
         jobList.add("A1ON-jtf-project-tests-trunk12c");
         jobList.add("A1ON-jtf-regressiontests-trunk12c");
+
         // RC2
         jobList.add("A1ON-java-build-rc2");
         jobList.add("A1ON-jtf-db-guidelines-rc2");
         jobList.add("A1ON-jtf-db-regressiontests-rc2");
         jobList.add("A1ON-jtf-regressiontests-rc2");
         jobList.add("A1ON-jtf-livetests-rc2");
+
         // RC
         jobList.add("A1ON-java-build-rc");
         jobList.add("A1ON-jtf-db-guidelines-rc");

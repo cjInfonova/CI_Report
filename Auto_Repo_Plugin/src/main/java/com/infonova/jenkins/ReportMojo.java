@@ -14,9 +14,9 @@ import java.util.List;
 @Mojo(name = "report")
 public class ReportMojo extends AbstractMojo {
 
-    // @Parameter(defaultValue = "christian.jahrbacher")
+    //@Parameter(defaultValue = "christian.jahrbacher")
     private String username = "christian.jahrbacher";
-    // @Parameter(defaultValue = "Cj170615!")
+    //@Parameter(defaultValue = "Cj170615!")
     private String password = "Cj170615!";
     // @Parameter (defaultValue = "https://ci.infonova.at")
     public String JENKINS_URL = "https://ci.infonova.at";
@@ -27,11 +27,12 @@ public class ReportMojo extends AbstractMojo {
     // @Parameter(defaultValue = "dd.MM.yyyy")
     private SimpleDateFormat dateformat = new SimpleDateFormat("dd.MM.yyyy");
 
+
     public void execute() throws MojoExecutionException, MojoFailureException {
         Usersettings us = new Usersettings(username, password);
         JenkinsAccess jenkinsAccess = new JenkinsAccess(JENKINS_URL, us.getUsername(), us.getPassword());
         HTML_Generator htmlgen = new HTML_Generator();
-        DataAccessLayer dal = new DataAccessLayer(jenkinsAccess, JENKINS_URL, jobname, dateformat, htmlgen);
+        DataAccessLayer dal = new DataAccessLayer(jenkinsAccess, JENKINS_URL, jobname, dateformat,htmlgen);
         dal.startBuildingReport();
     }
 

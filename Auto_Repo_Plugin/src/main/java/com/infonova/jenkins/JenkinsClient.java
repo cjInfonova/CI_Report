@@ -10,11 +10,11 @@ public class JenkinsClient {
 
     CloseableHttpClient httpClient;
 
-    public JenkinsClient(String url, String user, String password) {
-        // ....
+    public JenkinsClient(String url, String user, String password){
+        //....
     }
 
-    public Object reciveJobdetails(String jobName) {
+    public Object reciveJobdetails(String jobName){
         return new Object();
     }
 }
