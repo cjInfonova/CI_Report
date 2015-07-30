@@ -21,8 +21,8 @@ public class ReportMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException, MojoFailureException {
         Usersettings us = new Usersettings(username, password);
         JenkinsAccess jenkinsAccess = new JenkinsAccess(standardUrl, us.getUsername(), us.getPassword());
-
-        DataAccessLayer dal = new DataAccessLayer(jenkinsAccess);
+        HTML_Generator htmlgen = new HTML_Generator();
+        DataAccessLayer dal = new DataAccessLayer(jenkinsAccess,htmlgen);
         dal.setupJobList();
         dal.prepareEverything(jenkinsAccess);
         dal.readErrors();
