@@ -55,9 +55,7 @@ import java.util.List;
             boolean bool = false;
             for (Job r : list) {
                 for (Failure f : failList) {
-                    if (bool) {
-
-                    } else if (f.getJobName().equals(r.getJobName()) && !f.getFailure().equals("NoFailure")) {
+                    if (!bool&&f.getJobName().equals(r.getJobName()) && !f.getFailure().equals("NoFailure")) {
                         starthoch++;
                         hoch = "" + starthoch;
                         bool = true;
@@ -83,7 +81,7 @@ import java.util.List;
             bwr.newLine();
         }
 
-        protected void staticPostCode(BufferedWriter bwr) throws IOException {
+        protected void staticPostCode(BufferedWriter bwr, List<Job> jobClassList, List<Failure> failList, String sonar, String codecove) throws IOException {
             bwr.write("<p style=font-size:20px><b>Sonar (Trunk) - <a href=" + sonar + "><u>Link</u></a></b></p>");
             bwr.newLine();
             bwr.write("<p style=font-size:20px><b>Code Coverage - <a href=" + codecove + ">Link</a></b></p>");

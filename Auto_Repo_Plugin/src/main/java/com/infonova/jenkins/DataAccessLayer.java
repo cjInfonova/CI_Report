@@ -66,7 +66,7 @@ public class DataAccessLayer implements UrlParameters{
             htmlgen.buildTable(bf, bwr, "BF", failList);
             htmlgen.buildTable(uat4, bwr, "UAT4", failList);
 
-            htmlgen.staticPostCode(bwr);
+            htmlgen.staticPostCode(bwr,jobClassList,failList,sonar,codecove);
 
 
         } catch (IOException e) {
