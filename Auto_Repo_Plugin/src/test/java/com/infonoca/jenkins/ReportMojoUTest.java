@@ -10,7 +10,7 @@ import org.junit.Test;
 
 public class ReportMojoUTest {
 
-    private static final DataAccessLayer dal = new DataAccessLayer();
+    //private static final DataAccessLayer dal = new DataAccessLayer();
     /*@Test
     public void execute() {
         dal.setupJobList();

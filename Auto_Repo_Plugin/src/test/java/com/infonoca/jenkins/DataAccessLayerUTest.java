@@ -3,33 +3,10 @@ package com.infonoca.jenkins;
 import com.infonova.easymock.EasyMockRule;
 import com.infonova.easymock.annotation.UnitToTest;
 import com.infonova.jenkins.DataAccessLayer;
-import org.apache.http.HttpClientConnection;
-import org.apache.http.HttpHost;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.AuthCache;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.impl.auth.BasicScheme;
-import org.apache.http.impl.client.BasicAuthCache;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.easymock.internal.MocksControl;
 import org.junit.Rule;
-import org.junit.Test;
 import org.junit.Before;
-import sun.net.www.http.HttpClient;
 
-import javax.wsdl.Input;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 
 import static org.easymock.EasyMock.expect;
 
@@ -53,7 +30,7 @@ public class DataAccessLayerUTest {
     private final String USERNAME = "max.mustermann";
     private final String PASSWORD = "password";
 
-    @Before
+    /*@Before
     public void setupDAL()
     {
         dal = new DataAccessLayer();

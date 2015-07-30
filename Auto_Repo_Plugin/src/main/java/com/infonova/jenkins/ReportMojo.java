@@ -4,7 +4,6 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
 
 /**
  * Created by christian.jahrbacher on 14.07.2015.
@@ -25,10 +24,11 @@ public class ReportMojo extends AbstractMojo {
 
         DataAccessLayer dal = new DataAccessLayer(jenkinsAccess);
         dal.setupJobList();
-        //dal.getAllJsonsFromJenkins();
         dal.prepareEverything(jenkinsAccess);
+        dal.readErrors();
+        //dal.showAllFails();
         dal.generateHTML();
-        dal.showReports();
+        //dal.showReports();
     }
 
 }
