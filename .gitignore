@@ -1,10 +1,6 @@
+
 Auto_Repo_Plugin/.idea/workspace.xml
 Auto_Repo_Plugin/target/classes/META-INF/maven/com.infonova.jenkins/jenkins-report/plugin-help.xml
 Auto_Repo_Plugin/target/classes/META-INF/maven/plugin.xml
 Auto_Repo_Plugin/target/jenkins-report-1.0-SNAPSHOT.jar
 Auto_Repo_Plugin/target/maven-plugin-help.properties
-Auto_Repo_Plugin/src/main/java/com/infonova/jenkins/HTML_Generator.java
-Auto_Repo_Plugin/target/classes/com/infonova/jenkins/Failure.class
-Auto_Repo_Plugin/target/classes/com/infonova/jenkins/DataAccessLayer.class
-Auto_Repo_Plugin/src/main/java/com/infonova/jenkins/ReportMojo.java
-Auto_Repo_Plugin/src/main/java/com/infonova/jenkins/HTML_Generator.java
