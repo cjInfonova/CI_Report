@@ -4,3 +4,5 @@ Auto_Repo_Plugin/target/classes/META-INF/maven/com.infonova.jenkins/jenkins-repo
 Auto_Repo_Plugin/target/classes/META-INF/maven/plugin.xml
 Auto_Repo_Plugin/target/jenkins-report-1.0-SNAPSHOT.jar
 Auto_Repo_Plugin/target/maven-plugin-help.properties
+Auto_Repo_Plugin/target/surefire-reports/TEST-com.infonoca.jenkins.DataAccessLayerUTest.xml
+Auto_Repo_Plugin/target/maven-plugin-help.properties

@@ -1,0 +1,37 @@
+-------------------------------------------------------------------------------
+Test set: com.infonoca.jenkins.DataAccessLayerUTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.112 sec <<< FAILURE!
+generateHTML(com.infonoca.jenkins.DataAccessLayerUTest)  Time elapsed: 0.053 sec  <<< FAILURE!
+java.lang.AssertionError: Unable to find mock for value of type class com.infonova.jenkins.JenkinsAccess
+	at com.infonova.easymock.annotation.handler.UnitToTestAnnotationHandler.getParameters(UnitToTestAnnotationHandler.java:137)
+	at com.infonova.easymock.annotation.handler.UnitToTestAnnotationHandler.generateEnhancedInstance(UnitToTestAnnotationHandler.java:102)
+	at com.infonova.easymock.annotation.handler.UnitToTestAnnotationHandler.handleField(UnitToTestAnnotationHandler.java:74)
+	at com.infonova.easymock.annotation.handler.UnitToTestAnnotationHandler.handleField(UnitToTestAnnotationHandler.java:27)
+	at com.infonova.base.annotationprocessor.AnnotationProcessor.handleAnnotations(AnnotationProcessor.java:107)
+	at com.infonova.base.annotationprocessor.AnnotationProcessor.process(AnnotationProcessor.java:76)
+	at com.infonova.easymock.EasyMockRule.before(EasyMockRule.java:89)
+	at com.infonova.easymock.EasyMockRule.access$000(EasyMockRule.java:45)
+	at com.infonova.easymock.EasyMockRule$1.evaluate(EasyMockRule.java:71)
+	at org.junit.rules.RunRules.evaluate(RunRules.java:20)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:271)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:70)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:309)
+	at org.apache.maven.surefire.junit4.JUnit4TestSet.execute(JUnit4TestSet.java:53)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:123)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:104)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:164)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:110)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:175)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcessWhenForked(SurefireStarter.java:107)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:68)

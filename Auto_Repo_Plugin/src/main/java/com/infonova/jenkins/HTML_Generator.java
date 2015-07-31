@@ -11,7 +11,7 @@ public class HTML_Generator {
 
     private int starthoch = 0;
 
-    protected void staticPreCode(BufferedWriter bwr) throws IOException {
+    public void staticPreCode(BufferedWriter bwr) throws IOException {
         bwr.write("<!DOCTYPE html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"></head>");
         bwr.newLine();
         bwr.write("<style type=\"text/css\">\n"
@@ -44,7 +44,7 @@ public class HTML_Generator {
         bwr.newLine();
     }
 
-    protected void buildTable(List<Job> list, BufferedWriter bwr, String name, List<Failure> failList)
+    public void buildTable(List<Job> list, BufferedWriter bwr, String name, List<Failure> failList)
             throws IOException {
         bwr.write("<table class=tg><tr><th class=tg-" + name + "h colspan=" + 3 + ">" + name + "</th></tr>");
         bwr.newLine();
@@ -80,7 +80,7 @@ public class HTML_Generator {
         bwr.newLine();
     }
 
-    protected void staticPostCode(BufferedWriter bwr, List<Job> jobClassList, List<Failure> failList, String sonar,
+    public void staticPostCode(BufferedWriter bwr, List<Job> jobClassList, List<Failure> failList, String sonar,
             String codecove) throws IOException {
         bwr.write("<p style=font-size:20px><b>Sonar (Trunk) - <a href=" + sonar + "><u>Link</u></a></b></p>");
         bwr.newLine();
