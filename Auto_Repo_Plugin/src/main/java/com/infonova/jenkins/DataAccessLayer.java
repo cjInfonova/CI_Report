@@ -33,7 +33,7 @@ public class DataAccessLayer implements IUrlParameters {
         this.jobBuilder = jobBuilder;
     }
 
-    public void startBuildingReport() {
+    public void startBuildingReport() throws IOException {
         setupJobList();
         jobClassList = jobBuilder.prepareEverything(jobList);
         if(jobClassList!=null){
@@ -42,9 +42,9 @@ public class DataAccessLayer implements IUrlParameters {
         }
     }
 
-    public void generateHTML() {
+    public void generateHTML() throws IOException {
         BufferedWriter bwr = null;
-        try {
+
             List<Job> uat4 = initList("UAT4");
             List<Job> trunk = initList("trunk", "trunk12c");
             List<Job> rc = initList("rc");
@@ -64,16 +64,12 @@ public class DataAccessLayer implements IUrlParameters {
             htmlgen.buildTable(uat4, bwr, "UAT4", failList);
 
             htmlgen.staticPostCode(bwr, jobClassList, failList, sonar, codecove);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                bwr.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            bwr.close();
+
+
+
         }
-    }
+
 
     private List<Job> initList(String... name) {
         List<Job> list = new ArrayList<Job>();
@@ -122,18 +118,18 @@ public class DataAccessLayer implements IUrlParameters {
         jobList.add("A1ON-jtf-smoketests-UAT4");
     }
 
-    public void showReports() {
-        System.out.printf("%-45s %-10s %-10s %-15s\n", "Step", "Result", "Ergebnis", "LastStableDate");
-        for (Job rt : jobClassList) {
-            System.out.println(rt.toString());
-        }
-    }
-
-    public void showAllFails() {
-        for (Failure f : failList) {
-            if (!f.getFailure().equals("NoFailure")) {
-                System.out.println(f.toString());
-            }
-        }
-    }
+//    public void showReports() {
+//        System.out.printf("%-45s %-10s %-10s %-15s\n", "Step", "Result", "Ergebnis", "LastStableDate");
+//        for (Job rt : jobClassList) {
+//            System.out.println(rt.toString());
+//        }
+//    }
+//
+//    public void showAllFails() {
+//        for (Failure f : failList) {
+//            if (!f.getFailure().equals("NoFailure")) {
+//                System.out.println(f.toString());
+//            }
+//        }
+//    }
 }

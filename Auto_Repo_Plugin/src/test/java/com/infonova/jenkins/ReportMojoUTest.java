@@ -1,9 +1,10 @@
-package com.infonoca.jenkins;
+package com.infonova.jenkins;
 
 //import com.bearingpoint.jbpm.TestExecutionContext;
 import com.infonova.jenkins.*;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class ReportMojoUTest {
     // @Parameter(defaultValue = "dd.MM.yyyy")
     private static SimpleDateFormat dateformat = new SimpleDateFormat("dd.MM.yyyy");
     @Test
-    public void execute() {
+    public void execute() throws IOException {
         Usersettings us = new Usersettings(username, password);
         JenkinsAccess jenkinsAccess = new JenkinsAccess(JENKINS_URL, us.getUsername(), us.getPassword());
         JobBuilder jobBuilder = new JobBuilder(jenkinsAccess, JENKINS_URL+"/job/"+jobname+"/job/", dateformat);

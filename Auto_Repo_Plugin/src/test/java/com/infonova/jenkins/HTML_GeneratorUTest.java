@@ -1,4 +1,4 @@
-package com.infonoca.jenkins;
+package com.infonova.jenkins;
 
 /**
  * Created by dominic.gross on 31.07.2015.

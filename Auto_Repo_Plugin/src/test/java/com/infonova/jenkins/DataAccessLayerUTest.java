@@ -1,4 +1,4 @@
-package com.infonoca.jenkins;
+package com.infonova.jenkins;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -7,9 +7,13 @@ import org.easymock.EasyMockSupport;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.easymock.EasyMock.*;
@@ -40,7 +44,7 @@ public class DataAccessLayerUTest extends EasyMockSupport {
 
 
     @Test
-    public void generateHTML() throws IOException, JenkinsException {
+    public void testStartBuidlingReportEMPTY() throws IOException, JenkinsException {
         expect(jobBuilder.prepareEverything(anyObject(ArrayList.class))).andReturn(null);
 
         replayAll();
@@ -49,9 +53,8 @@ public class DataAccessLayerUTest extends EasyMockSupport {
     }
 
     @Test
-    public void generateHTML1() throws IOException, JenkinsException {
-        List<Job> jobList = new ArrayList<Job>();
-
+    public void testStartBuidlingReportFULL() throws IOException, JenkinsException {
+        List<Job> jobList = Arrays.asList(new Job("A1ON-java-build-trunk","FAILED",2,3,""));
 
         expect(jobBuilder.prepareEverything(anyObject(ArrayList.class))).andReturn(jobList);
 
@@ -59,13 +62,18 @@ public class DataAccessLayerUTest extends EasyMockSupport {
         String url ;
         JsonNode jn = new ObjectMapper().readTree("{\"duration\":1058.291,\"empty\":false,\"failCount\":0,\"passCount\":31,\"skipCount\":1,\"suites\":[{\"cases\":[{\"age\":1,\"className\":\"com.infonova.jtf.ta.generic.kundenverwaltung.CustomerAndServiceLockUnlockTest\",\"duration\":54.998,\"errorDetails\":\"Test\",\"errorStackTrace\":\"TestStack\",\"failedSince\":0,\"name\":\"lockAndUnlockUser\",\"skipped\":false,\"skippedMessage\":null,\"status\":\"FAILED\",\"stderr\":null,\"stdout\":null}],\"duration\":85.029,\"id\":null,\"name\":\"com.infonova.jtf.ta.generic.kundenverwaltung.CustomerAndServiceLockUnlockTest\",\"stderr\":null,\"stdout\":null,\"timestamp\":null}]}");
 
-        expect(jenkinsAccess.getJsonNodeFromUrl(anyObject(String.class))).andReturn(jn);
-
-//        expect(jenkinsAccess.getJsonNodeFromUrl(anyObject(String.class))).andReturn(new ObjectMapper().readTree("{\"duration\":1058.291,\"empty\":false,\"failCount\":0,\"passCount\":31,\"skipCount\":1,\"suites\":[{\"cases\":[{\"age\":1,\"className\":\"com.infonova.jtf.ta.generic.kundenverwaltung.CustomerAndServiceLockUnlockTest\",\"duration\":54.998,\"errorDetails\":\"Test\",\"errorStackTrace\":\"TestStack\",\"failedSince\":0,\"name\":\"lockAndUnlockUser\",\"skipped\":false,\"skippedMessage\":null,\"status\":\"FAILED\",\"stderr\":null,\"stdout\":null}],\"duration\":85.029,\"id\":null,\"name\":\"com.infonova.jtf.ta.generic.kundenverwaltung.CustomerAndServiceLockUnlockTest\",\"stderr\":null,\"stdout\":null,\"timestamp\":null}]}"));
+        expect(jenkinsAccess.getJsonNodeFromUrl(anyObject(String.class))).andReturn(jn).anyTimes();
+        BufferedWriter bwr = new BufferedWriter(new FileWriter(new File("dataTest.html")));
+        htmlgen.staticPreCode(anyObject(BufferedWriter.class));
+        htmlgen.buildTable(anyObject(ArrayList.class), anyObject(BufferedWriter.class), anyObject(String.class), anyObject(ArrayList.class));
+        expectLastCall().anyTimes();
+        htmlgen.staticPostCode(anyObject(BufferedWriter.class),anyObject(ArrayList.class),anyObject(ArrayList.class),anyObject(String.class),anyObject(String.class));
 
         replayAll();
         dal.startBuildingReport();
         verifyAll();
     }
+
+
 
 }

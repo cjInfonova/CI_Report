@@ -1,4 +1,4 @@
-package com.infonoca.jenkins;
+package com.infonova.jenkins;
 
 
 import org.easymock.EasyMock;

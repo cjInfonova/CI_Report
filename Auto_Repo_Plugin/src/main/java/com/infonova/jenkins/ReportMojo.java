@@ -5,6 +5,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -33,7 +34,11 @@ public class ReportMojo extends AbstractMojo {
         JobBuilder jobBuilder = new JobBuilder(jenkinsAccess, JENKINS_URL+"/job/"+jobname+"/job/", dateformat);
         HTMLGenerator htmlgen = new HTMLGenerator();
         DataAccessLayer dal = new DataAccessLayer(jenkinsAccess, JENKINS_URL, jobname, dateformat, jobBuilder, htmlgen);
-        dal.startBuildingReport();
+        try {
+            dal.startBuildingReport();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
