@@ -1,7 +1,6 @@
 package com.infonova.jenkins;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.json.JSONException;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
@@ -39,9 +38,6 @@ public class FailureBuilder implements IUrlParameters {
                         failList.remove(f);
                     }
                 }
-            } catch (JSONException jsexe) {
-                log.info("The requested resource is not available. Jobname: " + fail);
-                jsexe.printStackTrace();
             } catch (IOException exe) {
                 log.info("An unexpected error has occurred");
                 exe.printStackTrace();

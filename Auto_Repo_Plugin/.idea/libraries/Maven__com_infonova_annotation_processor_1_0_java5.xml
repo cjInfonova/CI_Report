@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.infonova:annotation-processor:1.0.java5">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/infonova/annotation-processor/1.0.java5/annotation-processor-1.0.java5.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/infonova/annotation-processor/1.0.java5/annotation-processor-1.0.java5-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/infonova/annotation-processor/1.0.java5/annotation-processor-1.0.java5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

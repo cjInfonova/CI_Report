@@ -17,7 +17,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 
 /**
@@ -50,7 +49,7 @@ public class JenkinsAccess {
 
         if (response.getStatusLine().getStatusCode() >= 200 && response.getStatusLine().getStatusCode() < 300
             && response.getFirstHeader("Content-Type").getValue().contains("json")) {
-            return new ObjectMapper().readTree(response.getEntity().getContent());// response.getEntity().getContent();
+            return new ObjectMapper().readTree(response.getEntity().getContent());
         } else if (response.getStatusLine().getStatusCode() == 401) {
             throw new JenkinsException(response.getStatusLine().getStatusCode()
                 + ": Username and/or Password is incorrect!");
