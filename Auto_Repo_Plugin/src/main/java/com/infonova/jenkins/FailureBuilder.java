@@ -71,7 +71,7 @@ public class FailureBuilder implements IUrlParameters {
                     }
                 }
             }
-        } else {
+        } else if(jsNode.has("suites")){
             for (JsonNode node : jsNode.get("suites")) {
                 if (node.has("cases")) {
                     getStrArray(node.get("cases"), job);

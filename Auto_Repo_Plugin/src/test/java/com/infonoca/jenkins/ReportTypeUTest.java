@@ -1,9 +1,6 @@
 package com.infonoca.jenkins;
 
 
-import com.infonova.easymock.EasyMockRule;
-import com.infonova.easymock.annotation.Mock;
-import com.infonova.easymock.annotation.UnitToTest;
 import org.easymock.EasyMock;
 import org.junit.Rule;
 import org.junit.Test;

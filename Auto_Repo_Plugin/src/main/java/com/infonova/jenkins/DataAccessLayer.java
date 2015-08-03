@@ -1,12 +1,8 @@
 package com.infonova.jenkins;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 import java.io.*;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -25,11 +21,11 @@ public class DataAccessLayer implements IUrlParameters {
     private final static String sonar = "https://grzisesonar1.infonova.at/drilldown/issues/100648?period=2";
     private final static String codecove = "https://grzisesonar1.infonova.at/dashboard/index/100648?did=1&period=2";
     private JenkinsAccess jenkinsAccess;
-    private HTML_Generator htmlgen;
+    private HTMLGenerator htmlgen;
     private JobBuilder jobBuilder;
 
     public DataAccessLayer(JenkinsAccess jenAcc, String jenkinsUrl, String jobname, SimpleDateFormat sdf,
-            JobBuilder jobBuilder, HTML_Generator htmlgen) {
+            JobBuilder jobBuilder, HTMLGenerator htmlgen) {
         jenkinsAccess = jenAcc;
         standardUrl = jenkinsUrl + "/job/" + jobname + "/job/";
         dateformat = sdf;

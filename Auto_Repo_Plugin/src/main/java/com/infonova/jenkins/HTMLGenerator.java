@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by dominic.gross on 30.07.2015.
  */
-public class HTML_Generator {
+public class HTMLGenerator {
 
     private int starthoch = 0;
 
