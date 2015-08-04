@@ -66,7 +66,7 @@ public class JobBuilder implements IUrlParameters {
             return job;
         }
         job.setResult(jsNode.get("result").asText());
-        if (!job.getResult().equals("SUCCESS")) {
+        if (!job.getResultString().equals("SUCCESS")) {
             JsonNode node = jenkinsAccess.getJsonNodeFromUrl(lastStableUrl);
             job.setLastStableDate(dateFormat.format(getLastStableDateFromJsonNode(node)));
         } else {

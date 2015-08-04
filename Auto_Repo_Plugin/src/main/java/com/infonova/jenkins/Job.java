@@ -35,6 +35,10 @@ public class Job {
         this.result = result;
     }
 
+    public String getResultString() {
+        return result;
+    }
+
     public int getFailCount() {
         return failCount;
     }
