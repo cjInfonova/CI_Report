@@ -1,4 +1,4 @@
-package com.infonoca.jenkins;
+package com.infonova.jenkins;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.infonova.jenkins.*;
