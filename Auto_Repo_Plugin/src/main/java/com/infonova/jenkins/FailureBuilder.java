@@ -32,12 +32,6 @@ public class FailureBuilder implements IUrlParameters {
                 String url = standardUrl + fail + "/" + LAST_STATE + TEST_STATE + JSON_EXTENTION;
                 JsonNode jsNode = jenkinsAccess.getJsonNodeFromUrl(url);
                 getDataFromJsonFailures(jsNode, fail);
-
-                for (Failure f : failList) {
-                    if (f.getFailure().equals("NoFailure")) {
-                        failList.remove(f);
-                    }
-                }
             } catch (IOException exe) {
                 log.info("An unexpected error has occurred");
                 exe.printStackTrace();
