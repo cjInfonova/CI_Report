@@ -25,50 +25,52 @@ public class DataAccessLayer implements IUrlParameters {
     private JobBuilder jobBuilder;
 
     public DataAccessLayer(JenkinsAccess jenAcc, String jenkinsUrl, String jobname, SimpleDateFormat sdf,
-            JobBuilder jobBuilder, HTMLGenerator htmlgen) {
+                           JobBuilder jobBuilder, HTMLGenerator htmlgen,List<JenkinsSystem> jenkinsSystemList) {
         jenkinsAccess = jenAcc;
         standardUrl = jenkinsUrl + "/job/" + jobname + "/job/";
         dateformat = sdf;
         this.htmlgen = htmlgen;
         this.jobBuilder = jobBuilder;
+        this.jenkinsSystemList = jenkinsSystemList;
     }
 
     public void startBuildingReport() throws IOException {
-        setupJobList();
-        jobClassList = jobBuilder.prepareEverything(jobList);
-        if(jobClassList!=null){
-            failList = new FailureBuilder(jenkinsAccess, jobList, standardUrl).readErrors();
-            generateHTML();
+        //setupJobList();
+        for (JenkinsSystem js : jenkinsSystemList) {
+            js.setJobList(jobBuilder.prepareEverything(js.getJobNameList()));
         }
+        for (JenkinsSystem js : jenkinsSystemList) {
+            if (js.getJobList() != null) {
+                js.setFailList(new FailureBuilder(jenkinsAccess, js.getJobNameList(), standardUrl).readErrors());
+
+            }
+        }
+
+        generateHTML();
     }
 
     public void generateHTML() throws IOException {
         BufferedWriter bwr = null;
 
-            List<Job> uat4 = initList("UAT4");
-            List<Job> trunk = initList("trunk", "trunk12c");
-            List<Job> rc = initList("rc");
-            List<Job> bf = initList("bf");
-            List<Job> rc2 = initList("rc2");
 
-            File f = new File("data.html");
-            FileWriter fr = new FileWriter(f);
-            bwr = new BufferedWriter(fr);
+        File f = new File("data.html");
+        FileWriter fr = new FileWriter(f);
+        bwr = new BufferedWriter(fr);
 
-            htmlgen.staticPreCode(bwr);
-
-            htmlgen.buildTable(trunk, bwr, "TRUNK", failList);
-            htmlgen.buildTable(rc, bwr, "RC", failList);
-            htmlgen.buildTable(rc2, bwr, "RC2", failList);
-            htmlgen.buildTable(bf, bwr, "BF", failList);
-            htmlgen.buildTable(uat4, bwr, "UAT4", failList);
-
-            htmlgen.staticPostCode(bwr, jobClassList, failList, sonar, codecove);
-            bwr.close();
-
-
-
+        htmlgen.staticPreCode(bwr);
+        for(JenkinsSystem job:jenkinsSystemList) {
+            htmlgen.buildTable(job.getJobList(), bwr, job.getSystemName(), job.getFailList());
         }
+
+        htmlgen.staticPostCode(bwr, sonar, codecove);
+        for(JenkinsSystem job:jenkinsSystemList) {
+            htmlgen.buildFailureTable(job.getJobList(),bwr,job.getSystemName(),job.getFailList());
+        }
+        bwr.write("</html>");
+        bwr.close();
+
+
+    }
 
 
     private List<Job> initList(String... name) {

@@ -4,9 +4,7 @@ package com.infonova.jenkins;
  * Created by dominic.gross on 31.07.2015.
  */
 
-import com.infonova.jenkins.*;
 import org.easymock.EasyMockSupport;
-import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,8 +14,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-
-import static org.easymock.EasyMock.*;
 
 
 public class HTML_GeneratorUTest extends EasyMockSupport {
@@ -58,7 +54,7 @@ public class HTML_GeneratorUTest extends EasyMockSupport {
         BufferedWriter bwr = new BufferedWriter(new FileWriter(new File("test.html")));
 
         replayAll();
-        htmlgen.staticPostCode(bwr, jobList, failList, "link1", "link2");
+        htmlgen.staticPostCode(bwr, "link1", "link2");
         verifyAll();
     }
 }

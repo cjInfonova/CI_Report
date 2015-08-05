@@ -12,6 +12,7 @@ public class JenkinsSystem {
     private String[] colors;
     private List<String> jobNameList;
     private List<Job> jobList;
+    private List<Failure> failList;
 
     public JenkinsSystem(){}
 
@@ -60,5 +61,13 @@ public class JenkinsSystem {
 
     public void setJobList(List<Job> jobList) {
         this.jobList = jobList;
+    }
+
+    public void setFailList(List<Failure> failList) {
+        this.failList = failList;
+    }
+
+    public List<Failure> getFailList() {
+        return failList;
     }
 }

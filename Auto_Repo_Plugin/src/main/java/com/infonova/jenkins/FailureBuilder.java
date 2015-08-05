@@ -27,9 +27,11 @@ public class FailureBuilder implements IUrlParameters {
 
     public List<Failure> readErrors() {
         failList = new ArrayList<Failure>();
+
         for (String fail : jobList) {
             try {
                 String url = standardUrl + fail + "/" + LAST_STATE + TEST_STATE + JSON_EXTENTION;
+                System.out.println(fail);
                 JsonNode jsNode = jenkinsAccess.getJsonNodeFromUrl(url);
                 getDataFromJsonFailures(jsNode, fail);
             } catch (IOException exe) {

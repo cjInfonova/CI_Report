@@ -81,7 +81,7 @@
                                 <jobName>A1ON-jtf-db-guidelines-bf</jobName>
                                 <jobName>A1ON-jtf-regressiontests-bf</jobName>
                                 <jobName>A1ON-jtf-db-regressiontests-bf</jobName>
-                                <jobName>A1ON-jtf-smoketests-bf"</jobName>
+                                <jobName>A1ON-jtf-smoketests-bf</jobName>
                             </jobNameList>
                         </jenkinsSystem>
                         <jenkinsSystem implementation="com.infonova.jenkins.JenkinsSystem">

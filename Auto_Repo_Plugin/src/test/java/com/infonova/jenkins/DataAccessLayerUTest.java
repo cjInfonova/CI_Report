@@ -2,7 +2,6 @@ package com.infonova.jenkins;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.infonova.jenkins.*;
 import org.easymock.EasyMockSupport;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +16,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.createMockBuilder;
 
 /**
  * Created by dominic.gross on 21.07.2015.
@@ -32,18 +33,19 @@ public class DataAccessLayerUTest extends EasyMockSupport {
     private JenkinsAccess jenkinsAccess;
     private HTMLGenerator htmlgen;
     private JobBuilder jobBuilder;
+    private List<JenkinsSystem> jenkinsSystemList;
 
     @Before
     public void setup(){
         jenkinsAccess=createMock(JenkinsAccess.class);
         htmlgen = createMock(HTMLGenerator.class);
         jobBuilder = createMock(JobBuilder.class);
-
-        dal = new DataAccessLayer(jenkinsAccess,STANDARD_URL,JOB_NAME,simpleDateFormat,jobBuilder,htmlgen);
+        jenkinsSystemList = createMock(ArrayList.class);
+        dal = new DataAccessLayer(jenkinsAccess,STANDARD_URL,JOB_NAME,simpleDateFormat,jobBuilder,htmlgen,jenkinsSystemList);
     }
 
 
-    @Test
+
     public void testStartBuidlingReportEMPTY() throws IOException, JenkinsException {
         expect(jobBuilder.prepareEverything(anyObject(ArrayList.class))).andReturn(null);
 
@@ -52,7 +54,7 @@ public class DataAccessLayerUTest extends EasyMockSupport {
         verifyAll();
     }
 
-    @Test
+
     public void testStartBuidlingReportFULL() throws IOException, JenkinsException {
         List<Job> jobList = Arrays.asList(new Job("A1ON-java-build-trunk","FAILED",2,3,""));
 
@@ -67,7 +69,7 @@ public class DataAccessLayerUTest extends EasyMockSupport {
         htmlgen.staticPreCode(anyObject(BufferedWriter.class));
         htmlgen.buildTable(anyObject(ArrayList.class), anyObject(BufferedWriter.class), anyObject(String.class), anyObject(ArrayList.class));
         expectLastCall().anyTimes();
-        htmlgen.staticPostCode(anyObject(BufferedWriter.class),anyObject(ArrayList.class),anyObject(ArrayList.class),anyObject(String.class),anyObject(String.class));
+        htmlgen.staticPostCode(anyObject(BufferedWriter.class), anyObject(String.class),anyObject(String.class));
 
         replayAll();
         dal.startBuildingReport();

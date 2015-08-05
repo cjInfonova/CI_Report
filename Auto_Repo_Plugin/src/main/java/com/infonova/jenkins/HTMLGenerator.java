@@ -10,6 +10,7 @@ import java.util.List;
 public class HTMLGenerator {
 
     private int starthoch = 0;
+    private int failhoch =1;
 
     public void staticPreCode(BufferedWriter bwr) throws IOException {
         bwr.write("<!DOCTYPE html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"></head>");
@@ -18,9 +19,9 @@ public class HTMLGenerator {
             + ".tg  {width:100%;border-collapse:collapse;border-spacing:0;border-color:#ccc;}\n"
             + ".tg td{font-weight:bold;font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}\n"
             + ".tg th{font-family:Arial, sans-serif;font-size:18px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal}\n"
-            + ".tg .tg-TRUNKh{font-weight:bold;font-size:36px;background-color:#4875cc;text-align:center}\n"
-            + ".tg .tg-TRUNKth{background-color:#bfd2f7;font-size:18px;border-color:#aabcfe}\n"
-            + ".tg .tg-TRUNKtd{border-color:#aabcfe;background-color:#e8edff;}\n" +
+            + ".tg .tg-Trunkh{font-weight:bold;font-size:36px;background-color:#4875cc;text-align:center}\n"
+            + ".tg .tg-Trunkth{background-color:#bfd2f7;font-size:18px;border-color:#aabcfe}\n"
+            + ".tg .tg-Trunktd{border-color:#aabcfe;background-color:#e8edff;}\n" +
 
             ".tg .tg-RCh{font-weight:bold;font-size:36px;background-color:#f56b00}\n"
             + ".tg .tg-RCth{background-color:#FCFBE3;font-size:18px;border-color:#ccc}\n"
@@ -80,16 +81,20 @@ public class HTMLGenerator {
         bwr.newLine();
     }
 
-    public void staticPostCode(BufferedWriter bwr, List<Job> jobClassList, List<Failure> failList, String sonar,
-            String codecove) throws IOException {
+    public void staticPostCode(BufferedWriter bwr, String sonar,
+                               String codecove) throws IOException {
         bwr.write("<p style=font-size:20px><b>Sonar (Trunk) - <a href=" + sonar + "><u>Link</u></a></b></p>");
         bwr.newLine();
         bwr.write("<p style=font-size:20px><b>Code Coverage - <a href=" + codecove + ">Link</a></b></p>");
         bwr.newLine();
-        int i = 1;
+
+    }
+
+    public void buildFailureTable(List<Job> jobList, BufferedWriter bwr, String systemName, List<Failure> failList) throws IOException {
+
         boolean bool = false;
 
-        for (Job j : jobClassList) {
+        for (Job j : jobList) {
             String before = "";
             for (Failure f : failList) {
                 int custlength = 160;
@@ -99,7 +104,7 @@ public class HTMLGenerator {
                     }
                     if (bool && !f.getFailure().equals("NoFailure") && f.getJobName().equals(j.getJobName())) {
                         bwr.write("<tr style=font-size:16px ><td></td><td>" + f.getClassname() + "</b></td><td>"
-                            + f.getFailure().substring(0, custlength) + "</td><td>" + f.getAge() + "</td></tr>");
+                                + f.getFailure().substring(0, custlength) + "</td><td>" + f.getAge() + "</td></tr>");
                         bwr.newLine();
                     }
                 } else {
@@ -114,9 +119,9 @@ public class HTMLGenerator {
                         custlength = f.getFailure().length();
                     }
                     if (f.getJobName().equals(j.getJobName()) && !f.getFailure().equals("NoFailure")) {
-                        bwr.write("<tr style=font-size:16px><td><b>" + i + "</td><td>" + f.getClassname()
-                            + " </b></td><td> " + f.getFailure().substring(0, custlength) + "</td><td>" + f.getAge()
-                            + "</td></tr>");
+                        bwr.write("<tr style=font-size:16px><td><b>" + failhoch + "</td><td>" + f.getClassname()
+                                + " </b></td><td> " + f.getFailure().substring(0, custlength) + "</td><td>" + f.getAge()
+                                + "</td></tr>");
                         bwr.newLine();
                         bool = true;
                     }
@@ -124,13 +129,13 @@ public class HTMLGenerator {
             }
             bwr.newLine();
             if (bool) {
-                i++;
+                failhoch++;
                 bwr.write("</table>");
                 bwr.newLine();
             }
             bool = false;
             bwr.newLine();
         }
-        bwr.write("</html>");
+
     }
 }
