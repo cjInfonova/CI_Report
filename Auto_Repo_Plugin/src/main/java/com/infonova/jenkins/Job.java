@@ -73,6 +73,6 @@ public class Job {
         return String.format(
             "%s",
             result.equals("SUCCESS") ? "OK" : result.equals("FAILURE") || result.equals("ABORTED")
-                || result.equals("RUNNING") ? result : failCount + " NOK");
+                || result.equals("RUNNING") || result.equals("NOT_BUILT") ? result : failCount + " NOK");
     }
 }

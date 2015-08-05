@@ -1,6 +1,5 @@
 package com.infonova.jenkins;
 
-import netscape.javascript.JSException;
 import org.easymock.EasyMockSupport;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -80,12 +79,13 @@ public class JobBuilderUTest extends EasyMockSupport {
     }
 
     @Test
-    public void prepareEverythingWithWrongSource() throws IOException, JenkinsException {
+    public void prepareEverythingWithWrongSource() {
         Job job = new Job("MyTestJob", "SUCCESS", 0, 10, "-");
-        createJsonNode(true, null);
-
-        expect(jenkinsAccess.getJsonNodeFromUrl(anyObject(String.class))).andThrow(new JenkinsException("Source not found"));
-
+        try {
+            createJsonNode(true, null);
+            expect(jenkinsAccess.getJsonNodeFromUrl(anyObject(String.class))).andThrow(new JenkinsException("Source not found"));
+        }catch (IOException iex){}
+        catch (JenkinsException jex){}
         replayAll();
         jobBuilder.prepareEverything(jobList);
         verifyAll();
@@ -98,25 +98,25 @@ public class JobBuilderUTest extends EasyMockSupport {
 
         expect(jenkinsAccess.getJsonNodeFromUrl(anyObject(String.class))).andThrow(new JenkinsException("Another Error has occurred"));
 
-
         replayAll();
         jobBuilder.prepareEverything(jobList);
         verifyAll();
     }
 
     @Test
-    public void prepareEverythingWithIOException() throws IOException, JenkinsException {
+    public void prepareEverythingWithIOException() {
         Job job = new Job("MyTestJob", "SUCCESS", 0, 10, "-");
-        createJsonNode(true, null);
-
-        expect(jenkinsAccess.getJsonNodeFromUrl(anyObject(String.class))).andThrow(new IOException());
-
+        try {
+            createJsonNode(true, null);
+            expect(jenkinsAccess.getJsonNodeFromUrl(anyObject(String.class))).andThrow(new IOException());
+        }catch (IOException iex){}
+        catch (JenkinsException jex){}
         replayAll();
         jobBuilder.prepareEverything(jobList);
         verifyAll();
     }
 
-    private void createJsonNode(boolean building, String result) throws IOException, JSException{
+    private void createJsonNode(boolean building, String result) throws IOException{
         jsNode = new ObjectMapper().readTree("{\"actions\":[{\"causes\":[{\"shortDescription\":\"Build wurde durch eine SCM-Änderung ausgelöst.\"}]},{},{\"failCount\":0,\"skipCount\":7,\"totalCount\":2633,\"urlName\":\"testReport\"}],\"building\":"+building+",\"description\":null,\"fullDisplayName\":\"A1OpenNet » A1ON-java-build-trunk #5710\",\"id\":\"2015-08-03_16-12-39\",\"result\":"+result+",\"timestamp\":1438611159844}");
     }
 }

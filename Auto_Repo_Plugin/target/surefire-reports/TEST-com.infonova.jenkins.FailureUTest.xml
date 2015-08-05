@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite failures="1" time="0.709" errors="0" skipped="0" tests="1" name="com.infonoca.jenkins.JenkinsAccessUTest">
+<testsuite failures="0" time="0" errors="0" skipped="0" tests="2" name="com.infonova.jenkins.FailureUTest">
   <properties>
     <property name="idea.version" value="14.1.4"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
@@ -62,30 +62,6 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase time="0.709" classname="com.infonoca.jenkins.JenkinsAccessUTest" name="getJsonNodeFromUrlWithInvalidCredentials">
-    <failure message="Expected exception: com.infonova.jenkins.JenkinsException" type="java.lang.AssertionError">java.lang.AssertionError: Expected exception: com.infonova.jenkins.JenkinsException
-	at org.junit.internal.runners.statements.ExpectException.evaluate(ExpectException.java:32)
-	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:271)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:70)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50)
-	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)
-	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)
-	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)
-	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)
-	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)
-	at org.junit.runners.ParentRunner.run(ParentRunner.java:309)
-	at org.apache.maven.surefire.junit4.JUnit4TestSet.execute(JUnit4TestSet.java:53)
-	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:123)
-	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:104)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
-	at java.lang.reflect.Method.invoke(Method.java:597)
-	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:164)
-	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:110)
-	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:175)
-	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcessWhenForked(SurefireStarter.java:107)
-	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:68)
-</failure>
-  </testcase>
+  <testcase time="0" classname="com.infonova.jenkins.FailureUTest" name="testAllGet"/>
+  <testcase time="0" classname="com.infonova.jenkins.FailureUTest" name="testEquals"/>
 </testsuite>
