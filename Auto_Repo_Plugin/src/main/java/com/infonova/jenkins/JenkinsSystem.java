@@ -9,14 +9,14 @@ import java.util.List;
 public class JenkinsSystem {
 
     private String systemName;
-    private String[] colors;
+    private String colors;
     private List<String> jobNameList;
     private List<Job> jobList;
     private List<Failure> failList;
 
     public JenkinsSystem(){}
 
-    public JenkinsSystem(String name, String[] cols, List<String> jobs) {
+    public JenkinsSystem(String name, String cols, List<String> jobs) {
         systemName = name;
         colors = cols;
         jobNameList = jobs;
@@ -39,11 +39,11 @@ public class JenkinsSystem {
         this.systemName = systemName;
     }
 
-    public String[] getColors() {
+    public String getColors() {
         return colors;
     }
 
-    public void setColors(String[] colors) {
+    public void setColors(String colors) {
         this.colors = colors;
     }
 

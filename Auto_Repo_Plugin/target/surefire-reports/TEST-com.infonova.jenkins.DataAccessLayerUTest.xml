@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite failures="0" time="0.007" errors="0" skipped="0" tests="1" name="com.infonova.jenkins.FailureBuilderUTest">
+<testsuite failures="0" time="0.574" errors="0" skipped="0" tests="2" name="com.infonova.jenkins.DataAccessLayerUTest">
   <properties>
     <property name="idea.version" value="14.1.4"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
@@ -62,5 +62,6 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase time="0.005" classname="com.infonova.jenkins.FailureBuilderUTest" name="testFailureBuilder"/>
+  <testcase time="0.501" classname="com.infonova.jenkins.DataAccessLayerUTest" name="testStartBuidlingReportFULL"/>
+  <testcase time="0" classname="com.infonova.jenkins.DataAccessLayerUTest" name="testStartBuidlingReportEMPTY"/>
 </testsuite>

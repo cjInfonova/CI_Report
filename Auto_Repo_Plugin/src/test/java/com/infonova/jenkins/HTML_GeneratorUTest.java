@@ -43,7 +43,7 @@ public class HTML_GeneratorUTest extends EasyMockSupport {
         BufferedWriter bwr = new BufferedWriter(new FileWriter(new File("test.html")));
 
         replayAll();
-        htmlgen.buildTable(jobList, bwr, "Tab1", failList);
+        htmlgen.buildTable(jobList, bwr, "Tab1", failList, "#ffffff");
         verifyAll();
 
     }

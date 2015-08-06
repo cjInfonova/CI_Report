@@ -25,11 +25,7 @@
                     <jenkinsSystemList>
                         <jenkinsSystem>
                             <systemName>Trunk</systemName>
-                            <colors>
-                                <option>#3fe694</option>
-                                <option>#78edb4</option>
-                                <option>#b2f5d4</option>
-                            </colors>
+                            <color>#4875cc</color>
                             <jobNameList>
                                 <jobName>A1ON-java-build-trunk</jobName>
                                 <jobName>A1ON-jtf-livetests-trunk12c</jobName>
@@ -42,11 +38,7 @@
                         </jenkinsSystem>
                         <jenkinsSystem implementation="com.infonova.jenkins.JenkinsSystem">
                             <systemName>RC2</systemName>
-                            <colors>
-                                <color>#338fff</color>
-                                <color>#70b0ff</color>
-                                <color>#add2ff</color>
-                            </colors>
+                            <color>#674421</color>
                             <jobNameList>
                                 <jobName>A1ON-java-build-rc2</jobName>
                                 <jobName>A1ON-jtf-db-guidelines-rc2</jobName>
@@ -58,11 +50,7 @@
                         </jenkinsSystem>
                         <jenkinsSystem implementation="com.infonova.jenkins.JenkinsSystem">
                             <systemName>RC</systemName>
-                            <colors>
-                                <color>#338fff</color>
-                                <color>#70b0ff</color>
-                                <color>#add2ff</color>
-                            </colors>
+                            <color>#f56b00</color>
                             <jobNameList>
                                 <jobName>A1ON-java-build-rc</jobName>
                                 <jobName>A1ON-jtf-db-guidelines-rc</jobName>
@@ -72,11 +60,7 @@
                         </jenkinsSystem>
                         <jenkinsSystem implementation="com.infonova.jenkins.JenkinsSystem">
                             <systemName>BF</systemName>
-                            <colors>
-                                <color>#338fff</color>
-                                <color>#70b0ff</color>
-                                <color>#add2ff</color>
-                            </colors>
+                            <color>#0aba0b</color>
                             <jobNameList>
                                 <jobName>A1ON-java-build-bf</jobName>
                                 <jobName>A1ON-jtf-db-guidelines-bf</jobName>
@@ -87,11 +71,7 @@
                         </jenkinsSystem>
                         <jenkinsSystem implementation="com.infonova.jenkins.JenkinsSystem">
                             <systemName>UAT4</systemName>
-                            <colors>
-                                <color>#338fff</color>
-                                <color>#70b0ff</color>
-                                <color>#add2ff</color>
-                            </colors>
+                            <color>#c0c0c0</color>
                             <jobNameList>
                                 <jobName>A1ON-jtf-db-infrastructure-UAT4</jobName>
                                 <jobName>A1ON-jtf-db-regressiontests-UAT4</jobName>

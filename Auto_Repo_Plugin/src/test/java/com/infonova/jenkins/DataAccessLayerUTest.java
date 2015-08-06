@@ -14,7 +14,6 @@ import java.util.List;
 
 import static org.easymock.EasyMock.*;
 import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.createMockBuilder;
 
 /**
  * Created by dominic.gross on 21.07.2015.
@@ -44,7 +43,7 @@ public class DataAccessLayerUTest extends EasyMockSupport {
     }
 
     private void createJenkinsSysList() {
-        String[] colors = new String[] { "123", "234", "234" };
+        String colors ="#ffffff";
         List<String> jobStrings = new ArrayList<String>();
         jobStrings.add("TestJob1");
         jobStrings.add("TestJob2");
@@ -62,13 +61,13 @@ public class DataAccessLayerUTest extends EasyMockSupport {
 
         htmlgen.staticPreCode(anyObject(BufferedWriter.class));
         htmlgen.buildTable(anyObject(ArrayList.class), anyObject(BufferedWriter.class), anyObject(String.class),
-            anyObject(ArrayList.class));
+            anyObject(ArrayList.class), anyObject(String.class));
         expectLastCall().anyTimes();
         htmlgen.staticPostCode(anyObject(BufferedWriter.class), anyObject(String.class), anyObject(String.class));
 
         for (JenkinsSystem js : jenkinsSystemList) {
             htmlgen.buildFailureTable(anyObject(ArrayList.class), anyObject(BufferedWriter.class),
-                anyObject(String.class), anyObject(ArrayList.class));
+                anyObject(String.class), anyObject(ArrayList.class), anyObject(String.class));
         }
 
         replayAll();
@@ -93,13 +92,13 @@ public class DataAccessLayerUTest extends EasyMockSupport {
         BufferedWriter bwr = new BufferedWriter(new FileWriter(new File("dataTest.html")));
         htmlgen.staticPreCode(anyObject(BufferedWriter.class));
         htmlgen.buildTable(anyObject(ArrayList.class), anyObject(BufferedWriter.class), anyObject(String.class),
-            anyObject(ArrayList.class));
+            anyObject(ArrayList.class), anyObject(String.class));
         expectLastCall().anyTimes();
         htmlgen.staticPostCode(anyObject(BufferedWriter.class), anyObject(String.class), anyObject(String.class));
 
         for (JenkinsSystem js : jenkinsSystemList) {
             htmlgen.buildFailureTable(anyObject(ArrayList.class), anyObject(BufferedWriter.class),
-                anyObject(String.class), anyObject(ArrayList.class));
+                anyObject(String.class), anyObject(ArrayList.class), anyObject(String.class));
         }
 
         replayAll();
