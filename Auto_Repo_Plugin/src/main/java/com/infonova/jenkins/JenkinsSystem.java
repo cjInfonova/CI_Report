@@ -16,10 +16,10 @@ public class JenkinsSystem {
 
     public JenkinsSystem(){}
 
-    public JenkinsSystem(String name, String[] cols, List<Job> jobs) {
+    public JenkinsSystem(String name, String[] cols, List<String> jobs) {
         systemName = name;
         colors = cols;
-        jobList = jobs;
+        jobNameList = jobs;
     }
 
     @Override
