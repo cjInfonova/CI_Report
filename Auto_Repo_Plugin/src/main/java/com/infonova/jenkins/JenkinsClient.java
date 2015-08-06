@@ -1,7 +1,8 @@
 package com.infonova.jenkins;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.net.URI;
+
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
@@ -16,19 +17,22 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
-import java.io.IOException;
-import java.net.URI;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Created by christian.jahrbacher on 28.07.2015.
  */
-public class JenkinsAccess {
+public class JenkinsClient {
+    //TODO: JenkinsClient ist ein schlechter name für einen solche klasse: Mein Vorschläge JenkinsClient oder nur Jenkins
 
     private HttpHost host;
     private AuthCache authCache;
     private CloseableHttpClient httpClient;
+    private String connectionUrl;
 
-    public JenkinsAccess(String url, String user, String password) {
+    public JenkinsClient(String url, String user, String password, String connectionUrl) {
+        this.connectionUrl = connectionUrl;
         URI uri = URI.create(url);
         CredentialsProvider credsProvider = new BasicCredentialsProvider();
         credsProvider.setCredentials(new AuthScope(uri.getHost(), uri.getPort()), new UsernamePasswordCredentials(user,
@@ -39,6 +43,18 @@ public class JenkinsAccess {
         authCache.put(host, basicAuth);
         httpClient = HttpClients.custom().setDefaultCredentialsProvider(credsProvider).build();
     }
+
+    /*
+    Besser wäre es hier die Konvertierung von Externer und Interner Datensturktur in nur einer
+    klasse zu mappen.
+
+    mein Vorschlag:
+    TODO:
+
+    public Job getJobStatus(String jobname)....
+
+    public List<Failure> getJobFailures(String jobname) ....
+     */
 
     public JsonNode getJsonNodeFromUrl(String urlString) throws IOException, JenkinsException {
         URI uri = URI.create(urlString);
@@ -59,5 +75,9 @@ public class JenkinsAccess {
             throw new JenkinsException(response.getStatusLine().getStatusCode() + ": "
                 + response.getStatusLine().getReasonPhrase());
         }
+    }
+
+    public String getConnectionUrl() {
+        return connectionUrl;
     }
 }

@@ -1,7 +1,5 @@
 package com.infonova.jenkins;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,19 +8,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 /**
  * Created by christian.jahrbacher on 30.07.2015.
  */
-public class JobBuilder implements IUrlParameters {
+public class JobBuilder implements UrlParameter {
 
-    private JenkinsAccess jenkinsAccess;
-    private String standardUrl;
+    private JenkinsClient jenkinsClient;
     private SimpleDateFormat dateFormat;
     private Logger log = Logger.getLogger("MyLogger");
 
-    public JobBuilder(JenkinsAccess jenAccess, String standardUrl, SimpleDateFormat sdf) {
-        this.jenkinsAccess = jenAccess;
-        this.standardUrl = standardUrl;
+    public JobBuilder(JenkinsClient jenAccess, SimpleDateFormat sdf) {
+        this.jenkinsClient = jenAccess;
         this.dateFormat = sdf;
     }
 
@@ -31,8 +29,8 @@ public class JobBuilder implements IUrlParameters {
         try {
             for (String jobString : jobList) {
                 try {
-                    String url = standardUrl + jobString;
-                    JsonNode jsNode = jenkinsAccess.getJsonNodeFromUrl(url + LAST_STATE + JSON_EXTENTION);
+                    String url = jenkinsClient.getConnectionUrl() + jobString;
+                    JsonNode jsNode = jenkinsClient.getJsonNodeFromUrl(url + LAST_STATE + JSON_EXTENTION);
                     Job job = convertJsonNodeIntoJob(jsNode, url+STABLE_STATE+JSON_EXTENTION);
                     job.setJobName(jobString);
                     jobClassList.add(job);
@@ -67,7 +65,7 @@ public class JobBuilder implements IUrlParameters {
         }
         job.setResult(jsNode.get("result").asText());
         if (!job.getResultString().equals("SUCCESS")) {
-            JsonNode node = jenkinsAccess.getJsonNodeFromUrl(lastStableUrl);
+            JsonNode node = jenkinsClient.getJsonNodeFromUrl(lastStableUrl);
             job.setLastStableDate(dateFormat.format(getLastStableDateFromJsonNode(node)));
         } else {
             job.setLastStableDate(dateFormat.format(getLastStableDateFromJsonNode(jsNode)));

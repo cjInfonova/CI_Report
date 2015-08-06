@@ -1,6 +1,5 @@
 package com.infonova.jenkins;
 
-import java.awt.*;
 import java.util.List;
 
 /**

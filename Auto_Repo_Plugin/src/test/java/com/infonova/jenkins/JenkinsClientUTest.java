@@ -1,37 +1,38 @@
 package com.infonova.jenkins;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.infonova.jenkins.*;
+import static org.easymock.EasyMock.expect;
+
+import java.io.IOException;
+import java.net.URI;
+
+import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.AuthCache;
+import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.BasicAuthCache;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicHeader;
 import org.easymock.EasyMockSupport;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.apache.http.HttpHost;
-import org.apache.http.client.AuthCache;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.CloseableHttpClient;
-
-import java.io.IOException;
-import java.net.URI;
-
-import static org.easymock.EasyMock.expect;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.infonova.jenkins.JenkinsClient;
+import com.infonova.jenkins.JenkinsException;
 
 /**
  * Created by christian.jahrbacher on 03.08.2015.
  */
-public class JenkinsAccessUTest extends EasyMockSupport {
+public class JenkinsClientUTest extends EasyMockSupport {
 
-    private JenkinsAccess jenkinsAccess;
+    private JenkinsClient jenkinsClient;
 
     private HttpHost host;
     private AuthCache authCache;
@@ -55,9 +56,9 @@ public class JenkinsAccessUTest extends EasyMockSupport {
 
     @Test(expected = IllegalStateException.class)
     public void getJsonNodeFromUrlWithInvalidCredentials() {
-        jenkinsAccess = new JenkinsAccess(JENKINS_URL, username, "wrong password");
+        jenkinsClient = new JenkinsClient(JENKINS_URL, username, "wrong password", JENKINS_URL+"/job/A1OpenNet/job/");
         try {
-            jenkinsAccess.getJsonNodeFromUrl(JENKINS_URL
+            jenkinsClient.getJsonNodeFromUrl(JENKINS_URL
                 + "/job/A1OpenNet/job/A1ON-java-build-trunk/lastBuild/api/json");
         } catch (IOException e) {
             e.printStackTrace();
@@ -85,9 +86,9 @@ public class JenkinsAccessUTest extends EasyMockSupport {
 
     @Test(expected = IllegalStateException.class)
     public void getJsonNodeFromUrlWithInvalidUrl() {
-        jenkinsAccess = new JenkinsAccess(JENKINS_URL, username, password);
+        jenkinsClient = new JenkinsClient(JENKINS_URL, username, password, JENKINS_URL+"/job/A1OpenNet/job/");
         try {
-            jenkinsAccess.getJsonNodeFromUrl(JENKINS_URL + "/job/A1OpenNet/job/InvalidProject/lastBuild/api/json");
+            jenkinsClient.getJsonNodeFromUrl(JENKINS_URL + "/job/A1OpenNet/job/InvalidProject/lastBuild/api/json");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JenkinsException e) {
@@ -112,9 +113,9 @@ public class JenkinsAccessUTest extends EasyMockSupport {
 
     @Test(expected = IllegalStateException.class)
     public void getJsonNodeFromUrlWithValidSettings() {
-        jenkinsAccess = new JenkinsAccess(JENKINS_URL, username, password);
+        jenkinsClient = new JenkinsClient(JENKINS_URL, username, password, JENKINS_URL+"/job/A1OpenNet/job/");
         try {
-            jenkinsAccess.getJsonNodeFromUrl(JENKINS_URL + "/job/A1OpenNet/job/A1ON-java-build-trunk/lastBuild/api/json");
+            jenkinsClient.getJsonNodeFromUrl(JENKINS_URL + "/job/A1OpenNet/job/A1ON-java-build-trunk/lastBuild/api/json");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JenkinsException e) {

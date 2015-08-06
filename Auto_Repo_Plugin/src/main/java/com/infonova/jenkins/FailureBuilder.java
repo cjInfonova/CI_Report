@@ -1,28 +1,27 @@
 package com.infonova.jenkins;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
-import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.xml.bind.DatatypeConverter;
+
+import com.fasterxml.jackson.databind.JsonNode;
+
 /**
  * Created by christian.jahrbacher on 30.07.2015.
  */
-public class FailureBuilder implements IUrlParameters {
+public class FailureBuilder implements UrlParameter {
 
-    private JenkinsAccess jenkinsAccess;
-    private String standardUrl;
+    private JenkinsClient jenkinsClient;
     private List<String> jobList;
     private List<Failure> failList;
-    private Logger log = Logger.getLogger("MyLogger");
+    private Logger log = Logger.getLogger(FailureBuilder.class.getName());
 
-    public FailureBuilder(JenkinsAccess jenAccess, List<String> jobList, String standardUrl) {
-        this.jenkinsAccess = jenAccess;
+    public FailureBuilder(JenkinsClient jenAccess, List<String> jobList) {
+        this.jenkinsClient = jenAccess;
         this.jobList = jobList;
-        this.standardUrl = standardUrl;
     }
 
     public List<Failure> readErrors() {
@@ -30,8 +29,8 @@ public class FailureBuilder implements IUrlParameters {
 
         for (String fail : jobList) {
             try {
-                String url = standardUrl + fail + "/" + LAST_STATE + TEST_STATE + JSON_EXTENTION;
-                JsonNode jsNode = jenkinsAccess.getJsonNodeFromUrl(url);
+                String url = jenkinsClient.getConnectionUrl() + fail + "/" + LAST_STATE + TEST_STATE + JSON_EXTENTION;
+                JsonNode jsNode = jenkinsClient.getJsonNodeFromUrl(url);
                 getDataFromJsonFailures(jsNode, fail);
             } catch (IOException exe) {
                 log.info("An unexpected error has occurred");
@@ -50,9 +49,9 @@ public class FailureBuilder implements IUrlParameters {
                 if (node.has("child")) {
                     url = node.get("child").get("url").asText();
                     String[] urlParts = url.split("/");
-                    url = standardUrl + urlParts[urlParts.length - 3] + "/" + urlParts[urlParts.length - 2]
+                    url = jenkinsClient.getConnectionUrl() + urlParts[urlParts.length - 3] + "/" + urlParts[urlParts.length - 2]
                         + LAST_STATE + TEST_STATE + JSON_EXTENTION;
-                    JsonNode jn = jenkinsAccess.getJsonNodeFromUrl(url);
+                    JsonNode jn = jenkinsClient.getJsonNodeFromUrl(url);
                     if (jn.has("suites")) {
                         for (JsonNode jsn : jn.get("suites")) {
                             if (jsn.has("cases")) {

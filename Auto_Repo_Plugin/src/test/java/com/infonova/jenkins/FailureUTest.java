@@ -4,14 +4,10 @@ package com.infonova.jenkins;
  * Created by dominic.gross on 03.08.2015.
  */
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.infonova.jenkins.*;
 import org.easymock.EasyMockSupport;
-import org.junit.Before;
 import org.junit.Test;
 
-import static org.easymock.EasyMock.*;
+import com.infonova.jenkins.Failure;
 
 
 public class FailureUTest extends EasyMockSupport {

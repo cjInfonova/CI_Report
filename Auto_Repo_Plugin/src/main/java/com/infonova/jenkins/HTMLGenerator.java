@@ -2,18 +2,28 @@ package com.infonova.jenkins;
 
 import java.awt.*;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 /**
  * Created by dominic.gross on 30.07.2015.
  */
-public class HTMLGenerator {
+public class HTMLGenerator implements OutputGenerator{
 
     private int starthoch = 0;
     private int failhoch =1;
 
+    //TODO: Information Hiding
+    @Override
+    public void write(File file, List<JenkinsSystem> jenkinsSystems) throws IOException {
+
+    }
+
+
     public void staticPreCode(BufferedWriter bwr) throws IOException {
+
+
         bwr.write("<!DOCTYPE html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"></head>");
         bwr.newLine();
         bwr.write("<style type=\"text/css\">\n"
@@ -27,11 +37,29 @@ public class HTMLGenerator {
         bwr.newLine();
     }
 
-    public void buildTable(List<Job> list, BufferedWriter bwr, String name, List<Failure> failList, String color)
+    public void buildTable(List<Job> list, BufferedWriter bwr, String name, List<Failure> failList, String colname)
             throws IOException {
-        bwr.write("<table class=tg><tr><th class=tgheader style=background-color:rgba("+ Color.decode(color).getRed()+","+Color.decode(color).getGreen()+","+Color.decode(color).getBlue()+",1) colspan=3>" + name + "</th></tr>");
+
+        Color color = Color.decode(colname);
+
+        Color c1 = new Color(color.getRed(),color.getGreen(),color.getBlue(),65);
+        Color c2 = new Color(color.getRed(),color.getGreen(),color.getBlue(),25);
+        float c1a = c1.getAlpha();
+        float c2a = c2.getAlpha();
+        System.out.println(c1a);
+        int red= (int)((1-(c1a/255))*255)+(int)(c1a/255*c1.getRed());
+        int green= (int)((1-(c1a/255))*255)+(int)(c1a/255*c1.getGreen());
+        int blue= (int)((1-(c1a/255))*255)+(int)(c1a/255*c1.getBlue());
+        System.out.println(red+" "+green+"  "+blue);
+        int red2= (int)((1-(c2a/255))*255)+(int)(c2a/255*c2.getRed());
+        int green2= (int)((1-(c2a/255))*255)+(int)(c2a/255*c2.getGreen());
+        int blue2= (int)((1-(c2a/255))*255)+(int)(c2a/255*c2.getBlue());
+
+
+
+        bwr.write("<table class=tg><tr><th class=tgheader style=background-color:rgb("+ color.getRed()+","+color.getGreen()+","+color.getBlue()+") colspan=3>" + name + "</th></tr>");
         bwr.newLine();
-        bwr.write("<tr style=background-color:rgba("+ Color.decode(color).getRed()+","+Color.decode(color).getGreen()+","+Color.decode(color).getBlue()+",0.25)><td class=tg>Step</td><td class=tg>Ergebnis</td><td class=tg>Zuletzt gr&uuml;n</td></tr>");
+        bwr.write("<tr style=background-color:rgb("+ red+","+green+","+blue+")><td class=tg>Step</td><td class=tg>Ergebnis</td><td class=tg>Zuletzt gr&uuml;n</td></tr>");
         bwr.newLine();
 
         String hilf = name;
@@ -50,7 +78,7 @@ public class HTMLGenerator {
             } else {
                 name = "fail";
             }
-            bwr.write("<tr style=background-color:rgba("+ Color.decode(color).getRed()+","+Color.decode(color).getGreen()+","+Color.decode(color).getBlue()+",0.1)><td class=tg><a href=https://ci.infonova.at/job/A1OpenNet/job/"
+            bwr.write("<tr style=background-color:rgb("+red2+","+green2+","+blue2+")><td class=tg><a href=https://ci.infonova.at/job/A1OpenNet/job/"
                     + r.getJobName() + ">" + r.getJobName() + "</a></td></a><td class=tg>" + r.getResult()
                     + "<sup>" + hoch + "</sup>" + "</td><td class=tg>" + r.getLastStableDate()
                     + "</td></tr>");
@@ -119,4 +147,5 @@ public class HTMLGenerator {
         }
 
     }
+
 }

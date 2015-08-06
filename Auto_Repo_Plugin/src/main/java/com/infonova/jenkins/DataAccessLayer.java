@@ -1,6 +1,9 @@
 package com.infonova.jenkins;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,25 +12,26 @@ import java.util.logging.Logger;
 /**
  * Created by christian.jahrbacher on 15.07.2015.
  */
-public class DataAccessLayer implements IUrlParameters {
+public class DataAccessLayer implements UrlParameter {
+
+    private static Logger log = Logger.getLogger(DataAccessLayer.class.getName());
+    // TODO: Remove this in next US
+    private final static String sonar = "https://grzisesonar1.infonova.at/drilldown/issues/100648?period=2";
+    private final static String codecove = "https://grzisesonar1.infonova.at/dashboard/index/100648?did=1&period=2";
 
     private List<JenkinsSystem> jenkinsSystemList;
     private SimpleDateFormat dateformat;
-    private String standardUrl;
     private List<String> jobList;
     private List<Job> jobClassList;
     private List<Failure> failList;
-    private static Logger log = Logger.getLogger("MyLogger");
-    private final static String sonar = "https://grzisesonar1.infonova.at/drilldown/issues/100648?period=2";
-    private final static String codecove = "https://grzisesonar1.infonova.at/dashboard/index/100648?did=1&period=2";
-    private JenkinsAccess jenkinsAccess;
+    private JenkinsClient jenkinsClient;
     private HTMLGenerator htmlgen;
     private JobBuilder jobBuilder;
 
-    public DataAccessLayer(JenkinsAccess jenAcc, String jenkinsUrl, String jobname, SimpleDateFormat sdf,
-                           JobBuilder jobBuilder, HTMLGenerator htmlgen,List<JenkinsSystem> jenkinsSystemList) {
-        jenkinsAccess = jenAcc;
-        standardUrl = jenkinsUrl + "/job/" + jobname + "/job/";
+    public DataAccessLayer(JenkinsClient jenAcc, SimpleDateFormat sdf, JobBuilder jobBuilder, HTMLGenerator htmlgen,
+            List<JenkinsSystem> jenkinsSystemList) {
+
+        jenkinsClient = jenAcc;
         dateformat = sdf;
         this.htmlgen = htmlgen;
         this.jobBuilder = jobBuilder;
@@ -35,13 +39,12 @@ public class DataAccessLayer implements IUrlParameters {
     }
 
     public void startBuildingReport() throws IOException {
-        //setupJobList();
         for (JenkinsSystem js : jenkinsSystemList) {
             js.setJobList(jobBuilder.prepareEverything(js.getJobNameList()));
         }
         for (JenkinsSystem js : jenkinsSystemList) {
             if (js.getJobList() != null) {
-                js.setFailList(new FailureBuilder(jenkinsAccess, js.getJobNameList(), standardUrl).readErrors());
+                js.setFailList(new FailureBuilder(jenkinsClient, js.getJobNameList()).readErrors());
 
             }
         }
@@ -52,26 +55,22 @@ public class DataAccessLayer implements IUrlParameters {
     public void generateHTML() throws IOException {
         BufferedWriter bwr = null;
 
-
         File f = new File("data.html");
         FileWriter fr = new FileWriter(f);
         bwr = new BufferedWriter(fr);
 
         htmlgen.staticPreCode(bwr);
-        for(JenkinsSystem job:jenkinsSystemList) {
-            htmlgen.buildTable(job.getJobList(), bwr, job.getSystemName(), job.getFailList(),job.getColor());
+        for (JenkinsSystem job : jenkinsSystemList) {
+            htmlgen.buildTable(job.getJobList(), bwr, job.getSystemName(), job.getFailList(), job.getColor());
         }
 
         htmlgen.staticPostCode(bwr, sonar, codecove);
-        for(JenkinsSystem job:jenkinsSystemList) {
-            htmlgen.buildFailureTable(job.getJobList(),bwr,job.getSystemName(),job.getFailList(),job.getColor());
+        for (JenkinsSystem job : jenkinsSystemList) {
+            htmlgen.buildFailureTable(job.getJobList(), bwr, job.getSystemName(), job.getFailList(), job.getColor());
         }
         bwr.write("</html>");
         bwr.close();
-
-
     }
-
 
     private List<Job> initList(String... name) {
         List<Job> list = new ArrayList<Job>();
@@ -86,52 +85,4 @@ public class DataAccessLayer implements IUrlParameters {
         return list;
     }
 
-    private void setupJobList() {
-        jobList = new ArrayList<String>();
-        // Trunk12c
-        jobList.add("A1ON-java-build-trunk");
-        jobList.add("A1ON-jtf-livetests-trunk12c");
-        jobList.add("A1ON-jtf-db-infrastructure-trunk12c");
-        jobList.add("A1ON-jtf-db-regressiontests-trunk12c");
-        jobList.add("A1ON-jtf-db-guidelines-trunk12c");
-        jobList.add("A1ON-jtf-project-tests-trunk12c");
-        jobList.add("A1ON-jtf-regressiontests-trunk12c");
-        // RC2
-        jobList.add("A1ON-java-build-rc2");
-        jobList.add("A1ON-jtf-db-guidelines-rc2");
-        jobList.add("A1ON-jtf-db-regressiontests-rc2");
-        jobList.add("A1ON-jtf-regressiontests-rc2");
-        jobList.add("A1ON-jtf-livetests-rc2");
-        // RC
-        jobList.add("A1ON-java-build-rc");
-        jobList.add("A1ON-jtf-db-guidelines-rc");
-        jobList.add("A1ON-jtf-regressiontests-rc");
-        jobList.add("A1ON-jtf-smoketests-rc");
-        // BF
-        jobList.add("A1ON-java-build-bf");
-        jobList.add("A1ON-jtf-db-guidelines-bf");
-        jobList.add("A1ON-jtf-regressiontests-bf");
-        jobList.add("A1ON-jtf-db-regressiontests-bf");
-        jobList.add("A1ON-jtf-smoketests-bf");
-        // UAT4
-        jobList.add("A1ON-jtf-db-infrastructure-UAT4");
-        jobList.add("A1ON-jtf-db-regressiontests-UAT4");
-        jobList.add("A1ON-jtf-regressiontests-UAT4");
-        jobList.add("A1ON-jtf-smoketests-UAT4");
-    }
-
-//    public void showReports() {
-//        System.out.printf("%-45s %-10s %-10s %-15s\n", "Step", "Result", "Ergebnis", "LastStableDate");
-//        for (Job rt : jobClassList) {
-//            System.out.println(rt.toString());
-//        }
-//    }
-//
-//    public void showAllFails() {
-//        for (Failure f : failList) {
-//            if (!f.getFailure().equals("NoFailure")) {
-//                System.out.println(f.toString());
-//            }
-//        }
-//    }
 }

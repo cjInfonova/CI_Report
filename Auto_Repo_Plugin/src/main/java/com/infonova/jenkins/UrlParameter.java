@@ -3,7 +3,9 @@ package com.infonova.jenkins;
 /**
  * Created by christian.jahrbacher on 30.07.2015.
  */
-public interface IUrlParameters {
+public interface UrlParameter {
+
+    //TODO: Move this interface into JenkinsClient class to hide implemenation
 
     String JSON_EXTENTION = "/api/json";
     String LAST_STATE = "/lastBuild";

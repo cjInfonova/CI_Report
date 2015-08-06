@@ -21,11 +21,6 @@ public class Failure {
         this.jobname = jobname;
     }
 
-//    @Override
-//    public String toString() {
-//        return String.format("Job: %-35s  FailName: %-35s   Failure: %-160.160s   Status: %s   Age: %d", jobname,
-//            className, errDetails + errStack, status, age);
-//    }
 
     @Override
     public boolean equals(Object o) {
