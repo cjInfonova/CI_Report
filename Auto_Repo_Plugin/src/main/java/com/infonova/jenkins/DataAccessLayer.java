@@ -59,12 +59,12 @@ public class DataAccessLayer implements IUrlParameters {
 
         htmlgen.staticPreCode(bwr);
         for(JenkinsSystem job:jenkinsSystemList) {
-            htmlgen.buildTable(job.getJobList(), bwr, job.getSystemName(), job.getFailList(),job.getColors());
+            htmlgen.buildTable(job.getJobList(), bwr, job.getSystemName(), job.getFailList(),job.getColor());
         }
 
         htmlgen.staticPostCode(bwr, sonar, codecove);
         for(JenkinsSystem job:jenkinsSystemList) {
-            htmlgen.buildFailureTable(job.getJobList(),bwr,job.getSystemName(),job.getFailList(),job.getColors());
+            htmlgen.buildFailureTable(job.getJobList(),bwr,job.getSystemName(),job.getFailList(),job.getColor());
         }
         bwr.write("</html>");
         bwr.close();
