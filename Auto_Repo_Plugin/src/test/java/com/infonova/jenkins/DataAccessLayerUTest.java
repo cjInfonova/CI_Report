@@ -45,9 +45,13 @@ public class DataAccessLayerUTest extends EasyMockSupport {
     }
 
 
-
+    @Test
     public void testStartBuidlingReportEMPTY() throws IOException, JenkinsException {
-        expect(jobBuilder.prepareEverything(anyObject(ArrayList.class))).andReturn(null);
+        String[] field = new String[2];
+        List<JenkinsSystem> js = new ArrayList<JenkinsSystem>();
+        expect(jenkinsSystemList.iterator()).andReturn(null);
+
+        //expect(jobBuilder.prepareEverything(anyObject(ArrayList.class))).andReturn(null);
 
         replayAll();
         dal.startBuildingReport();

@@ -50,9 +50,10 @@
                             <jobNameList>
                                 <jobName>A1ON-java-build-rc2</jobName>
                                 <jobName>A1ON-jtf-db-guidelines-rc2</jobName>
+                                <jobName>A1ON-jtf-db-infrastructure-rc2</jobName>
                                 <jobName>A1ON-jtf-db-regressiontests-rc2</jobName>
                                 <jobName>A1ON-jtf-regressiontests-rc2</jobName>
-                                <jobName>A1ON-jtf-smoketests-rc2</jobName>
+                                <jobName>A1ON-jtf-livetests-rc2</jobName>
                             </jobNameList>
                         </jenkinsSystem>
                         <jenkinsSystem implementation="com.infonova.jenkins.JenkinsSystem">
