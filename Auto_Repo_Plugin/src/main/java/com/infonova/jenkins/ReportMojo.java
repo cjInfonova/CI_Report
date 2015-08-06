@@ -28,9 +28,6 @@ public class ReportMojo extends AbstractMojo {
     private String dateformat;
 
     public void execute() throws MojoExecutionException, MojoFailureException {
-        for(JenkinsSystem js : jenkinsSystemList)
-            System.out.println(js.toString());
-
         JenkinsAccess jenkinsAccess = new JenkinsAccess(jenkins_Url, usersettings.getUsername(), usersettings.getPassword());
         JobBuilder jobBuilder = new JobBuilder(jenkinsAccess, jenkins_Url +"/job/"+jobname+"/job/", new SimpleDateFormat(dateformat));
         HTMLGenerator htmlgen = new HTMLGenerator();
