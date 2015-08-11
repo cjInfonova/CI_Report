@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Logger;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -63,7 +62,7 @@ public class ReportMojo extends AbstractMojo {
                     jenkinsSystemList,sonarConfiguration,sqc);
             dal.startBuildingReport();
 
-        } catch (JenkinsException jex) {
+        } catch (RemoteException jex) {
             log.info(jex.getMessage());
         } catch (IOException e) {
             e.printStackTrace();

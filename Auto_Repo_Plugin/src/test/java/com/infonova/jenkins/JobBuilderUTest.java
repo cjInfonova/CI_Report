@@ -39,7 +39,7 @@ public class JobBuilderUTest extends EasyMockSupport {
     }
 
     @Test @Ignore
-    public void prepareEverythingWithResultSuccess() throws IOException, JenkinsException {
+    public void prepareEverythingWithResultSuccess() throws IOException, RemoteException {
         Job job = new Job("MyTestJob", "SUCCESS", 0, 10, "-");
         createJsonNode(false, "\"SUCCESS\"");
 
@@ -53,7 +53,7 @@ public class JobBuilderUTest extends EasyMockSupport {
     }
 
     @Test @Ignore
-    public void prepareEverythingWithResultAborted() throws IOException, JenkinsException {
+    public void prepareEverythingWithResultAborted() throws IOException, RemoteException {
         Job job = new Job("MyTestJob", "ABORTED", 0, 10, "-");
         createJsonNode(false, "\"ABORTED\"");
 
@@ -67,7 +67,7 @@ public class JobBuilderUTest extends EasyMockSupport {
     }
 
     @Test @Ignore
-    public void prepareEverythingWithBuildingTrue() throws IOException, JenkinsException {
+    public void prepareEverythingWithBuildingTrue() throws IOException, RemoteException {
         Job job = new Job("MyTestJob", "SUCCESS", 0, 10, "-");
         createJsonNode(true, null);
 
@@ -86,21 +86,21 @@ public class JobBuilderUTest extends EasyMockSupport {
         try {
             createJsonNode(true, null);
             expect(remoteClient.getConnectionUrl()).andReturn("");
-            expect(remoteClient.getJsonNodeFromUrl(anyObject(String.class))).andThrow(new JenkinsException("Source not found"));
+            expect(remoteClient.getJsonNodeFromUrl(anyObject(String.class))).andThrow(new RemoteException("Source not found"));
         }catch (IOException iex){}
-        catch (JenkinsException jex){}
+        catch (RemoteException jex){}
         replayAll();
         jobBuilder.prepareEverything(jobList);
         verifyAll();
     }
 
     @Test @Ignore
-    public void prepareEverythingWithOtherJenkinsException() throws IOException, JenkinsException {
+    public void prepareEverythingWithOtherJenkinsException() throws IOException, RemoteException {
         Job job = new Job("MyTestJob", "SUCCESS", 0, 10, "-");
         createJsonNode(true, null);
 
         expect(remoteClient.getConnectionUrl()).andReturn("");
-        expect(remoteClient.getJsonNodeFromUrl(anyObject(String.class))).andThrow(new JenkinsException("Another Error has occurred"));
+        expect(remoteClient.getJsonNodeFromUrl(anyObject(String.class))).andThrow(new RemoteException("Another Error has occurred"));
 
         replayAll();
         jobBuilder.prepareEverything(jobList);
@@ -115,7 +115,7 @@ public class JobBuilderUTest extends EasyMockSupport {
             expect(remoteClient.getConnectionUrl()).andReturn("");
             expect(remoteClient.getJsonNodeFromUrl(anyObject(String.class))).andThrow(new IOException());
         }catch (IOException iex){}
-        catch (JenkinsException jex){}
+        catch (RemoteException jex){}
         replayAll();
         jobBuilder.prepareEverything(jobList);
         verifyAll();

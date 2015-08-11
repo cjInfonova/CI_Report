@@ -103,7 +103,7 @@ public class RemoteClient {
         return client;
     }
 
-    public JsonNode getJsonNodeFromUrl(String urlString) throws IOException, JenkinsException {
+    public JsonNode getJsonNodeFromUrl(String urlString) throws IOException, RemoteException {
         URI uri = URI.create(urlString);
         HttpGet httpGet = new HttpGet(uri);
         HttpClientContext localContext = HttpClientContext.create();
@@ -114,12 +114,12 @@ public class RemoteClient {
             && response.getFirstHeader("Content-Type").getValue().contains("json")) {
             return new ObjectMapper().readTree(response.getEntity().getContent());
         } else if (response.getStatusLine().getStatusCode() == 401) {
-            throw new JenkinsException(response.getStatusLine().getStatusCode()
+            throw new RemoteException(response.getStatusLine().getStatusCode()
                 + ": Username and/or Password is incorrect!");
         } else if (response.getStatusLine().getStatusCode() == 404) {
-            throw new JenkinsException(response.getStatusLine().getStatusCode() + ": Source not found!");
+            throw new RemoteException(response.getStatusLine().getStatusCode() + ": Source not found!");
         } else {
-            throw new JenkinsException(response.getStatusLine().getStatusCode() + ": "
+            throw new RemoteException(response.getStatusLine().getStatusCode() + ": "
                 + response.getStatusLine().getReasonPhrase());
         }
     }

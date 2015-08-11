@@ -1,7 +1,5 @@
 package com.infonova.jenkins;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -44,10 +42,12 @@ public class DataAccessLayer implements UrlParameter {
         this.jenkinsSystemList = jenkinsSystemList;
         this.sqc = sonarConfiguration;
         this.remoteSonar = remoteSonar;
+        dash= new Sonar();
+        detail = new Sonar();
 
     }
 
-    public void startBuildingReport() throws IOException, JenkinsException {
+    public void startBuildingReport() throws IOException, RemoteException {
 //        for (JenkinsSystem js : jenkinsSystemList) {
 //            js.setJobList(jobBuilder.prepareEverything(js.getJobNameList()));
 //        }
@@ -58,12 +58,12 @@ public class DataAccessLayer implements UrlParameter {
 //            }
 //        }
         String url4Sonardash = sqc.getBasicUrl()+"/api/resources?resource="+sqc.getComponentRoot()+"&includetrends=true&includealerts=true&format=json&period="+sqc.getPeriod()+"&metrics=new_coverage,ncloc,coverage,lines,files,statements,directories,classes,functions,accessors,open_issues,sqale_index,new_technical_debt,blocker_violations,critical_violations,major_violations,minor_violations,new_violations,info_violations";
-        String url4Sonardetail = sqc.getBasicUrl()+"/api/issues/search?componentRoots="+sqc.getComponentRoot()+"&format=json&period="+sqc.getPeriod()+"&createdAfter="+sqc.getCreatedAfter()+"&statuses=OPEN,REOPENED";
         System.out.println(url4Sonardash);
+        dash.setSonar(remoteSonar.getJsonNodeFromUrl(url4Sonardash),sqc.getPeriod());
+
+        String url4Sonardetail = sqc.getBasicUrl()+"/api/issues/search?componentRoots="+sqc.getComponentRoot()+"&format=json&period="+sqc.getPeriod()+"&createdAfter="+dash.getCreatedAfter()+"&statuses=OPEN,REOPENED";
         System.out.println(url4Sonardetail);
-        dash.setSonar(remoteSonar.getJsonNodeFromUrl(url4Sonardash));
-        System.out.println("ok");
-        detail.setSonar(remoteSonar.getJsonNodeFromUrl(url4Sonardetail));
+        detail.setSonar(remoteSonar.getJsonNodeFromUrl(url4Sonardetail),sqc.getPeriod());
 
         generateHTML();
     }

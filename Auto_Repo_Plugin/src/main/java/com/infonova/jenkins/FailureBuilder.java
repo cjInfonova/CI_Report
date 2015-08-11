@@ -35,14 +35,14 @@ public class FailureBuilder implements UrlParameter {
             } catch (IOException exe) {
                 log.info("An unexpected error has occurred");
                 exe.printStackTrace();
-            } catch (JenkinsException jex) {
+            } catch (RemoteException jex) {
                 log.info(jex.getMessage());
             }
         }
         return failList;
     }
 
-    private void getDataFromJsonFailures(JsonNode jsNode, String job) throws IOException, JenkinsException {
+    private void getDataFromJsonFailures(JsonNode jsNode, String job) throws IOException, RemoteException {
         if (jsNode.has("childReports")) {
             String url = "";
             for (JsonNode node : jsNode.get("childReports")) {

@@ -61,7 +61,7 @@ public class RemoteClientUTest extends EasyMockSupport {
                 + "/job/A1OpenNet/job/A1ON-java-build-trunk/lastBuild/api/json");
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (JenkinsException e) {
+        } catch (RemoteException e) {
             e.printStackTrace();
         }
 
@@ -79,8 +79,8 @@ public class RemoteClientUTest extends EasyMockSupport {
         }
         expect(response.getStatusLine().getStatusCode() == 401);
         expect(
-            new JenkinsException(response.getStatusLine().getStatusCode() + ": Username and/or Password is incorrect!"))
-            .andThrow(new JenkinsException());
+            new RemoteException(response.getStatusLine().getStatusCode() + ": Username and/or Password is incorrect!"))
+            .andThrow(new RemoteException());
     }
 
     @Test(expected = IllegalStateException.class) @Ignore
@@ -90,7 +90,7 @@ public class RemoteClientUTest extends EasyMockSupport {
             remoteClient.getJsonNodeFromUrl(JENKINS_URL + "/job/A1OpenNet/job/InvalidProject/lastBuild/api/json");
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (JenkinsException e) {
+        } catch (RemoteException e) {
             e.printStackTrace();
         }
 
@@ -107,7 +107,7 @@ public class RemoteClientUTest extends EasyMockSupport {
             e.printStackTrace();
         }
         expect(response.getStatusLine().getStatusCode() == 404);
-        expect(new JenkinsException(response.getStatusLine().getStatusCode() + "")).andThrow(new JenkinsException());
+        expect(new RemoteException(response.getStatusLine().getStatusCode() + "")).andThrow(new RemoteException());
     }
 
     @Test(expected = IllegalStateException.class) @Ignore
@@ -117,7 +117,7 @@ public class RemoteClientUTest extends EasyMockSupport {
             remoteClient.getJsonNodeFromUrl(JENKINS_URL + "/job/A1OpenNet/job/A1ON-java-build-trunk/lastBuild/api/json");
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (JenkinsException e) {
+        } catch (RemoteException e) {
             e.printStackTrace();
         }
 

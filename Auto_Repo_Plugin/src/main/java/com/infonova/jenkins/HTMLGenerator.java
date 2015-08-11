@@ -46,11 +46,11 @@ public class HTMLGenerator implements OutputGenerator{
         Color c2 = new Color(color.getRed(),color.getGreen(),color.getBlue(),25);
         float c1a = c1.getAlpha();
         float c2a = c2.getAlpha();
-        System.out.println(c1a);
+
         int red= (int)((1-(c1a/255))*255)+(int)(c1a/255*c1.getRed());
         int green= (int)((1-(c1a/255))*255)+(int)(c1a/255*c1.getGreen());
         int blue= (int)((1-(c1a/255))*255)+(int)(c1a/255*c1.getBlue());
-        System.out.println(red+" "+green+"  "+blue);
+
         int red2= (int)((1-(c2a/255))*255)+(int)(c2a/255*c2.getRed());
         int green2= (int)((1-(c2a/255))*255)+(int)(c2a/255*c2.getGreen());
         int blue2= (int)((1-(c2a/255))*255)+(int)(c2a/255*c2.getBlue());

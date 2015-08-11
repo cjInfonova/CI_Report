@@ -34,7 +34,7 @@ public class JobBuilder implements UrlParameter {
                     Job job = convertJsonNodeIntoJob(jsNode, url+STABLE_STATE+JSON_EXTENTION);
                     job.setJobName(jobString);
                     jobClassList.add(job);
-                } catch (JenkinsException jex) {
+                } catch (RemoteException jex) {
                     if (jex.getMessage().contains("Source not found")) {
                         log.info(jex.getMessage() + ": " + jobString);
                     } else {
@@ -51,13 +51,13 @@ public class JobBuilder implements UrlParameter {
             }
             log.info("Reports konnten geladen werden: " + jobClassList.size() + "/" + jobList.size());
             return jobClassList;
-        } catch (JenkinsException jex) {
+        } catch (RemoteException jex) {
             log.info(jex.getMessage());
         }
         return null;
     }
 
-    private Job convertJsonNodeIntoJob(JsonNode jsNode, String lastStableUrl) throws JenkinsException, IOException {
+    private Job convertJsonNodeIntoJob(JsonNode jsNode, String lastStableUrl) throws RemoteException, IOException {
         Job job = new Job();
         if (jsNode.get("building").asBoolean()) {
             job = new Job("-", "RUNNING", 0, 0, "-");

@@ -7,7 +7,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.rmi.Remote;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,7 +60,7 @@ public class DataAccessLayerUTest extends EasyMockSupport {
     }
 
     @Test @Ignore
-    public void testStartBuidlingReportEMPTY() throws IOException, JenkinsException {
+    public void testStartBuidlingReportEMPTY() throws IOException, RemoteException {
         for (JenkinsSystem js : jenkinsSystemList) {
             expect(jobBuilder.prepareEverything(js.getJobNameList())).andReturn(null);
         }
@@ -83,7 +82,7 @@ public class DataAccessLayerUTest extends EasyMockSupport {
     }
 
     @Test @Ignore
-    public void testStartBuidlingReportFULL() throws IOException, JenkinsException {
+    public void testStartBuidlingReportFULL() throws IOException, RemoteException {
         List<Job> jobList = Arrays.asList(new Job("A1ON-java-build-trunk", "FAILED", 2, 3, ""));
 
         for (JenkinsSystem js : jenkinsSystemList) {

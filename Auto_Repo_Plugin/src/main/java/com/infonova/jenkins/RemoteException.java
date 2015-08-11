@@ -3,12 +3,12 @@ package com.infonova.jenkins;
 /**
  * Created by christian.jahrbacher on 23.07.2015.
  */
-public class JenkinsException extends Exception {
+public class RemoteException extends Exception {
 
-    public JenkinsException() {
+    public RemoteException() {
     }
 
-    public JenkinsException(String message) {
+    public RemoteException(String message) {
         super(message);
     }
 }
