@@ -68,17 +68,13 @@ public class SonarqubeClient {
     public CloseableHttpClient createHttpClient_AcceptsUntrustedCerts(CredentialsProvider credProv) throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
         HttpClientBuilder b = HttpClientBuilder.create();
 
-        // setup a Trust Strategy that allows all certificates.
-        //
         SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
             public boolean isTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
                 return true;
             }
         }).build();
-        b.setSslcontext( sslContext);
+        //b.setSslcontext( sslContext);
 
-        // don't check Hostnames, either.
-        //      -- use SSLConnectionSocketFactory.getDefaultHostnameVerifier(), if you don't want to weaken
         HostnameVerifier hostnameVerifier = SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
 
         // here's the special part:
@@ -103,74 +99,42 @@ public class SonarqubeClient {
         return client;
     }
 
-    // trusting all certificate
-    public void doTrustToCertificates() throws Exception {
-        Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
-        TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
-
-            public X509Certificate[] getAcceptedIssuers() {
-                return null;
-            }
-
-            public void checkServerTrusted(X509Certificate[] certs, String authType) throws CertificateException {
-                return;
-            }
-
-            public void checkClientTrusted(X509Certificate[] certs, String authType) throws CertificateException {
-                return;
-            }
-        } };
-
-        SSLContext sc = SSLContext.getInstance("SSL");
-        sc.init(null, trustAllCerts, new SecureRandom());
-        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-        HostnameVerifier hv = new HostnameVerifier() {
-
-            public boolean verify(String urlHostName, SSLSession session) {
-                if (!urlHostName.equalsIgnoreCase(session.getPeerHost())) {
-                    System.out.println("Warning: URL host '" + urlHostName + "' is different to SSLSession host '"
-                        + session.getPeerHost() + "'.");
-                }
-                return true;
-            }
-        };
-        HttpsURLConnection.setDefaultHostnameVerifier(hv);
-    }
-
-    /*
-     * Besser wäre es hier die Konvertierung von Externer und Interner Datensturktur in nur einer
-     * klasse zu mappen.
-     * 
-     * mein Vorschlag:
-     * TODO:
-     * 
-     * public Job getJobStatus(String jobname)....
-     * 
-     * public List<Failure> getJobFailures(String jobname) ....
-     */
-
-    public void getJsonNodeFromUrl() throws IOException {
+    public JsonNode getJsonNodeFromUrl(String link) throws IOException, JenkinsException {
         System.out.println("Start preparing getJsonNode");
+        link = "https://grzisesonar1.infonova.at/api/resources?resource=com.bearingpoint.ta:opennet&includetrends=true&includealerts=true&format=json&period=2&metrics=new_coverage,ncloc,coverage,lines,files,statements,directories,classes,functions,accessors,open_issues,sqale_index,new_technical_debt,blocker_violations,critical_violations,major_violations,minor_violations,new_violations,info_violations";
         try {
             //doTrustToCertificates();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        URI uri = URI.create(connectionUrl);
+        URI uri = URI.create(link);
         HttpGet httpGet = new HttpGet(uri);
         HttpClientContext localContext = HttpClientContext.create();
         localContext.setAuthCache(authCache);
         System.out.println("Do execute");
         try {
-            //doTrustToCertificates();
             HttpResponse response = httpClient.execute(host, httpGet, localContext);
-            //doTrustToCertificates();
-            System.out.println("Did execute");
 
-            System.out.println("Statusline: " + response.getStatusLine().getStatusCode());
-            System.out.println("Statusline: " + response.getStatusLine().getReasonPhrase());
+            if (response.getStatusLine().getStatusCode() >= 200 && response.getStatusLine().getStatusCode() < 300
+                    && response.getFirstHeader("Content-Type").getValue().contains("json")) {
+                return new ObjectMapper().readTree(response.getEntity().getContent());
+            } else if (response.getStatusLine().getStatusCode() == 401) {
+                throw new JenkinsException(response.getStatusLine().getStatusCode()
+                        + ": Username and/or Password is incorrect!");
+            } else if (response.getStatusLine().getStatusCode() == 404) {
+                throw new JenkinsException(response.getStatusLine().getStatusCode() + ": Source not found!");
+            } else {
+                throw new JenkinsException(response.getStatusLine().getStatusCode() + ": "
+                        + response.getStatusLine().getReasonPhrase());
+            }
+
+            //System.out.println("Did execute");
+
+            //System.out.println("Statusline: " + response.getStatusLine().getStatusCode());
+            //System.out.println("Statusline: " + response.getStatusLine().getReasonPhrase());
         } catch (Exception e) {
             e.printStackTrace();
+            throw new IOException("LOL");
         }
     }
 

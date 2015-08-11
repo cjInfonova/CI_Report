@@ -80,6 +80,12 @@
                             </jobNameList>
                         </jenkinsSystem>
                     </jenkinsSystemList>
+                    <sonarConfiguration implementation="com.infonova.jenkins.SonarConfiguration">
+                        <basicUrl>https://grzisesonar1.infonova.at</basicUrl>
+                        <componentRoot>com.bearingpoint.ta:opennet</componentRoot>
+                        <period>2</period>
+                        <createdAfter>2015-08-05</createdAfter>
+                    </sonarConfiguration>
                 </configuration>
             </plugin>
         </plugins>

@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import org.easymock.EasyMockSupport;
-import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,8 +41,6 @@ public class FailureBuilderUTest extends EasyMockSupport {
             expect(jenkinsClient.getJsonNodeFromUrl(anyObject(String.class))).andReturn(jn2);
             expect(jenkinsClient.getConnectionUrl()).andReturn("");
             expect(jenkinsClient.getJsonNodeFromUrl(anyObject(String.class))).andReturn(jn);
-        } catch (JSONException jsexe) {
-            jsexe.printStackTrace();
         } catch (IOException exe) {
             exe.printStackTrace();
         } catch (JenkinsException jex) {

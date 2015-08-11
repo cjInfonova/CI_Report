@@ -2,6 +2,11 @@ package com.infonova.jenkins;
 
 import java.io.IOException;
 import java.net.URI;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -11,14 +16,22 @@ import org.apache.http.client.AuthCache;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.config.Registry;
+import org.apache.http.config.RegistryBuilder;
+import org.apache.http.conn.socket.ConnectionSocketFactory;
+import org.apache.http.conn.socket.PlainConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLContextBuilder;
+import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.impl.auth.BasicScheme;
-import org.apache.http.impl.client.BasicAuthCache;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.client.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
 
 /**
  * Created by christian.jahrbacher on 28.07.2015.
@@ -36,25 +49,60 @@ public class JenkinsClient {
         URI uri = URI.create(url);
         CredentialsProvider credsProvider = new BasicCredentialsProvider();
         credsProvider.setCredentials(new AuthScope(uri.getHost(), uri.getPort()), new UsernamePasswordCredentials(user,
-            password));
+                password));
+        setupLoginUser(uri);
+        httpClient = HttpClients.custom().setDefaultCredentialsProvider(credsProvider).build();
+    }
+
+    public JenkinsClient(String url, String user, String password){
+        URI uri = URI.create(url);
+        CredentialsProvider credsProvider = new BasicCredentialsProvider();
+        credsProvider.setCredentials(new AuthScope(uri.getHost(), uri.getPort()), new UsernamePasswordCredentials(user,
+                password));
+        setupLoginUser(uri);
+        try {
+            httpClient = createHttpClient_AcceptsUntrustedCerts(credsProvider);
+        } catch (KeyStoreException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setupLoginUser(URI uri){
         authCache = new BasicAuthCache();
         BasicScheme basicAuth = new BasicScheme();
         host = new HttpHost(uri.getHost(), uri.getPort(), uri.getScheme());
         authCache.put(host, basicAuth);
-        httpClient = HttpClients.custom().setDefaultCredentialsProvider(credsProvider).build();
     }
 
-    /*
-    Besser wäre es hier die Konvertierung von Externer und Interner Datensturktur in nur einer
-    klasse zu mappen.
+    public CloseableHttpClient createHttpClient_AcceptsUntrustedCerts(CredentialsProvider credProv) throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
+        HttpClientBuilder b = HttpClientBuilder.create();
 
-    mein Vorschlag:
-    TODO:
+        SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
+            public boolean isTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+                return true;
+            }
+        }).build();
+        //b.setSslcontext( sslContext);
 
-    public Job getJobStatus(String jobname)....
+        HostnameVerifier hostnameVerifier = SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
 
-    public List<Failure> getJobFailures(String jobname) ....
-     */
+        SSLConnectionSocketFactory sslSocketFactory = new SSLConnectionSocketFactory(sslContext, hostnameVerifier);
+        Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
+                .register("http", PlainConnectionSocketFactory.getSocketFactory())
+                .register("https", sslSocketFactory)
+                .build();
+
+        PoolingHttpClientConnectionManager connMgr = new PoolingHttpClientConnectionManager( socketFactoryRegistry);
+        b.setConnectionManager(connMgr);
+        b.setDefaultCredentialsProvider(credProv);
+
+        CloseableHttpClient client = b.build();
+        return client;
+    }
 
     public JsonNode getJsonNodeFromUrl(String urlString) throws IOException, JenkinsException {
         URI uri = URI.create(urlString);

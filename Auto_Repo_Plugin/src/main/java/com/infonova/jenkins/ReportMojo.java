@@ -3,7 +3,9 @@ package com.infonova.jenkins;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.logging.Logger;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -29,6 +31,10 @@ public class ReportMojo extends AbstractMojo {
     @Parameter
     // (defaultValue = "dd.MM.yyyy")
     private String dateformat;
+    @Parameter
+    private SonarConfiguration sonarConfiguration;
+
+    Logger log = Logger.getLogger(ReportMojo.class.getName());
 
     public void execute() throws MojoExecutionException, MojoFailureException {
 
@@ -51,13 +57,18 @@ public class ReportMojo extends AbstractMojo {
         DataAccessLayer dal = new DataAccessLayer(jenkinsClient, new SimpleDateFormat(dateformat), jobBuilder, htmlgen,
             jenkinsSystemList);
         try {
-            dal.startBuildingReport();
-            SonarqubeClient sqc = new SonarqubeClient(
-                    "https://grzisesonar1.infonova.at",
-                    usersettings.getUsername(),
-                    usersettings.getPassword(),
-                    "https://grzisesonar1.infonova.at/api/issues/search?componentRoots=com.bearingpoint.ta:opennet&format=json&createdAfter=2015-08-01");
-            sqc.getJsonNodeFromUrl();
+            // dal.startBuildingReport();
+            JenkinsClient sqc = new JenkinsClient(sonarConfiguration.getBasicUrl(), usersettings.getUsername(),
+                usersettings.getPassword());
+            String url4Sonar = sonarConfiguration.getBasicUrl()+"/api/resources?resource="+sonarConfiguration.getComponentRoot()+"&includetrends=true&includealerts=true&format=json&period="+sonarConfiguration.getPeriod()+"&metrics=new_coverage,ncloc,coverage,lines,files,statements,directories,classes,functions,accessors,open_issues,sqale_index,new_technical_debt,blocker_violations,critical_violations,major_violations,minor_violations,new_violations,info_violations";
+            JsonNode jn = sqc.getJsonNodeFromUrl(url4Sonar);
+            log.info(jn.get(0).get("key").asText());
+            System.out.println(jn.toString());
+            url4Sonar = sonarConfiguration.getBasicUrl()+"/api/issues/search?componentRoots="+sonarConfiguration.getComponentRoot()+"&format=json&period="+sonarConfiguration.getPeriod()+"&createdAfter="+sonarConfiguration.getCreatedAfter()+"&statuses=OPEN,REOPENED";
+            jn = sqc.getJsonNodeFromUrl(url4Sonar);
+            System.out.println(jn.toString());
+        } catch (JenkinsException jex) {
+            log.info(jex.getMessage());
         } catch (IOException e) {
             e.printStackTrace();
         }
