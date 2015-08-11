@@ -34,16 +34,16 @@ public class DataAccessLayer implements UrlParameter {
     private SonarConfiguration sqc;
     private RemoteClient remoteSonar;
 
-    public DataAccessLayer(RemoteClient jenAcc, SimpleDateFormat sdf, JobBuilder jobBuilder, HTMLGenerator htmlgen,
+    public DataAccessLayer(RemoteClient remoteJenkins, SimpleDateFormat sdf, JobBuilder jobBuilder, HTMLGenerator htmlgen,
                            List<JenkinsSystem> jenkinsSystemList, SonarConfiguration sonarConfiguration, RemoteClient remoteSonar) {
 
-        remoteClient = jenAcc;
+        remoteClient = remoteJenkins;
         dateformat = sdf;
         this.htmlgen = htmlgen;
         this.jobBuilder = jobBuilder;
         this.jenkinsSystemList = jenkinsSystemList;
         this.sqc = sonarConfiguration;
-        this.remoteSonar = remoteSonar
+        this.remoteSonar = remoteSonar;
 
     }
 

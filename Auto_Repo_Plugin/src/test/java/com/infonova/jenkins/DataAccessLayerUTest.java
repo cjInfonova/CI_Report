@@ -1,11 +1,13 @@
 package com.infonova.jenkins;
 
 import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.createMock;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.rmi.Remote;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +33,8 @@ public class DataAccessLayerUTest extends EasyMockSupport {
     private HTMLGenerator htmlgen;
     private JobBuilder jobBuilder;
     private List<JenkinsSystem> jenkinsSystemList;
+    private SonarConfiguration sonarConfiguration;
+    private RemoteClient sonarClient;
 
     @Before
     public void setup() {
@@ -38,9 +42,10 @@ public class DataAccessLayerUTest extends EasyMockSupport {
         htmlgen = createMock(HTMLGenerator.class);
         jobBuilder = createMock(JobBuilder.class);
         jenkinsSystemList = new ArrayList<JenkinsSystem>(); // createMock(anyObject(ArrayList.class));
+        sonarConfiguration = createMock(SonarConfiguration.class);
+        sonarClient = createMock(RemoteClient.class);
         createJenkinsSysList();
-        dal = new DataAccessLayer(remoteClient, simpleDateFormat, jobBuilder, htmlgen,
-            jenkinsSystemList);
+        dal = new DataAccessLayer(remoteClient, simpleDateFormat, jobBuilder, htmlgen, jenkinsSystemList, sonarConfiguration, sonarClient);
     }
 
     private void createJenkinsSysList() {
