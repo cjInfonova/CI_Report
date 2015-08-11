@@ -31,7 +31,7 @@ public class JobBuilder implements UrlParameter {
                 try {
                     String url = remoteClient.getConnectionUrl() + jobString;
                     JsonNode jsNode = remoteClient.getJsonNodeFromUrl(url + LAST_STATE + JSON_EXTENTION);
-                    Job job = convertJsonNodeIntoJob(jsNode, url+STABLE_STATE+JSON_EXTENTION);
+                    Job job = convertJsonNodeIntoJob(jsNode, url + STABLE_STATE + JSON_EXTENTION);
                     job.setJobName(jobString);
                     jobClassList.add(job);
                 } catch (RemoteException jex) {

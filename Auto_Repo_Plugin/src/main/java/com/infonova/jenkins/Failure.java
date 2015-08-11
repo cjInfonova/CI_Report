@@ -21,7 +21,6 @@ public class Failure {
         this.jobname = jobname;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (o instanceof Failure) {

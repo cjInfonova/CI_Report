@@ -8,5 +8,6 @@ import java.util.List;
  * Created by matthias.augustin on 06.08.15.
  */
 public interface OutputGenerator {
+
     void write(File file, List<JenkinsSystem> jenkinsSystems) throws IOException;
 }

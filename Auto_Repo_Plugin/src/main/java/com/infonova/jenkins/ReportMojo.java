@@ -58,8 +58,8 @@ public class ReportMojo extends AbstractMojo {
 
             RemoteClient sqc = new RemoteClient(sonarConfiguration.getBasicUrl(), usersettings.getUsername(),
                 usersettings.getPassword());
-            DataAccessLayer dal = new DataAccessLayer(remoteClient, new SimpleDateFormat(dateformat), jobBuilder, htmlgen,
-                    jenkinsSystemList,sonarConfiguration,sqc);
+            DataAccessLayer dal = new DataAccessLayer(remoteClient, new SimpleDateFormat(dateformat), jobBuilder,
+                htmlgen, jenkinsSystemList, sonarConfiguration, sqc);
             dal.startBuildingReport();
 
         } catch (RemoteException jex) {

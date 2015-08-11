@@ -40,7 +40,8 @@ public class RemoteClientUTest extends EasyMockSupport {
     private final static String password = "Cj170615!";
     public String JENKINS_URL = "https://ci.infonova.at";
 
-    @Before @Ignore
+    @Before
+    @Ignore
     public void setup() {
         URI uri = URI.create(JENKINS_URL);
         CredentialsProvider credsProvider = new BasicCredentialsProvider();
@@ -53,12 +54,13 @@ public class RemoteClientUTest extends EasyMockSupport {
         httpClient = HttpClients.custom().setDefaultCredentialsProvider(credsProvider).build();
     }
 
-    @Test(expected = IllegalStateException.class) @Ignore
+    @Test(expected = IllegalStateException.class)
+    @Ignore
     public void getJsonNodeFromUrlWithInvalidCredentials() {
-        remoteClient = new RemoteClient(JENKINS_URL, username, "wrong password", JENKINS_URL+"/job/A1OpenNet/job/");
+        remoteClient = new RemoteClient(JENKINS_URL, username, "wrong password", JENKINS_URL + "/job/A1OpenNet/job/");
         try {
-            remoteClient.getJsonNodeFromUrl(JENKINS_URL
-                + "/job/A1OpenNet/job/A1ON-java-build-trunk/lastBuild/api/json");
+            remoteClient
+                .getJsonNodeFromUrl(JENKINS_URL + "/job/A1OpenNet/job/A1ON-java-build-trunk/lastBuild/api/json");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (RemoteException e) {
@@ -83,9 +85,10 @@ public class RemoteClientUTest extends EasyMockSupport {
             .andThrow(new RemoteException());
     }
 
-    @Test(expected = IllegalStateException.class) @Ignore
+    @Test(expected = IllegalStateException.class)
+    @Ignore
     public void getJsonNodeFromUrlWithInvalidUrl() {
-        remoteClient = new RemoteClient(JENKINS_URL, username, password, JENKINS_URL+"/job/A1OpenNet/job/");
+        remoteClient = new RemoteClient(JENKINS_URL, username, password, JENKINS_URL + "/job/A1OpenNet/job/");
         try {
             remoteClient.getJsonNodeFromUrl(JENKINS_URL + "/job/A1OpenNet/job/InvalidProject/lastBuild/api/json");
         } catch (IOException e) {
@@ -110,11 +113,13 @@ public class RemoteClientUTest extends EasyMockSupport {
         expect(new RemoteException(response.getStatusLine().getStatusCode() + "")).andThrow(new RemoteException());
     }
 
-    @Test(expected = IllegalStateException.class) @Ignore
+    @Test(expected = IllegalStateException.class)
+    @Ignore
     public void getJsonNodeFromUrlWithValidSettings() {
-        remoteClient = new RemoteClient(JENKINS_URL, username, password, JENKINS_URL+"/job/A1OpenNet/job/");
+        remoteClient = new RemoteClient(JENKINS_URL, username, password, JENKINS_URL + "/job/A1OpenNet/job/");
         try {
-            remoteClient.getJsonNodeFromUrl(JENKINS_URL + "/job/A1OpenNet/job/A1ON-java-build-trunk/lastBuild/api/json");
+            remoteClient
+                .getJsonNodeFromUrl(JENKINS_URL + "/job/A1OpenNet/job/A1ON-java-build-trunk/lastBuild/api/json");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (RemoteException e) {
@@ -135,7 +140,7 @@ public class RemoteClientUTest extends EasyMockSupport {
             e.printStackTrace();
         }
         expect(response.getStatusLine().getStatusCode() >= 200 && response.getStatusLine().getStatusCode() < 300
-                && response.getFirstHeader("Content-Type").getValue().contains("json"));
+            && response.getFirstHeader("Content-Type").getValue().contains("json"));
         try {
             expect(new ObjectMapper().readTree(response.getEntity().getContent()));
         } catch (IOException e) {

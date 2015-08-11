@@ -48,16 +48,16 @@ public class RemoteClient {
         URI uri = URI.create(url);
         CredentialsProvider credsProvider = new BasicCredentialsProvider();
         credsProvider.setCredentials(new AuthScope(uri.getHost(), uri.getPort()), new UsernamePasswordCredentials(user,
-                password));
+            password));
         setupLoginUser(uri);
         httpClient = HttpClients.custom().setDefaultCredentialsProvider(credsProvider).build();
     }
 
-    public RemoteClient(String url, String user, String password){
+    public RemoteClient(String url, String user, String password) {
         URI uri = URI.create(url);
         CredentialsProvider credsProvider = new BasicCredentialsProvider();
         credsProvider.setCredentials(new AuthScope(uri.getHost(), uri.getPort()), new UsernamePasswordCredentials(user,
-                password));
+            password));
         setupLoginUser(uri);
         try {
             httpClient = createHttpClient_AcceptsUntrustedCerts(credsProvider);
@@ -70,32 +70,32 @@ public class RemoteClient {
         }
     }
 
-    private void setupLoginUser(URI uri){
+    private void setupLoginUser(URI uri) {
         authCache = new BasicAuthCache();
         BasicScheme basicAuth = new BasicScheme();
         host = new HttpHost(uri.getHost(), uri.getPort(), uri.getScheme());
         authCache.put(host, basicAuth);
     }
 
-    public CloseableHttpClient createHttpClient_AcceptsUntrustedCerts(CredentialsProvider credProv) throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
+    public CloseableHttpClient createHttpClient_AcceptsUntrustedCerts(CredentialsProvider credProv)
+            throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
         HttpClientBuilder b = HttpClientBuilder.create();
 
         SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
+
             public boolean isTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
                 return true;
             }
         }).build();
-        //b.setSslcontext( sslContext);
 
         HostnameVerifier hostnameVerifier = SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
 
         SSLConnectionSocketFactory sslSocketFactory = new SSLConnectionSocketFactory(sslContext, hostnameVerifier);
-        Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
-                .register("http", PlainConnectionSocketFactory.getSocketFactory())
-                .register("https", sslSocketFactory)
-                .build();
+        Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory> create()
+            .register("http", PlainConnectionSocketFactory.getSocketFactory()).register("https", sslSocketFactory)
+            .build();
 
-        PoolingHttpClientConnectionManager connMgr = new PoolingHttpClientConnectionManager( socketFactoryRegistry);
+        PoolingHttpClientConnectionManager connMgr = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
         b.setConnectionManager(connMgr);
         b.setDefaultCredentialsProvider(credProv);
 

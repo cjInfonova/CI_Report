@@ -13,7 +13,8 @@ public class JenkinsSystem {
     private List<Job> jobList;
     private List<Failure> failList;
 
-    public JenkinsSystem(){}
+    public JenkinsSystem() {
+    }
 
     public JenkinsSystem(String name, String cols, List<String> jobs) {
         systemName = name;
@@ -22,9 +23,9 @@ public class JenkinsSystem {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         String returnString = systemName + " - Jobs:\n";
-        for(String s : jobNameList){
+        for (String s : jobNameList) {
             returnString += s;
         }
         return returnString;

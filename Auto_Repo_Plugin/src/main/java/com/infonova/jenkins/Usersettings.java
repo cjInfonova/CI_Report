@@ -13,7 +13,8 @@ public class Usersettings {
         this.password = password;
     }
 
-    public Usersettings(){}
+    public Usersettings() {
+    }
 
     public String getUsername() {
         return username;

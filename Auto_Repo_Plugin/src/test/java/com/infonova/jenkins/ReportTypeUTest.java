@@ -1,6 +1,5 @@
 package com.infonova.jenkins;
 
-
 import java.util.Date;
 
 /**
@@ -8,12 +7,10 @@ import java.util.Date;
  */
 public class ReportTypeUTest {
 
-    private final static String reportName="Test";
-    private final static String result="test";
-    private final static int failCount=1;
-    private final static int totalCount=1;
-    private final static String lastStableDate=new Date().toString();
-
-
+    private final static String reportName = "Test";
+    private final static String result = "test";
+    private final static int failCount = 1;
+    private final static int totalCount = 1;
+    private final static String lastStableDate = new Date().toString();
 
 }

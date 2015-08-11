@@ -32,8 +32,9 @@ public class DataAccessLayer implements UrlParameter {
     private SonarConfiguration sqc;
     private RemoteClient remoteSonar;
 
-    public DataAccessLayer(RemoteClient remoteJenkins, SimpleDateFormat sdf, JobBuilder jobBuilder, HTMLGenerator htmlgen,
-                           List<JenkinsSystem> jenkinsSystemList, SonarConfiguration sonarConfiguration, RemoteClient remoteSonar) {
+    public DataAccessLayer(RemoteClient remoteJenkins, SimpleDateFormat sdf, JobBuilder jobBuilder,
+            HTMLGenerator htmlgen, List<JenkinsSystem> jenkinsSystemList, SonarConfiguration sonarConfiguration,
+            RemoteClient remoteSonar) {
 
         remoteClient = remoteJenkins;
         dateformat = sdf;
@@ -42,28 +43,34 @@ public class DataAccessLayer implements UrlParameter {
         this.jenkinsSystemList = jenkinsSystemList;
         this.sqc = sonarConfiguration;
         this.remoteSonar = remoteSonar;
-        dash= new Sonar();
+        dash = new Sonar();
         detail = new Sonar();
-
     }
 
     public void startBuildingReport() throws IOException, RemoteException {
-//        for (JenkinsSystem js : jenkinsSystemList) {
-//            js.setJobList(jobBuilder.prepareEverything(js.getJobNameList()));
-//        }
-//        for (JenkinsSystem js : jenkinsSystemList) {
-//            if (js.getJobList() != null) {
-//                js.setFailList(new FailureBuilder(remoteClient, js.getJobNameList()).readErrors());
-//
-//            }
-//        }
-        String url4Sonardash = sqc.getBasicUrl()+"/api/resources?resource="+sqc.getComponentRoot()+"&includetrends=true&includealerts=true&format=json&period="+sqc.getPeriod()+"&metrics=new_coverage,ncloc,coverage,lines,files,statements,directories,classes,functions,accessors,open_issues,sqale_index,new_technical_debt,blocker_violations,critical_violations,major_violations,minor_violations,new_violations,info_violations";
+        // for (JenkinsSystem js : jenkinsSystemList) {
+        // js.setJobList(jobBuilder.prepareEverything(js.getJobNameList()));
+        // }
+        // for (JenkinsSystem js : jenkinsSystemList) {
+        // if (js.getJobList() != null) {
+        // js.setFailList(new FailureBuilder(remoteClient, js.getJobNameList()).readErrors());
+        //
+        // }
+        // }
+        String url4Sonardash = sqc.getBasicUrl()
+            + "/api/resources?resource="
+            + sqc.getComponentRoot()
+            + "&includetrends=true&includealerts=true&format=json&period="
+            + sqc.getPeriod()
+            + "&metrics=new_coverage,ncloc,coverage,lines,files,statements,directories,classes,functions,accessors,open_issues,sqale_index,new_technical_debt,blocker_violations,critical_violations,major_violations,minor_violations,new_violations,info_violations";
         System.out.println(url4Sonardash);
-        dash.setSonar(remoteSonar.getJsonNodeFromUrl(url4Sonardash),sqc.getPeriod());
+        dash.setSonar(remoteSonar.getJsonNodeFromUrl(url4Sonardash), sqc.getPeriod());
 
-        String url4Sonardetail = sqc.getBasicUrl()+"/api/issues/search?componentRoots="+sqc.getComponentRoot()+"&format=json&period="+sqc.getPeriod()+"&createdAfter="+dash.getCreatedAfter()+"&statuses=OPEN,REOPENED";
+        String url4Sonardetail = sqc.getBasicUrl() + "/api/issues/search?componentRoots=" + sqc.getComponentRoot()
+            + "&format=json&period=" + sqc.getPeriod() + "&createdAfter=" + dash.getCreatedAfter()
+            + "&statuses=OPEN,REOPENED";
         System.out.println(url4Sonardetail);
-        detail.setSonar(remoteSonar.getJsonNodeFromUrl(url4Sonardetail),sqc.getPeriod());
+        detail.setSonar(remoteSonar.getJsonNodeFromUrl(url4Sonardetail), sqc.getPeriod());
 
         generateHTML();
     }
@@ -76,14 +83,14 @@ public class DataAccessLayer implements UrlParameter {
         bwr = new BufferedWriter(fr);
 
         htmlgen.staticPreCode(bwr);
-//        for (JenkinsSystem job : jenkinsSystemList) {
-//            htmlgen.buildTable(job.getJobList(), bwr, job.getSystemName(), job.getFailList(), job.getColor());
-//        }
+        // for (JenkinsSystem job : jenkinsSystemList) {
+        // htmlgen.buildTable(job.getJobList(), bwr, job.getSystemName(), job.getFailList(), job.getColor());
+        // }
 
         htmlgen.staticPostCode(bwr, sonar, codecove);
-//        for (JenkinsSystem job : jenkinsSystemList) {
-//            htmlgen.buildFailureTable(job.getJobList(), bwr, job.getSystemName(), job.getFailList(), job.getColor());
-//        }
+        // for (JenkinsSystem job : jenkinsSystemList) {
+        // htmlgen.buildFailureTable(job.getJobList(), bwr, job.getSystemName(), job.getFailList(), job.getColor());
+        // }
         bwr.write("</html>");
         bwr.close();
     }
@@ -100,5 +107,4 @@ public class DataAccessLayer implements UrlParameter {
         }
         return list;
     }
-
 }

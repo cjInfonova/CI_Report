@@ -45,11 +45,12 @@ public class DataAccessLayerUTest extends EasyMockSupport {
         sonarConfiguration = createMock(SonarConfiguration.class);
         sonarClient = createMock(RemoteClient.class);
         createJenkinsSysList();
-        dal = new DataAccessLayer(remoteClient, simpleDateFormat, jobBuilder, htmlgen, jenkinsSystemList, sonarConfiguration, sonarClient);
+        dal = new DataAccessLayer(remoteClient, simpleDateFormat, jobBuilder, htmlgen, jenkinsSystemList,
+            sonarConfiguration, sonarClient);
     }
 
     private void createJenkinsSysList() {
-        String colors ="#ffffff";
+        String colors = "#ffffff";
         List<String> jobStrings = new ArrayList<String>();
         jobStrings.add("TestJob1");
         jobStrings.add("TestJob2");
@@ -59,7 +60,8 @@ public class DataAccessLayerUTest extends EasyMockSupport {
         jenkinsSystemList.add(new JenkinsSystem("Test3", colors, jobStrings));
     }
 
-    @Test @Ignore
+    @Test
+    @Ignore
     public void testStartBuidlingReportEMPTY() throws IOException, RemoteException {
         for (JenkinsSystem js : jenkinsSystemList) {
             expect(jobBuilder.prepareEverything(js.getJobNameList())).andReturn(null);
@@ -81,7 +83,8 @@ public class DataAccessLayerUTest extends EasyMockSupport {
         verifyAll();
     }
 
-    @Test @Ignore
+    @Test
+    @Ignore
     public void testStartBuidlingReportFULL() throws IOException, RemoteException {
         List<Job> jobList = Arrays.asList(new Job("A1ON-java-build-trunk", "FAILED", 2, 3, ""));
 

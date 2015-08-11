@@ -4,14 +4,16 @@ package com.infonova.jenkins;
  * Created by christian.jahrbacher on 11.08.2015.
  */
 public class SonarConfiguration {
+
     private String basicUrl;
     private String componentRoot;
     private String period;
     private String createdAfter;
 
-    public SonarConfiguration(){}
+    public SonarConfiguration() {
+    }
 
-    public SonarConfiguration(String basicUrl, String componentRoot, String period, String createdAfter){
+    public SonarConfiguration(String basicUrl, String componentRoot, String period, String createdAfter) {
         this.basicUrl = basicUrl;
         this.componentRoot = componentRoot;
         this.period = period;

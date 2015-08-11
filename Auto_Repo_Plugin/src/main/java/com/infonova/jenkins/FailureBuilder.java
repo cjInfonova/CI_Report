@@ -49,8 +49,8 @@ public class FailureBuilder implements UrlParameter {
                 if (node.has("child")) {
                     url = node.get("child").get("url").asText();
                     String[] urlParts = url.split("/");
-                    url = remoteClient.getConnectionUrl() + urlParts[urlParts.length - 3] + "/" + urlParts[urlParts.length - 2]
-                        + LAST_STATE + TEST_STATE + JSON_EXTENTION;
+                    url = remoteClient.getConnectionUrl() + urlParts[urlParts.length - 3] + "/"
+                        + urlParts[urlParts.length - 2] + LAST_STATE + TEST_STATE + JSON_EXTENTION;
                     JsonNode jn = remoteClient.getJsonNodeFromUrl(url);
                     if (jn.has("suites")) {
                         for (JsonNode jsn : jn.get("suites")) {
@@ -61,7 +61,7 @@ public class FailureBuilder implements UrlParameter {
                     }
                 }
             }
-        } else if(jsNode.has("suites")){
+        } else if (jsNode.has("suites")) {
             for (JsonNode node : jsNode.get("suites")) {
                 if (node.has("cases")) {
                     getStrArray(node.get("cases"), job);

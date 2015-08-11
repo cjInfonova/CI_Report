@@ -12,7 +12,7 @@ import org.easymock.EasyMockSupport;
  * Created by dominic.gross on 21.07.2015.
  */
 
-public class ReportMojoUTest extends EasyMockSupport{
+public class ReportMojoUTest extends EasyMockSupport {
 
     // @Parameter(defaultValue = "christian.jahrbacher")
     private final static String username = "christian.jahrbacher";
@@ -25,19 +25,20 @@ public class ReportMojoUTest extends EasyMockSupport{
     // @Parameter(defaultValue = "dd.MM.yyyy")
     private final static SimpleDateFormat dateformat = new SimpleDateFormat("dd.MM.yyyy");
 
-//    @Test
-    public void execute()throws MojoExecutionException, MojoFailureException {
-//        List<JenkinsSystem> jenkinsSystemList = new ArrayList<JenkinsSystem>();
-//        Usersettings us = new Usersettings(username, password);
-//        RemoteClient jenkinsAccess = new RemoteClient(JENKINS_URL, us.getUsername(), us.getPassword());
-//        JobBuilder jobBuilder = new JobBuilder(jenkinsAccess, JENKINS_URL+"/job/"+jobname+"/job/", dateformat);
-//        HTMLGenerator htmlgen = new HTMLGenerator();
-//        DataAccessLayer dal = new DataAccessLayer(jenkinsAccess, JENKINS_URL, jobname, dateformat, jobBuilder, htmlgen);
-//        ReportMojo repo = new ReportMojo();
-//
-//        replayAll();
-//        repo.execute();
-//        verifyAll();
+    // @Test
+    public void execute() throws MojoExecutionException, MojoFailureException {
+        // List<JenkinsSystem> jenkinsSystemList = new ArrayList<JenkinsSystem>();
+        // Usersettings us = new Usersettings(username, password);
+        // RemoteClient jenkinsAccess = new RemoteClient(JENKINS_URL, us.getUsername(), us.getPassword());
+        // JobBuilder jobBuilder = new JobBuilder(jenkinsAccess, JENKINS_URL+"/job/"+jobname+"/job/", dateformat);
+        // HTMLGenerator htmlgen = new HTMLGenerator();
+        // DataAccessLayer dal = new DataAccessLayer(jenkinsAccess, JENKINS_URL, jobname, dateformat, jobBuilder,
+        // htmlgen);
+        // ReportMojo repo = new ReportMojo();
+        //
+        // replayAll();
+        // repo.execute();
+        // verifyAll();
 
     }
 
