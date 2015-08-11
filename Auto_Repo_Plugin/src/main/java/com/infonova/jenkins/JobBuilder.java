@@ -15,12 +15,12 @@ import com.fasterxml.jackson.databind.JsonNode;
  */
 public class JobBuilder implements UrlParameter {
 
-    private JenkinsClient jenkinsClient;
+    private RemoteClient remoteClient;
     private SimpleDateFormat dateFormat;
     private Logger log = Logger.getLogger("MyLogger");
 
-    public JobBuilder(JenkinsClient jenAccess, SimpleDateFormat sdf) {
-        this.jenkinsClient = jenAccess;
+    public JobBuilder(RemoteClient jenAccess, SimpleDateFormat sdf) {
+        this.remoteClient = jenAccess;
         this.dateFormat = sdf;
     }
 
@@ -29,8 +29,8 @@ public class JobBuilder implements UrlParameter {
         try {
             for (String jobString : jobList) {
                 try {
-                    String url = jenkinsClient.getConnectionUrl() + jobString;
-                    JsonNode jsNode = jenkinsClient.getJsonNodeFromUrl(url + LAST_STATE + JSON_EXTENTION);
+                    String url = remoteClient.getConnectionUrl() + jobString;
+                    JsonNode jsNode = remoteClient.getJsonNodeFromUrl(url + LAST_STATE + JSON_EXTENTION);
                     Job job = convertJsonNodeIntoJob(jsNode, url+STABLE_STATE+JSON_EXTENTION);
                     job.setJobName(jobString);
                     jobClassList.add(job);
@@ -65,7 +65,7 @@ public class JobBuilder implements UrlParameter {
         }
         job.setResult(jsNode.get("result").asText());
         if (!job.getResultString().equals("SUCCESS")) {
-            JsonNode node = jenkinsClient.getJsonNodeFromUrl(lastStableUrl);
+            JsonNode node = remoteClient.getJsonNodeFromUrl(lastStableUrl);
             job.setLastStableDate(dateFormat.format(getLastStableDateFromJsonNode(node)));
         } else {
             job.setLastStableDate(dateFormat.format(getLastStableDateFromJsonNode(jsNode)));

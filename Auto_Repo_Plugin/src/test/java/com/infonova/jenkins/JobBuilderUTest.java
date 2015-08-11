@@ -14,10 +14,6 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.infonova.jenkins.JenkinsClient;
-import com.infonova.jenkins.JenkinsException;
-import com.infonova.jenkins.Job;
-import com.infonova.jenkins.JobBuilder;
 
 /**
  * Created by christian.jahrbacher on 03.08.2015.
@@ -29,16 +25,16 @@ public class JobBuilderUTest extends EasyMockSupport {
 
     private JobBuilder jobBuilder;
 
-    private JenkinsClient jenkinsClient;
+    private RemoteClient remoteClient;
     private List<String> jobList;
     private JsonNode jsNode;
 
     @Before
     public void setup() {
-        jenkinsClient = createMock(JenkinsClient.class);
+        remoteClient = createMock(RemoteClient.class);
         jobList = Arrays.asList("A1ON-java-build-trunk");
 
-        jobBuilder = new JobBuilder(jenkinsClient, dateFormat);
+        jobBuilder = new JobBuilder(remoteClient, dateFormat);
     }
 
     @Test
@@ -46,8 +42,8 @@ public class JobBuilderUTest extends EasyMockSupport {
         Job job = new Job("MyTestJob", "SUCCESS", 0, 10, "-");
         createJsonNode(false, "\"SUCCESS\"");
 
-        expect(jenkinsClient.getConnectionUrl()).andReturn("");
-        expect(jenkinsClient.getJsonNodeFromUrl(anyObject(String.class))).andReturn(jsNode);
+        expect(remoteClient.getConnectionUrl()).andReturn("");
+        expect(remoteClient.getJsonNodeFromUrl(anyObject(String.class))).andReturn(jsNode);
         assert(job.getResultString().equals("SUCCESS"));
 
         replayAll();
@@ -60,8 +56,8 @@ public class JobBuilderUTest extends EasyMockSupport {
         Job job = new Job("MyTestJob", "ABORTED", 0, 10, "-");
         createJsonNode(false, "\"ABORTED\"");
 
-        expect(jenkinsClient.getConnectionUrl()).andReturn("").anyTimes();
-        expect(jenkinsClient.getJsonNodeFromUrl(anyObject(String.class))).andReturn(jsNode).anyTimes();
+        expect(remoteClient.getConnectionUrl()).andReturn("").anyTimes();
+        expect(remoteClient.getJsonNodeFromUrl(anyObject(String.class))).andReturn(jsNode).anyTimes();
         assert(!job.getResultString().equals("SUCCESS"));
 
         replayAll();
@@ -74,8 +70,8 @@ public class JobBuilderUTest extends EasyMockSupport {
         Job job = new Job("MyTestJob", "SUCCESS", 0, 10, "-");
         createJsonNode(true, null);
 
-        expect(jenkinsClient.getConnectionUrl()).andReturn("");
-        expect(jenkinsClient.getJsonNodeFromUrl(anyObject(String.class))).andReturn(jsNode);
+        expect(remoteClient.getConnectionUrl()).andReturn("");
+        expect(remoteClient.getJsonNodeFromUrl(anyObject(String.class))).andReturn(jsNode);
         assert(jsNode.get("building").asBoolean());
 
         replayAll();
@@ -88,8 +84,8 @@ public class JobBuilderUTest extends EasyMockSupport {
         Job job = new Job("MyTestJob", "SUCCESS", 0, 10, "-");
         try {
             createJsonNode(true, null);
-            expect(jenkinsClient.getConnectionUrl()).andReturn("");
-            expect(jenkinsClient.getJsonNodeFromUrl(anyObject(String.class))).andThrow(new JenkinsException("Source not found"));
+            expect(remoteClient.getConnectionUrl()).andReturn("");
+            expect(remoteClient.getJsonNodeFromUrl(anyObject(String.class))).andThrow(new JenkinsException("Source not found"));
         }catch (IOException iex){}
         catch (JenkinsException jex){}
         replayAll();
@@ -102,8 +98,8 @@ public class JobBuilderUTest extends EasyMockSupport {
         Job job = new Job("MyTestJob", "SUCCESS", 0, 10, "-");
         createJsonNode(true, null);
 
-        expect(jenkinsClient.getConnectionUrl()).andReturn("");
-        expect(jenkinsClient.getJsonNodeFromUrl(anyObject(String.class))).andThrow(new JenkinsException("Another Error has occurred"));
+        expect(remoteClient.getConnectionUrl()).andReturn("");
+        expect(remoteClient.getJsonNodeFromUrl(anyObject(String.class))).andThrow(new JenkinsException("Another Error has occurred"));
 
         replayAll();
         jobBuilder.prepareEverything(jobList);
@@ -115,8 +111,8 @@ public class JobBuilderUTest extends EasyMockSupport {
         Job job = new Job("MyTestJob", "SUCCESS", 0, 10, "-");
         try {
             createJsonNode(true, null);
-            expect(jenkinsClient.getConnectionUrl()).andReturn("");
-            expect(jenkinsClient.getJsonNodeFromUrl(anyObject(String.class))).andThrow(new IOException());
+            expect(remoteClient.getConnectionUrl()).andReturn("");
+            expect(remoteClient.getJsonNodeFromUrl(anyObject(String.class))).andThrow(new IOException());
         }catch (IOException iex){}
         catch (JenkinsException jex){}
         replayAll();

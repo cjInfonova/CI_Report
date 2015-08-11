@@ -50,15 +50,15 @@ public class ReportMojo extends AbstractMojo {
          * 
          * der flow sollte irgendwo klar ersichtlich sein.
          */
-        JenkinsClient jenkinsClient = new JenkinsClient(jenkins_Url, usersettings.getUsername(),
+        RemoteClient remoteClient = new RemoteClient(jenkins_Url, usersettings.getUsername(),
             usersettings.getPassword(), jenkins_Url + "/job/" + jobname + "/job/");
-        JobBuilder jobBuilder = new JobBuilder(jenkinsClient, new SimpleDateFormat(dateformat));
+        JobBuilder jobBuilder = new JobBuilder(remoteClient, new SimpleDateFormat(dateformat));
         HTMLGenerator htmlgen = new HTMLGenerator();
-        DataAccessLayer dal = new DataAccessLayer(jenkinsClient, new SimpleDateFormat(dateformat), jobBuilder, htmlgen,
+        DataAccessLayer dal = new DataAccessLayer(remoteClient, new SimpleDateFormat(dateformat), jobBuilder, htmlgen,
             jenkinsSystemList);
         try {
             // dal.startBuildingReport();
-            JenkinsClient sqc = new JenkinsClient(sonarConfiguration.getBasicUrl(), usersettings.getUsername(),
+            RemoteClient sqc = new RemoteClient(sonarConfiguration.getBasicUrl(), usersettings.getUsername(),
                 usersettings.getPassword());
             String url4Sonar = sonarConfiguration.getBasicUrl()+"/api/resources?resource="+sonarConfiguration.getComponentRoot()+"&includetrends=true&includealerts=true&format=json&period="+sonarConfiguration.getPeriod()+"&metrics=new_coverage,ncloc,coverage,lines,files,statements,directories,classes,functions,accessors,open_issues,sqale_index,new_technical_debt,blocker_violations,critical_violations,major_violations,minor_violations,new_violations,info_violations";
             JsonNode jn = sqc.getJsonNodeFromUrl(url4Sonar);

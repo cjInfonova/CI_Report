@@ -15,7 +15,7 @@ public class HTMLGenerator implements OutputGenerator{
     private int failhoch =1;
 
     //TODO: Information Hiding
-    @Override
+    //@Override
     public void write(File file, List<JenkinsSystem> jenkinsSystems) throws IOException {
 
     }

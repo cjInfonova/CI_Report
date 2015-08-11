@@ -17,7 +17,6 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.infonova.jenkins.*;
 
 /**
  * Created by dominic.gross on 21.07.2015.
@@ -28,19 +27,19 @@ public class DataAccessLayerUTest extends EasyMockSupport {
 
     private DataAccessLayer dal;
 
-    private JenkinsClient jenkinsClient;
+    private RemoteClient remoteClient;
     private HTMLGenerator htmlgen;
     private JobBuilder jobBuilder;
     private List<JenkinsSystem> jenkinsSystemList;
 
     @Before
     public void setup() {
-        jenkinsClient = createMock(JenkinsClient.class);
+        remoteClient = createMock(RemoteClient.class);
         htmlgen = createMock(HTMLGenerator.class);
         jobBuilder = createMock(JobBuilder.class);
         jenkinsSystemList = new ArrayList<JenkinsSystem>(); // createMock(anyObject(ArrayList.class));
         createJenkinsSysList();
-        dal = new DataAccessLayer(jenkinsClient, simpleDateFormat, jobBuilder, htmlgen,
+        dal = new DataAccessLayer(remoteClient, simpleDateFormat, jobBuilder, htmlgen,
             jenkinsSystemList);
     }
 
@@ -90,8 +89,8 @@ public class DataAccessLayerUTest extends EasyMockSupport {
         JsonNode jn = new ObjectMapper()
             .readTree("{\"duration\":1058.291,\"empty\":false,\"failCount\":0,\"passCount\":31,\"skipCount\":1,\"suites\":[{\"cases\":[{\"age\":1,\"className\":\"com.infonova.jtf.ta.generic.kundenverwaltung.CustomerAndServiceLockUnlockTest\",\"duration\":54.998,\"errorDetails\":\"Test\",\"errorStackTrace\":\"TestStack\",\"failedSince\":0,\"name\":\"lockAndUnlockUser\",\"skipped\":false,\"skippedMessage\":null,\"status\":\"FAILED\",\"stderr\":null,\"stdout\":null}],\"duration\":85.029,\"id\":null,\"name\":\"com.infonova.jtf.ta.generic.kundenverwaltung.CustomerAndServiceLockUnlockTest\",\"stderr\":null,\"stdout\":null,\"timestamp\":null}]}");
 
-        expect(jenkinsClient.getConnectionUrl()).andReturn("").anyTimes();
-        expect(jenkinsClient.getJsonNodeFromUrl(anyObject(String.class))).andReturn(jn).anyTimes();
+        expect(remoteClient.getConnectionUrl()).andReturn("").anyTimes();
+        expect(remoteClient.getJsonNodeFromUrl(anyObject(String.class))).andReturn(jn).anyTimes();
         BufferedWriter bwr = new BufferedWriter(new FileWriter(new File("dataTest.html")));
         htmlgen.staticPreCode(anyObject(BufferedWriter.class));
         htmlgen.buildTable(anyObject(ArrayList.class), anyObject(BufferedWriter.class), anyObject(String.class),

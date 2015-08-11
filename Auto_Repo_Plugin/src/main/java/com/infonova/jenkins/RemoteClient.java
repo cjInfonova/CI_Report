@@ -36,15 +36,14 @@ import javax.net.ssl.SSLContext;
 /**
  * Created by christian.jahrbacher on 28.07.2015.
  */
-public class JenkinsClient {
-    //TODO: JenkinsClient ist ein schlechter name für einen solche klasse: Mein Vorschläge JenkinsClient oder nur Jenkins
+public class RemoteClient {
 
     private HttpHost host;
     private AuthCache authCache;
     private CloseableHttpClient httpClient;
     private String connectionUrl;
 
-    public JenkinsClient(String url, String user, String password, String connectionUrl) {
+    public RemoteClient(String url, String user, String password, String connectionUrl) {
         this.connectionUrl = connectionUrl;
         URI uri = URI.create(url);
         CredentialsProvider credsProvider = new BasicCredentialsProvider();
@@ -54,7 +53,7 @@ public class JenkinsClient {
         httpClient = HttpClients.custom().setDefaultCredentialsProvider(credsProvider).build();
     }
 
-    public JenkinsClient(String url, String user, String password){
+    public RemoteClient(String url, String user, String password){
         URI uri = URI.create(url);
         CredentialsProvider credsProvider = new BasicCredentialsProvider();
         credsProvider.setCredentials(new AuthScope(uri.getHost(), uri.getPort()), new UsernamePasswordCredentials(user,

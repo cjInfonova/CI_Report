@@ -24,15 +24,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.infonova.jenkins.JenkinsClient;
-import com.infonova.jenkins.JenkinsException;
 
 /**
  * Created by christian.jahrbacher on 03.08.2015.
  */
-public class JenkinsClientUTest extends EasyMockSupport {
+public class RemoteClientUTest extends EasyMockSupport {
 
-    private JenkinsClient jenkinsClient;
+    private RemoteClient remoteClient;
 
     private HttpHost host;
     private AuthCache authCache;
@@ -56,9 +54,9 @@ public class JenkinsClientUTest extends EasyMockSupport {
 
     @Test(expected = IllegalStateException.class)
     public void getJsonNodeFromUrlWithInvalidCredentials() {
-        jenkinsClient = new JenkinsClient(JENKINS_URL, username, "wrong password", JENKINS_URL+"/job/A1OpenNet/job/");
+        remoteClient = new RemoteClient(JENKINS_URL, username, "wrong password", JENKINS_URL+"/job/A1OpenNet/job/");
         try {
-            jenkinsClient.getJsonNodeFromUrl(JENKINS_URL
+            remoteClient.getJsonNodeFromUrl(JENKINS_URL
                 + "/job/A1OpenNet/job/A1ON-java-build-trunk/lastBuild/api/json");
         } catch (IOException e) {
             e.printStackTrace();
@@ -86,9 +84,9 @@ public class JenkinsClientUTest extends EasyMockSupport {
 
     @Test(expected = IllegalStateException.class)
     public void getJsonNodeFromUrlWithInvalidUrl() {
-        jenkinsClient = new JenkinsClient(JENKINS_URL, username, password, JENKINS_URL+"/job/A1OpenNet/job/");
+        remoteClient = new RemoteClient(JENKINS_URL, username, password, JENKINS_URL+"/job/A1OpenNet/job/");
         try {
-            jenkinsClient.getJsonNodeFromUrl(JENKINS_URL + "/job/A1OpenNet/job/InvalidProject/lastBuild/api/json");
+            remoteClient.getJsonNodeFromUrl(JENKINS_URL + "/job/A1OpenNet/job/InvalidProject/lastBuild/api/json");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JenkinsException e) {
@@ -113,9 +111,9 @@ public class JenkinsClientUTest extends EasyMockSupport {
 
     @Test(expected = IllegalStateException.class)
     public void getJsonNodeFromUrlWithValidSettings() {
-        jenkinsClient = new JenkinsClient(JENKINS_URL, username, password, JENKINS_URL+"/job/A1OpenNet/job/");
+        remoteClient = new RemoteClient(JENKINS_URL, username, password, JENKINS_URL+"/job/A1OpenNet/job/");
         try {
-            jenkinsClient.getJsonNodeFromUrl(JENKINS_URL + "/job/A1OpenNet/job/A1ON-java-build-trunk/lastBuild/api/json");
+            remoteClient.getJsonNodeFromUrl(JENKINS_URL + "/job/A1OpenNet/job/A1ON-java-build-trunk/lastBuild/api/json");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JenkinsException e) {

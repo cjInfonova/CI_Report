@@ -29,7 +29,7 @@ public class ReportMojoUTest extends EasyMockSupport{
     public void execute()throws MojoExecutionException, MojoFailureException {
 //        List<JenkinsSystem> jenkinsSystemList = new ArrayList<JenkinsSystem>();
 //        Usersettings us = new Usersettings(username, password);
-//        JenkinsClient jenkinsAccess = new JenkinsClient(JENKINS_URL, us.getUsername(), us.getPassword());
+//        RemoteClient jenkinsAccess = new RemoteClient(JENKINS_URL, us.getUsername(), us.getPassword());
 //        JobBuilder jobBuilder = new JobBuilder(jenkinsAccess, JENKINS_URL+"/job/"+jobname+"/job/", dateformat);
 //        HTMLGenerator htmlgen = new HTMLGenerator();
 //        DataAccessLayer dal = new DataAccessLayer(jenkinsAccess, JENKINS_URL, jobname, dateformat, jobBuilder, htmlgen);

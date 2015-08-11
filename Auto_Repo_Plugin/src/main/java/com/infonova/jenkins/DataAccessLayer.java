@@ -24,14 +24,14 @@ public class DataAccessLayer implements UrlParameter {
     private List<String> jobList;
     private List<Job> jobClassList;
     private List<Failure> failList;
-    private JenkinsClient jenkinsClient;
+    private RemoteClient remoteClient;
     private HTMLGenerator htmlgen;
     private JobBuilder jobBuilder;
 
-    public DataAccessLayer(JenkinsClient jenAcc, SimpleDateFormat sdf, JobBuilder jobBuilder, HTMLGenerator htmlgen,
+    public DataAccessLayer(RemoteClient jenAcc, SimpleDateFormat sdf, JobBuilder jobBuilder, HTMLGenerator htmlgen,
             List<JenkinsSystem> jenkinsSystemList) {
 
-        jenkinsClient = jenAcc;
+        remoteClient = jenAcc;
         dateformat = sdf;
         this.htmlgen = htmlgen;
         this.jobBuilder = jobBuilder;
@@ -44,7 +44,7 @@ public class DataAccessLayer implements UrlParameter {
         }
         for (JenkinsSystem js : jenkinsSystemList) {
             if (js.getJobList() != null) {
-                js.setFailList(new FailureBuilder(jenkinsClient, js.getJobNameList()).readErrors());
+                js.setFailList(new FailureBuilder(remoteClient, js.getJobNameList()).readErrors());
 
             }
         }

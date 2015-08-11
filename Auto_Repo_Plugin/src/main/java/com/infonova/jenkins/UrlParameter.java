@@ -5,7 +5,7 @@ package com.infonova.jenkins;
  */
 public interface UrlParameter {
 
-    //TODO: Move this interface into JenkinsClient class to hide implemenation
+    //TODO: Move this interface into RemoteClient class to hide implemenation
 
     String JSON_EXTENTION = "/api/json";
     String LAST_STATE = "/lastBuild";

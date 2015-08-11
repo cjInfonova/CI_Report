@@ -14,13 +14,13 @@ import com.fasterxml.jackson.databind.JsonNode;
  */
 public class FailureBuilder implements UrlParameter {
 
-    private JenkinsClient jenkinsClient;
+    private RemoteClient remoteClient;
     private List<String> jobList;
     private List<Failure> failList;
     private Logger log = Logger.getLogger(FailureBuilder.class.getName());
 
-    public FailureBuilder(JenkinsClient jenAccess, List<String> jobList) {
-        this.jenkinsClient = jenAccess;
+    public FailureBuilder(RemoteClient jenAccess, List<String> jobList) {
+        this.remoteClient = jenAccess;
         this.jobList = jobList;
     }
 
@@ -29,8 +29,8 @@ public class FailureBuilder implements UrlParameter {
 
         for (String fail : jobList) {
             try {
-                String url = jenkinsClient.getConnectionUrl() + fail + "/" + LAST_STATE + TEST_STATE + JSON_EXTENTION;
-                JsonNode jsNode = jenkinsClient.getJsonNodeFromUrl(url);
+                String url = remoteClient.getConnectionUrl() + fail + "/" + LAST_STATE + TEST_STATE + JSON_EXTENTION;
+                JsonNode jsNode = remoteClient.getJsonNodeFromUrl(url);
                 getDataFromJsonFailures(jsNode, fail);
             } catch (IOException exe) {
                 log.info("An unexpected error has occurred");
@@ -49,9 +49,9 @@ public class FailureBuilder implements UrlParameter {
                 if (node.has("child")) {
                     url = node.get("child").get("url").asText();
                     String[] urlParts = url.split("/");
-                    url = jenkinsClient.getConnectionUrl() + urlParts[urlParts.length - 3] + "/" + urlParts[urlParts.length - 2]
+                    url = remoteClient.getConnectionUrl() + urlParts[urlParts.length - 3] + "/" + urlParts[urlParts.length - 2]
                         + LAST_STATE + TEST_STATE + JSON_EXTENTION;
-                    JsonNode jn = jenkinsClient.getJsonNodeFromUrl(url);
+                    JsonNode jn = remoteClient.getJsonNodeFromUrl(url);
                     if (jn.has("suites")) {
                         for (JsonNode jsn : jn.get("suites")) {
                             if (jsn.has("cases")) {
