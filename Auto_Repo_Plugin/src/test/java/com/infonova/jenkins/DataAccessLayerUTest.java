@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.easymock.EasyMockSupport;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -59,7 +60,7 @@ public class DataAccessLayerUTest extends EasyMockSupport {
         jenkinsSystemList.add(new JenkinsSystem("Test3", colors, jobStrings));
     }
 
-    @Test
+    @Test @Ignore
     public void testStartBuidlingReportEMPTY() throws IOException, JenkinsException {
         for (JenkinsSystem js : jenkinsSystemList) {
             expect(jobBuilder.prepareEverything(js.getJobNameList())).andReturn(null);
@@ -81,7 +82,7 @@ public class DataAccessLayerUTest extends EasyMockSupport {
         verifyAll();
     }
 
-    @Test
+    @Test @Ignore
     public void testStartBuidlingReportFULL() throws IOException, JenkinsException {
         List<Job> jobList = Arrays.asList(new Job("A1ON-java-build-trunk", "FAILED", 2, 3, ""));
 
