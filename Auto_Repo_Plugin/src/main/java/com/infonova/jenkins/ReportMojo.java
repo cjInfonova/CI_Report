@@ -52,6 +52,12 @@ public class ReportMojo extends AbstractMojo {
             jenkinsSystemList);
         try {
             dal.startBuildingReport();
+            SonarqubeClient sqc = new SonarqubeClient(
+                    "https://grzisesonar1.infonova.at",
+                    usersettings.getUsername(),
+                    usersettings.getPassword(),
+                    "https://grzisesonar1.infonova.at/api/issues/search?componentRoots=com.bearingpoint.ta:opennet&format=json&createdAfter=2015-08-01");
+            sqc.getJsonNodeFromUrl();
         } catch (IOException e) {
             e.printStackTrace();
         }

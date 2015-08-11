@@ -25,8 +25,6 @@ import com.infonova.jenkins.*;
 public class DataAccessLayerUTest extends EasyMockSupport {
 
     private final static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
-    private final static String JOB_NAME = "A1OpenNet";
-    private final static String STANDARD_URL = "https://ci.infonova.at/";
 
     private DataAccessLayer dal;
 
