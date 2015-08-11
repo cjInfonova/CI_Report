@@ -19,8 +19,8 @@ public class FailureBuilder implements UrlParameter {
     private List<Failure> failList;
     private Logger log = Logger.getLogger(FailureBuilder.class.getName());
 
-    public FailureBuilder(RemoteClient jenAccess, List<String> jobList) {
-        this.remoteClient = jenAccess;
+    public FailureBuilder(RemoteClient remoteClient, List<String> jobList) {
+        this.remoteClient = remoteClient;
         this.jobList = jobList;
     }
 
