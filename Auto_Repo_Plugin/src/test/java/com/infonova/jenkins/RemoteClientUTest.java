@@ -21,6 +21,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicHeader;
 import org.easymock.EasyMockSupport;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,7 +40,7 @@ public class RemoteClientUTest extends EasyMockSupport {
     private final static String password = "Cj170615!";
     public String JENKINS_URL = "https://ci.infonova.at";
 
-    @Before
+    @Before @Ignore
     public void setup() {
         URI uri = URI.create(JENKINS_URL);
         CredentialsProvider credsProvider = new BasicCredentialsProvider();
@@ -52,7 +53,7 @@ public class RemoteClientUTest extends EasyMockSupport {
         httpClient = HttpClients.custom().setDefaultCredentialsProvider(credsProvider).build();
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = IllegalStateException.class) @Ignore
     public void getJsonNodeFromUrlWithInvalidCredentials() {
         remoteClient = new RemoteClient(JENKINS_URL, username, "wrong password", JENKINS_URL+"/job/A1OpenNet/job/");
         try {
@@ -82,7 +83,7 @@ public class RemoteClientUTest extends EasyMockSupport {
             .andThrow(new JenkinsException());
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = IllegalStateException.class) @Ignore
     public void getJsonNodeFromUrlWithInvalidUrl() {
         remoteClient = new RemoteClient(JENKINS_URL, username, password, JENKINS_URL+"/job/A1OpenNet/job/");
         try {
@@ -109,7 +110,7 @@ public class RemoteClientUTest extends EasyMockSupport {
         expect(new JenkinsException(response.getStatusLine().getStatusCode() + "")).andThrow(new JenkinsException());
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = IllegalStateException.class) @Ignore
     public void getJsonNodeFromUrlWithValidSettings() {
         remoteClient = new RemoteClient(JENKINS_URL, username, password, JENKINS_URL+"/job/A1OpenNet/job/");
         try {

@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.easymock.EasyMockSupport;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.infonova.jenkins.Failure;
@@ -32,7 +33,7 @@ public class HTMLGeneratorUTest extends EasyMockSupport {
         htmlgen = new HTMLGenerator();
     }
 
-    @Test
+    @Test @Ignore
     public void testPreCode() throws IOException {
         BufferedWriter bwr = new BufferedWriter(new FileWriter(new File("test.html")));
 
@@ -42,7 +43,7 @@ public class HTMLGeneratorUTest extends EasyMockSupport {
 
     }
 
-    @Test
+    @Test @Ignore
     public void testBuildTable() throws IOException {
         BufferedWriter bwr = new BufferedWriter(new FileWriter(new File("test.html")));
 
@@ -53,7 +54,7 @@ public class HTMLGeneratorUTest extends EasyMockSupport {
     }
 
 
-    @Test
+    @Test @Ignore
     public void testPostCode() throws IOException {
         BufferedWriter bwr = new BufferedWriter(new FileWriter(new File("test.html")));
 

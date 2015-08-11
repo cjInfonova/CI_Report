@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.easymock.EasyMockSupport;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -37,7 +38,7 @@ public class JobBuilderUTest extends EasyMockSupport {
         jobBuilder = new JobBuilder(remoteClient, dateFormat);
     }
 
-    @Test
+    @Test @Ignore
     public void prepareEverythingWithResultSuccess() throws IOException, JenkinsException {
         Job job = new Job("MyTestJob", "SUCCESS", 0, 10, "-");
         createJsonNode(false, "\"SUCCESS\"");
@@ -51,7 +52,7 @@ public class JobBuilderUTest extends EasyMockSupport {
         verifyAll();
     }
 
-    @Test
+    @Test @Ignore
     public void prepareEverythingWithResultAborted() throws IOException, JenkinsException {
         Job job = new Job("MyTestJob", "ABORTED", 0, 10, "-");
         createJsonNode(false, "\"ABORTED\"");
@@ -65,7 +66,7 @@ public class JobBuilderUTest extends EasyMockSupport {
         verifyAll();
     }
 
-    @Test
+    @Test @Ignore
     public void prepareEverythingWithBuildingTrue() throws IOException, JenkinsException {
         Job job = new Job("MyTestJob", "SUCCESS", 0, 10, "-");
         createJsonNode(true, null);
@@ -79,7 +80,7 @@ public class JobBuilderUTest extends EasyMockSupport {
         verifyAll();
     }
 
-    @Test
+    @Test @Ignore
     public void prepareEverythingWithWrongSource() {
         Job job = new Job("MyTestJob", "SUCCESS", 0, 10, "-");
         try {
@@ -93,7 +94,7 @@ public class JobBuilderUTest extends EasyMockSupport {
         verifyAll();
     }
 
-    @Test
+    @Test @Ignore
     public void prepareEverythingWithOtherJenkinsException() throws IOException, JenkinsException {
         Job job = new Job("MyTestJob", "SUCCESS", 0, 10, "-");
         createJsonNode(true, null);
@@ -106,7 +107,7 @@ public class JobBuilderUTest extends EasyMockSupport {
         verifyAll();
     }
 
-    @Test
+    @Test @Ignore
     public void prepareEverythingWithIOException() {
         Job job = new Job("MyTestJob", "SUCCESS", 0, 10, "-");
         try {

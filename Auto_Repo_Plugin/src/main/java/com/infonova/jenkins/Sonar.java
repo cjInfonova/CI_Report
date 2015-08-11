@@ -33,6 +33,7 @@ public class Sonar {
         this.content = jn;
         for(JsonNode jnode: content)
         {
+            System.out.println("geht rein");
             if(jnode.has("msr"))
             {
                 System.out.println(true);

@@ -48,19 +48,22 @@ public class DataAccessLayer implements UrlParameter {
     }
 
     public void startBuildingReport() throws IOException, JenkinsException {
-        for (JenkinsSystem js : jenkinsSystemList) {
-            js.setJobList(jobBuilder.prepareEverything(js.getJobNameList()));
-        }
-        for (JenkinsSystem js : jenkinsSystemList) {
-            if (js.getJobList() != null) {
-                js.setFailList(new FailureBuilder(remoteClient, js.getJobNameList()).readErrors());
-
-            }
-        }
+//        for (JenkinsSystem js : jenkinsSystemList) {
+//            js.setJobList(jobBuilder.prepareEverything(js.getJobNameList()));
+//        }
+//        for (JenkinsSystem js : jenkinsSystemList) {
+//            if (js.getJobList() != null) {
+//                js.setFailList(new FailureBuilder(remoteClient, js.getJobNameList()).readErrors());
+//
+//            }
+//        }
         String url4Sonardash = sqc.getBasicUrl()+"/api/resources?resource="+sqc.getComponentRoot()+"&includetrends=true&includealerts=true&format=json&period="+sqc.getPeriod()+"&metrics=new_coverage,ncloc,coverage,lines,files,statements,directories,classes,functions,accessors,open_issues,sqale_index,new_technical_debt,blocker_violations,critical_violations,major_violations,minor_violations,new_violations,info_violations";
         String url4Sonardetail = sqc.getBasicUrl()+"/api/issues/search?componentRoots="+sqc.getComponentRoot()+"&format=json&period="+sqc.getPeriod()+"&createdAfter="+sqc.getCreatedAfter()+"&statuses=OPEN,REOPENED";
-        dash.setSonar(remoteClient.getJsonNodeFromUrl(url4Sonardash));
-        detail.setSonar(remoteClient.getJsonNodeFromUrl(url4Sonardetail));
+        System.out.println(url4Sonardash);
+        System.out.println(url4Sonardetail);
+        dash.setSonar(remoteSonar.getJsonNodeFromUrl(url4Sonardash));
+        System.out.println("ok");
+        detail.setSonar(remoteSonar.getJsonNodeFromUrl(url4Sonardetail));
 
         generateHTML();
     }
@@ -73,14 +76,14 @@ public class DataAccessLayer implements UrlParameter {
         bwr = new BufferedWriter(fr);
 
         htmlgen.staticPreCode(bwr);
-        for (JenkinsSystem job : jenkinsSystemList) {
-            htmlgen.buildTable(job.getJobList(), bwr, job.getSystemName(), job.getFailList(), job.getColor());
-        }
+//        for (JenkinsSystem job : jenkinsSystemList) {
+//            htmlgen.buildTable(job.getJobList(), bwr, job.getSystemName(), job.getFailList(), job.getColor());
+//        }
 
         htmlgen.staticPostCode(bwr, sonar, codecove);
-        for (JenkinsSystem job : jenkinsSystemList) {
-            htmlgen.buildFailureTable(job.getJobList(), bwr, job.getSystemName(), job.getFailList(), job.getColor());
-        }
+//        for (JenkinsSystem job : jenkinsSystemList) {
+//            htmlgen.buildFailureTable(job.getJobList(), bwr, job.getSystemName(), job.getFailList(), job.getColor());
+//        }
         bwr.write("</html>");
         bwr.close();
     }
