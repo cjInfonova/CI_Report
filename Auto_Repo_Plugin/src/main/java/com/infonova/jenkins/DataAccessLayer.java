@@ -1,5 +1,7 @@
 package com.infonova.jenkins;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -27,18 +29,25 @@ public class DataAccessLayer implements UrlParameter {
     private RemoteClient remoteClient;
     private HTMLGenerator htmlgen;
     private JobBuilder jobBuilder;
+    private Sonar dash;
+    private Sonar detail;
+    private SonarConfiguration sqc;
+    private RemoteClient remoteSonar;
 
     public DataAccessLayer(RemoteClient jenAcc, SimpleDateFormat sdf, JobBuilder jobBuilder, HTMLGenerator htmlgen,
-            List<JenkinsSystem> jenkinsSystemList) {
+                           List<JenkinsSystem> jenkinsSystemList, SonarConfiguration sonarConfiguration, RemoteClient remoteSonar) {
 
         remoteClient = jenAcc;
         dateformat = sdf;
         this.htmlgen = htmlgen;
         this.jobBuilder = jobBuilder;
         this.jenkinsSystemList = jenkinsSystemList;
+        this.sqc = sonarConfiguration;
+        this.remoteSonar = remoteSonar
+
     }
 
-    public void startBuildingReport() throws IOException {
+    public void startBuildingReport() throws IOException, JenkinsException {
         for (JenkinsSystem js : jenkinsSystemList) {
             js.setJobList(jobBuilder.prepareEverything(js.getJobNameList()));
         }
@@ -48,6 +57,10 @@ public class DataAccessLayer implements UrlParameter {
 
             }
         }
+        String url4Sonardash = sqc.getBasicUrl()+"/api/resources?resource="+sqc.getComponentRoot()+"&includetrends=true&includealerts=true&format=json&period="+sqc.getPeriod()+"&metrics=new_coverage,ncloc,coverage,lines,files,statements,directories,classes,functions,accessors,open_issues,sqale_index,new_technical_debt,blocker_violations,critical_violations,major_violations,minor_violations,new_violations,info_violations";
+        String url4Sonardetail = sqc.getBasicUrl()+"/api/issues/search?componentRoots="+sqc.getComponentRoot()+"&format=json&period="+sqc.getPeriod()+"&createdAfter="+sqc.getCreatedAfter()+"&statuses=OPEN,REOPENED";
+        dash.setSonar(remoteClient.getJsonNodeFromUrl(url4Sonardash));
+        detail.setSonar(remoteClient.getJsonNodeFromUrl(url4Sonardetail));
 
         generateHTML();
     }

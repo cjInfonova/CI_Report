@@ -54,19 +54,15 @@ public class ReportMojo extends AbstractMojo {
             usersettings.getPassword(), jenkins_Url + "/job/" + jobname + "/job/");
         JobBuilder jobBuilder = new JobBuilder(remoteClient, new SimpleDateFormat(dateformat));
         HTMLGenerator htmlgen = new HTMLGenerator();
-        DataAccessLayer dal = new DataAccessLayer(remoteClient, new SimpleDateFormat(dateformat), jobBuilder, htmlgen,
-            jenkinsSystemList);
+
         try {
-            // dal.startBuildingReport();
+
             RemoteClient sqc = new RemoteClient(sonarConfiguration.getBasicUrl(), usersettings.getUsername(),
                 usersettings.getPassword());
-            String url4Sonar = sonarConfiguration.getBasicUrl()+"/api/resources?resource="+sonarConfiguration.getComponentRoot()+"&includetrends=true&includealerts=true&format=json&period="+sonarConfiguration.getPeriod()+"&metrics=new_coverage,ncloc,coverage,lines,files,statements,directories,classes,functions,accessors,open_issues,sqale_index,new_technical_debt,blocker_violations,critical_violations,major_violations,minor_violations,new_violations,info_violations";
-            JsonNode jn = sqc.getJsonNodeFromUrl(url4Sonar);
-            log.info(jn.get(0).get("key").asText());
-            System.out.println(jn.toString());
-            url4Sonar = sonarConfiguration.getBasicUrl()+"/api/issues/search?componentRoots="+sonarConfiguration.getComponentRoot()+"&format=json&period="+sonarConfiguration.getPeriod()+"&createdAfter="+sonarConfiguration.getCreatedAfter()+"&statuses=OPEN,REOPENED";
-            jn = sqc.getJsonNodeFromUrl(url4Sonar);
-            System.out.println(jn.toString());
+            DataAccessLayer dal = new DataAccessLayer(remoteClient, new SimpleDateFormat(dateformat), jobBuilder, htmlgen,
+                    jenkinsSystemList,sonarConfiguration,sqc);
+            dal.startBuildingReport();
+
         } catch (JenkinsException jex) {
             log.info(jex.getMessage());
         } catch (IOException e) {
