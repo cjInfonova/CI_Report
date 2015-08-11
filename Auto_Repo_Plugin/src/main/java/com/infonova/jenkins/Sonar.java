@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
  * Created by dominic.gross on 11.08.2015.
  */
 public class Sonar {
-    private int[] lines;
+    private int lines;
     private int[] ncloc;//number of code lines
     private int[] classes;
     private int[] files;
@@ -31,14 +31,26 @@ public class Sonar {
     public void setSonar(JsonNode jn)
     {
         this.content = jn;
+        for(JsonNode jnode: content)
+        {
+            if(jnode.has("msr"))
+            {
+                System.out.println(true);
+            }
+//            if(jnode.has("lines"))
+//            {
+//                lines = jnode.get("val").asInt();
+//            }
+//            if(jnode.has(""))
+        }
     }
 
     public String getUrl() {
         return url;
     }
 
-    public int getLines()
-    {
-        content.get("")
-    }
+//    public int getLines()
+//    {
+//        content.get("");
+//    }
 }
